@@ -1,0 +1,99 @@
+{
+  "$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v10/terminal-keeper.json",
+  "theme": "tribe",
+  "active": "DinoCoffee",
+  "activateOnStartup": true,
+  "keepExistingTerminals": false,
+  "sessions": {
+    "DinoCoffee": [
+      [
+        {
+          "name": "Serve",
+          "color": "terminal.ansiRed",
+          "icon": "server",
+          "autoExecuteCommands": true,
+          "commands": [
+            "reset",
+            "php artisan serve"
+          ]
+        },
+        {
+          "name": "Npm",
+          "color": "terminal.ansiGreen",
+          "icon": "server-process",
+          "autoExecuteCommands": true,
+          "commands": [
+            "reset",
+            "npm run dev"
+          ]
+        }
+      ],
+      {
+        "name": "Routes",
+        "color": "terminal.ansiMagenta",
+        "icon": "library",
+        "autoExecuteCommands": true,
+        "commands": [
+          "reset",
+          "php artisan route:list"
+        ]
+      },
+      {
+        "name": "Bash",
+        "color": "terminal.ansiBlue",
+        "icon": "mark-github",
+        "autoExecuteCommands": true,
+        "commands": [
+          "reset"
+        ]
+      }
+    ],
+    "default": [
+      {
+        "name": "hello",
+        "autoExecuteCommands": true,
+        "icon": "person",
+        "color": "terminal.ansiGreen",
+        "commands": [
+          "echo hello"
+        ]
+      },
+      [
+        {
+          "name": "docker:ros",
+          "commands": [
+            ""
+          ]
+        },
+        {
+          "name": "docker:k8s",
+          "commands": [
+            ""
+          ]
+        }
+      ],
+      [
+        {
+          "name": "docker:nats",
+          "commands": [
+            ""
+          ]
+        },
+        {
+          "name": "docker:fleet",
+          "commands": [
+            ""
+          ]
+        }
+      ]
+    ],
+    "saved-session": [
+      {
+        "name": "connect",
+        "commands": [
+          ""
+        ]
+      }
+    ]
+  }
+}
