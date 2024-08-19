@@ -27,7 +27,7 @@
 
         <x-developer.sidebar />
 
-        <main class="p-4 md:ml-64 h-full pt-20 dark:bg-gray-900">
+        <main class="p-4 md:ml-64 h-full pt-20 bg-gray-200 dark:bg-gray-900">
             {{-- Show messages to user. --}}
             @if ($errors->any() || session()->has('Success') || session()->has('Info'))
                 <div class="absolute top-20 right-0 transition-transform overflow-hidden z-40">
