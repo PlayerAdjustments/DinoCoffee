@@ -3,11 +3,8 @@
 /public/build
 /public/hot
 /public/storage
-!/public/storage/Avatars
-!/public/storage/Bellzi_Assets
-!/public/storage/Mail_Assets
-!/public/storage/Notification_Icons
 /storage/*.key
+!/storage/app/public/*
 /vendor
 .env
 .env.backup
