@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CareerCodeSeeder::class,
             SubjectSeeder::class,
             GenerationSeeder::class,
+            StudyPlanSeeder::class,
         ]);
     }
 }

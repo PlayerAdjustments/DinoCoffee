@@ -86,9 +86,10 @@ class CareerController extends Controller
      */
     public function show(Career $career)
     {
-        $career_codesObj = CareerCode::where('career_abbreviation',$career->abbreviation)->get(['id','code','deleted_at']); 
+        $career_codesObj = $career->careerCodes;
+        $study_plans = $career->studyPlans;         
 
-        return view('Pages.Developer.Career.show', compact('career','career_codesObj'));
+        return view('Pages.Developer.Career.show', compact('career','career_codesObj','study_plans'));
     }
 
     /**

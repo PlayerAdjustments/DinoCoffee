@@ -83,6 +83,16 @@ class Career extends Model
         return $this->hasOne(School::class, 'abbreviation', 'school_abbreviation')->withTrashed();
     }
 
+    public function careerCodes()
+    {
+        return $this->hasMany(CareerCode::class, 'career_abbreviation', 'abbreviation')->withTrashed();
+    }
+
+    public function studyPlans()
+    {
+        return $this->hasManyThrough(StudyPlan::class, CareerCode::class, 'career_abbreviation', 'career_code', 'abbreviation', 'joined')->withTrashedParents();
+    }
+
     /**
      * Mutators and accessors
      */

@@ -3,20 +3,19 @@
 namespace App\View\Components\Cards;
 
 use App\Models\Career;
-use App\Models\CareerCode;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ListCareerCodes extends Component
+class listStudyplans extends Component
 {
-    public $codes;
+    public $studyPlans;
     /**
      * Create a new component instance.
      */
     public function __construct($career)
     {
-        $this->codes = Career::withTrashed()->with('careerCodes')->where('abbreviation', $career)->get();
+        $this->studyPlans = Career::withTrashed()->with('studyPlans')->where('abbreviation',$career)->first();
     }
 
     /**
@@ -24,6 +23,6 @@ class ListCareerCodes extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.cards.list-career-codes');
+        return view('components.cards.list-studyplans');
     }
 }

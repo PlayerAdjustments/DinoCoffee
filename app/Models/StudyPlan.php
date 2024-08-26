@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
-class CareerCode extends Model
+class StudyPlan extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -17,7 +18,13 @@ class CareerCode extends Model
      * Table name
      * @var string
      */
-    public $table = 'career_codes';
+    public $table = 'study_plans';
+
+    /**
+     * Load relationship functions
+     * @var array 
+     */
+    protected $with = ['careercodeObj'];
 
     /**
      * For using routeModelBinding
@@ -25,14 +32,14 @@ class CareerCode extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'joined';        
+        return 'code';        
     }
 
     /**
-     * Load relationship functions
-     * @var array 
+     * Primary key
+     * @var string
      */
-    protected $with = [];
+    //protected $primaryKey = 'abbreviation';
 
     /**
      * For soft delete
@@ -46,9 +53,10 @@ class CareerCode extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'joined',
-        'career_abbreviation',
+        'slug',
         'code',
+        'career_code',
+        'passing_grade',
         'created_by',
         'updated_by',
         'created_at',
@@ -70,25 +78,29 @@ class CareerCode extends Model
     /**
      * Db relations
      */
-    public function careerObj() : HasOne
+    public function careercodeObj() : HasOne
     {
-        return $this->hasOne(Career::class, 'abbreviation', 'career_abbreviation')->withTrashed();
+        return $this->hasOne(CareerCode::class, 'joined', 'career_code')->withTrashed();
     }
 
-    public function career() 
+    public function careerCode()
     {
-        return $this->belongsTo(Career::class, 'career_abbreviation', 'abbreviation');
-    }
-
-    public function studyPlans()
-    {
-        return $this->hasMany(StudyPlan::class, 'career_code', 'joined');
+        return $this->belongsTo(CareerCode::class, 'career_code', 'joined');
     }
 
     /**
      * Mutators and accessors
      */
-    protected function joined() : Attribute
+    protected function slug() : Attribute
+    {
+        return Attribute::make(
+            set:function($value){
+                return Str::slug(str_replace('/','-year-',$value));
+            }
+        );
+    }
+
+    protected function code() : Attribute
     {
         return Attribute::make(
             set:function($value){
@@ -96,5 +108,4 @@ class CareerCode extends Model
             }
         );
     }
-
 }
