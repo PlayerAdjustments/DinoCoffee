@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -32,7 +33,7 @@ class CareerCode extends Model
      * Load relationship functions
      * @var array 
      */
-    protected $with = [];
+    protected $with = ['studyPlans'];
 
     /**
      * For soft delete
@@ -80,9 +81,9 @@ class CareerCode extends Model
         return $this->belongsTo(Career::class, 'career_abbreviation', 'abbreviation');
     }
 
-    public function studyPlans()
+    public function studyPlans() : HasMany
     {
-        return $this->hasMany(StudyPlan::class, 'career_code', 'joined');
+        return $this->hasMany(StudyPlan::class, 'career_code', 'joined')->withTrashed();
     }
 
     /**

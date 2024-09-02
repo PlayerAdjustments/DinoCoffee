@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\StudyPlan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudyPlanController extends Controller
 {
@@ -53,7 +56,19 @@ class StudyPlanController extends Controller
      */
     public function destroy(StudyPlan $studyPlan)
     {
-        //
+        $studyPlan->delete();
+
+        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+            Notification::create([
+                'user_matricula' => $m,
+                'subject' => '¡Han desactivado un plan de estudios ('.$studyPlan->code.')!',
+                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
+                'icon' => 'Seri_Confused.png',
+                'created_by' => Auth::user()->matricula
+            ]);
+        }
+
+        return redirect()->route('developer.careers.show', $studyPlan->careerCode->career_abbreviation)->with('Success','Study plan '.$studyPlan->code.' has been deleted.');
     }
 
     /**
@@ -61,6 +76,19 @@ class StudyPlanController extends Controller
      */
     public function restore(StudyPlan $studyPlan)
     {
-        //
+        $studyPlan->restore();
+
+        foreach(User::whereIn('role', ['DEV','ADM'])->pluck('matricula') as $m){
+            Notification::create([
+                'user_matricula' => $m,
+                'subject' => '¡Han restaurado un plan de estudios ('.$studyPlan->code.')!',
+                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
+                'icon' => 'Seri_Reading.png',
+                'created_by' => Auth::user()->matricula
+            ]);
+        }
+
+        return redirect()->route('developer.careers.show',$studyPlan->careerCode->career_abbreviation)->with('Success', 'Study Plan '.$studyPlan->code.' has been restored');
+
     }
 }
