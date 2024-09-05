@@ -38,6 +38,6 @@ class StudyPlanSeeder extends Seeder
             ]);
         }
 
-        StudyPlan::factory(200)->create();
+        StudyPlan::factory(80)->create();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -24,7 +25,7 @@ class StudyPlan extends Model
      * Load relationship functions
      * @var array 
      */
-    protected $with = ['careercodeObj'];
+    protected $with = [];
 
     /**
      * For using routeModelBinding
@@ -32,7 +33,7 @@ class StudyPlan extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'code';        
+        return 'slug';        
     }
 
     /**
@@ -78,12 +79,8 @@ class StudyPlan extends Model
     /**
      * Db relations
      */
-    public function careercodeObj() : HasOne
-    {
-        return $this->hasOne(CareerCode::class, 'joined', 'career_code')->withTrashed();
-    }
 
-    public function careerCode()
+    public function careerCode() : BelongsTo
     {
         return $this->belongsTo(CareerCode::class, 'career_code', 'joined');
     }

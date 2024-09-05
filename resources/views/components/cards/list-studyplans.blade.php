@@ -22,10 +22,10 @@
                     <div class="flex items-center">
                         <div class="flex-1 min-w-0 ms-4">
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                {{$studyPlan->code}}
+                                {{ $studyPlan->code }}
                             </p>
                             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                {{$studyPlan->career_code}} ({{$studyPlans->semester_duration}} Semestres)
+                                {{ $studyPlan->career_code }} ({{ $studyPlans->semester_duration }} Semestres)
                             </p>
                         </div>
                         {{-- Actions Button --}}
@@ -34,8 +34,8 @@
                                 data-dropdown-toggle="{{ $studyPlan->slug }}-dropdown"
                                 class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                 type="button">
-                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                 </svg>
@@ -45,31 +45,41 @@
                         <div id="{{ $studyPlan->slug }}-dropdown"
                             class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="{{ $studyPlan->slug  }}-dropdown-button">
+                                aria-labelledby="{{ $studyPlan->slug }}-dropdown-button">
                                 <li>
-                                    <a href="{{ route('developer.users.show', $studyPlan->slug ) }}"
+                                    <a href="{{ route('developer.users.show', $studyPlan->slug) }}"
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('developer.users.edit', $studyPlan->slug ) }}"
+                                    <a href="{{ route('developer.users.edit', $studyPlan->slug) }}"
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('developer.users.edit', $studyPlan->slug ) }}"
+                                    <a href="{{ route('developer.users.edit', $studyPlan) }}"
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rename</a>
                                 </li>
                             </ul>
-                                @if ($studyPlan->trashed())
-                                    <div class="py-1">
-                                        <a href="{{ route('developer.users.restore', $studyPlan) }}"
-                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Restore</a>
-                                    </div>
-                                @else
-                                    <div class="py-1">
-                                        <a href="{{ route('developer.users.delete', $studyPlan) }}"
-                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                                    </div>
-                                @endif
+                            @if ($studyPlan->trashed())
+                                <div class="py-1">
+                                    <form action="{{ route('developer.studyplans.restore', $studyPlan) }}"
+                                        method="POST">
+                                        @method('PUT')
+                                        @csrf
+                                        <button type="submit"
+                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Restore</button>
+                                    </form>
+                                </div>
+                            @else
+                                <div class="py-1">
+                                    <form action="{{ route('developer.studyplans.destroy', $studyPlan) }}"
+                                        method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit"
+                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Delete</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </li>
@@ -83,8 +93,7 @@
         class="pt-2 w-full border-t border-gray-200 dark:border-gray-700 item-start">
         <button type="submit"
             class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
-            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
+            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                     d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                     clip-rule="evenodd"></path>
