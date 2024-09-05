@@ -24,7 +24,6 @@ class CareerCodeController extends Controller
         /**
          * Send email and create notification for the user.
          */
-        // Mail::to(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
         
         foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
             Notification::create([
@@ -48,8 +47,6 @@ class CareerCodeController extends Controller
     public function update(UpdateCareerCodeRequest $request, CareerCode $careercode)
     {
         $careercode->update($request->validated());
-
-        // Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
         
         foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
             Notification::create([
@@ -69,9 +66,7 @@ class CareerCodeController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(CareerCode $careercode)
-    {
-        // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolDeletedMail(school::where('matricula',$school->matricula)->firstOrFail()));
-        
+    {        
         $careercode->delete();
 
         foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
@@ -92,8 +87,6 @@ class CareerCodeController extends Controller
     public function restore(CareerCode $careercode)
     {
         $careercode->restore();
-
-        // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolRestoredMail(school::where('matricula',$school->matricula)->firstOrFail(), null));
 
         foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
             Notification::create([
