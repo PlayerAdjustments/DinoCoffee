@@ -223,10 +223,10 @@
                 </g>
             </svg>
         </button>
-        <!-- Dropdown -->
+        <!-- Languages Dropdown -->
         <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
             id="language-dropdown">
-            <ul class="py-1" role="none">
+            <ul class="py-1">
                 <li>
                     <a href="#"
                         class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600"

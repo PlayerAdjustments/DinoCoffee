@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Developer;
 
+use App\Enums\ControllerNames;
+use App\Enums\ActionMethods;
+use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\School\StoreSchoolRequest;
 use App\Http\Requests\School\UpdateSchoolRequest;
@@ -54,27 +57,15 @@ class SchoolController extends Controller
     public function store(StoreSchoolRequest $request)
     {
         School::create($request->validated());
-
-        /**
-         * Send email and create notification for the user.
-         */
-        // Mail::to(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
         
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han creado una escuela! ('.$request->validated('abbreviation').')',
-                'body' => 'Recuerda configurar todos los detalles.',
-                'icon' => 'Rexxi_cheer.gif',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::School, $request->validated('abbreviation'), NotificationMethods::Stored);
+
         
 
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.schools.listSchools')->with('Success', 'School '.$request->validated('abbreviation').' has been created.');
+        return redirect()->route('developer.schools.listSchools')->with('Success', $this->ActionMessages(ControllerNames::School, $request->validated('abbreviation'), ActionMethods::Stored));
     }
 
     /**
@@ -102,19 +93,9 @@ class SchoolController extends Controller
     {
         $school->update($request->validated());
 
-        // Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han actualizado una escuela ('.$school->abbreviation.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Glasses.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Updated);
 
-        return redirect()->route('developer.schools.show', $school)->with('Success', 'School '.$school->abbreviation.' was updated.');
+        return redirect()->route('developer.schools.show', $school)->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Updated));
     }
 
     /**
@@ -122,41 +103,22 @@ class SchoolController extends Controller
      */
     public function destroy(School $school)
     {
-        // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolDeletedMail(school::where('matricula',$school->matricula)->firstOrFail()));
-        
         $school->delete();
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han desactivado una escuela ('.$school->abbreviation.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Confused.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.schools.index')->with('Success','School '.$school->abbreviation.' has been deleted.');
+        return redirect()->route('developer.schools.index')->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Destroyed));
     }
 
     /**
      * Restore the specified resource from storage.
      */
-    public function restore(School $school){
+    public function restore(School $school)
+    {
         $school->restore();
 
-        // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolRestoredMail(school::where('matricula',$school->matricula)->firstOrFail(), null));
+        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Restored);
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han restaurado una escuela ('.$school->abbreviation.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Reading.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
-
-        return redirect()->route('developer.schools.index')->with('Success', 'School '.$school->abbreviation.' has been restored');
+        return redirect()->route('developer.schools.index')->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Restored));
     }
 }

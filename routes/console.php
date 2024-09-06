@@ -19,9 +19,6 @@ Artisan::command('inspire', function () {
 Schedule::call(function() {
     $birthdayPeople = DB::table('users')->whereMonth('birthday', date('m'))->whereDay('birthday', date('d'))->get();
 
-    // Mail::to(env('MAIL_FROM_ADDRESS'))->send($birthdayPeople);
-
-
     foreach($birthdayPeople as $bp){
         Notification::create([
             'user_matricula' => $bp->matricula,

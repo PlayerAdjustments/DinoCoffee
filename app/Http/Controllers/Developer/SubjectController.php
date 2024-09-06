@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Developer;
 
+use App\Enums\ControllerNames;
+use App\Enums\ActionMethods;
+use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subject\StoreSubjectRequest;
 use App\Http\Requests\Subject\UpdateSubjectRequest;
@@ -13,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
+    public $controllerName = ControllerNames::Subject;
+
     /**
      * Display a listing of the resource.
      */
@@ -20,19 +25,19 @@ class SubjectController extends Controller
     {
         $subjects = Subject::query();
 
-        if($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
             $subjects->whereAny([
                 'name',
-            ], 'like', $input.'%');
+            ], 'like', $input . '%');
         }
 
         if ($request->has('hiddenSubjectDeactivated') && $request->input('hiddenSubjectDeactivated') == 1) $subjects->onlyTrashed();
 
         $subjects = $subjects->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10, 
-            ['slug','name','deleted_at']
-            )->withQueryString();
+            $request->has('perpage') ? $request->input('perpage') : 10,
+            ['slug', 'name', 'deleted_at']
+        )->withQueryString();
 
         return view('Pages.Developer.Subject.list', compact('subjects'));
     }
@@ -44,25 +49,12 @@ class SubjectController extends Controller
     {
         Subject::create($request->validated());
 
-        /**
-         * Send email and create notification for the user.
-         */
-        // Mail::to(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han creado una materia! ('.$request->validated('name').')',
-                'body' => 'Recuerda configurar todos los detalles.',
-                'icon' => 'Rexxi_cheer.gif',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
-        
+        $this->NotifyDevelopers(ControllerNames::Subject, $request->validated('name'), NotificationMethods::Stored);
+
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.subjects.index')->with('Success', 'Subject '.$request->validated('name').' has been created.');
+        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $request->validated('name'), ActionMethods::Stored));
     }
 
     /**
@@ -72,19 +64,9 @@ class SubjectController extends Controller
     {
         $subject->update($request->validated());
 
-        // Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han actualizado una materia ('.$subject->name.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Glasses.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Updated);
 
-        return redirect()->route('developer.subjects.index', $subject)->with('Success', 'Subject '.$subject->name.' was updated.');
+        return redirect()->route('developer.subjects.index', $subject)->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Updated));
     }
 
     /**
@@ -92,39 +74,22 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolDeletedMail(school::where('matricula',$school->matricula)->firstOrFail()));
-        
         $subject->delete();
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han desactivado una materia ('.$subject->abbreviation.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Confused.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.subjects.index')->with('Success','Subject '.$subject->name.' has been deleted.');
+        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Destroyed));
     }
 
     /**
      * Restore the specified resource from storage.
      */
-    public function restore(Subject $subject){
+    public function restore(Subject $subject)
+    {
         $subject->restore();
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
-            Notification::create([
-                'user_matricula' => $m,
-                'subject' => '¡Han restaurado una materia ('.$subject->name.')!',
-                'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
-                'icon' => 'Seri_Reading.png',
-                'created_by' => Auth::user()->matricula
-            ]);
-        }
+        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Restored);
 
-        return redirect()->route('developer.subjects.index')->with('Success', 'Subject '.$subject->name.' has been restored');
+        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Restored));
     }
 }

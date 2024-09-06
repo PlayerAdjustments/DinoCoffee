@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Developer;
 
+use App\Enums\ControllerNames;
+use App\Enums\ActionMethods;
+use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -20,9 +23,9 @@ class UserController extends Controller
 {
     public function listStudents(Request $request)
     {
-        $users = User::query()->where('role','=','ALU');
+        $users = User::query()->where('role', '=', 'ALU');
 
-        if($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
             $users->whereAny([
                 'matricula',
@@ -31,19 +34,19 @@ class UserController extends Controller
                 'name',
                 'first_lastname',
                 'second_lastname'
-            ], 'like', $input.'%');
+            ], 'like', $input . '%');
         }
 
-        if($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
-        
-        if($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
+        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
+
+        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
 
         if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) $users->onlyTrashed();
 
         $users = $users->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10, 
-            ['avatar','name','role','first_lastname','second_lastname','matricula','email','phone_number','sex','deleted_at']
-            )->withQueryString();
+            $request->has('perpage') ? $request->input('perpage') : 10,
+            ['avatar', 'name', 'role', 'first_lastname', 'second_lastname', 'matricula', 'email', 'phone_number', 'sex', 'deleted_at']
+        )->withQueryString();
 
         return view('Pages.Developer.Users.List.listStudents', compact('users'));
     }
@@ -52,7 +55,7 @@ class UserController extends Controller
     {
         $users = User::query()->where('role', '!=', 'ALU');
 
-        if($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
             $users->whereAny([
                 'matricula',
@@ -62,41 +65,41 @@ class UserController extends Controller
                 'name',
                 'first_lastname',
                 'second_lastname'
-            ], 'like', $input.'%');
+            ], 'like', $input . '%');
         }
 
-        if($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
-        if($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
+        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
+        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
         if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) $users->onlyTrashed();
 
         $searchRoles = [];
 
-        if($request->has('hiddenRoleDeveloper') && $request->input('hiddenRoleDeveloper') == 1) array_push($searchRoles, 'DEV');
-        if($request->has('hiddenRoleAdministrativo') && $request->input('hiddenRoleAdministrativo') == 1) array_push($searchRoles, 'ADM');
-        if($request->has('hiddenRoleDirector') && $request->input('hiddenRoleDirector') == 1) array_push($searchRoles, 'DIR');
-        if($request->has('hiddenRoleCoordinador') && $request->input('hiddenRoleCoordinador') == 1) array_push($searchRoles, 'COO');
-        if($request->has('hiddenRoleDocente') && $request->input('hiddenRoleDocente') == 1) array_push($searchRoles, 'DOC');
+        if ($request->has('hiddenRoleDeveloper') && $request->input('hiddenRoleDeveloper') == 1) array_push($searchRoles, 'DEV');
+        if ($request->has('hiddenRoleAdministrativo') && $request->input('hiddenRoleAdministrativo') == 1) array_push($searchRoles, 'ADM');
+        if ($request->has('hiddenRoleDirector') && $request->input('hiddenRoleDirector') == 1) array_push($searchRoles, 'DIR');
+        if ($request->has('hiddenRoleCoordinador') && $request->input('hiddenRoleCoordinador') == 1) array_push($searchRoles, 'COO');
+        if ($request->has('hiddenRoleDocente') && $request->input('hiddenRoleDocente') == 1) array_push($searchRoles, 'DOC');
 
-        if(!empty($searchRoles)) $users->whereIn('role',$searchRoles);
+        if (!empty($searchRoles)) $users->whereIn('role', $searchRoles);
 
         $users = $users->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10, 
-            ['avatar','name','role','first_lastname','second_lastname','matricula','cedula_profesional','email','phone_number','sex','deleted_at']
-            )->withQueryString();
+            $request->has('perpage') ? $request->input('perpage') : 10,
+            ['avatar', 'name', 'role', 'first_lastname', 'second_lastname', 'matricula', 'cedula_profesional', 'email', 'phone_number', 'sex', 'deleted_at']
+        )->withQueryString();
 
         return view('Pages.Developer.Users.List.listEmployees', compact('users'));
     }
 
-    public function storeUser(StoreUserRequest $request) : RedirectResponse
+    public function storeUser(StoreUserRequest $request): RedirectResponse
     {
-        
+
         User::create($request->validated());
 
         /**
          * Send email and create notification for the user.
          */
-        Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
+        Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula', $request->validated('matricula'))->firstOrFail(), $request->validated('password')));
+
         Notification::create([
             'user_matricula' => $request->validated('matricula'),
             'subject' => '¡Bienvenido al sistema oyentes!',
@@ -105,20 +108,22 @@ class UserController extends Controller
             'created_by' => Auth::user()->matricula
         ]);
 
+        $this->NotifyDevelopers(ControllerNames::User, $request->validated('matricula'), NotificationMethods::Stored);
+
         /**
          * Send user back to the correspondent list page
          */
-        if($request->validated('role') == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', 'User '.$request->validated('matricula').' has been created.');
+        if ($request->validated('role') == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
 
-        if(in_array($request->validated('role'), ['DEV','ADM','DIR','COO','DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', 'User '.$request->validated('matricula').' has been created.');
+        if (in_array($request->validated('role'), ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
     }
 
-    public function createStudent() 
+    public function createStudent()
     {
         return view('Pages.Developer.Users.Create.createStudent');
     }
 
-    public function createEmployee() 
+    public function createEmployee()
     {
         return view('Pages.Developer.Users.Create.createEmployee');
     }
@@ -128,21 +133,24 @@ class UserController extends Controller
         return view('Pages.Developer.Users.Show.showUser', compact('user'));
     }
 
-    public function updateUser(UpdateUserRequest $request, User $user) : RedirectResponse
+    public function updateUser(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $user->update($request->validated());
 
-        Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
+        Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula', $request->validated('matricula'))->firstOrFail(), $request->validated('password')));
+
         Notification::create([
             'user_matricula' => $request->validated('matricula'),
             'subject' => '¡Hemos actualizado tu cuenta!',
-            'body' => 'modificaciones fueron realizadas, recuerda revisar tu correo para obtener las credenciales de acceso.',
+            'body' => 'Modificaciones fueron realizadas, recuerda revisar tu correo para obtener las credenciales de acceso.',
             'icon' => 'Seri_Glasses.png',
             'created_by' => Auth::user()->matricula
         ]);
 
-        return redirect()->route('developer.users.show', $user)->with('Success', 'User '.$user->matricula.' was updated.');
+        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Updated);
+
+
+        return redirect()->route('developer.users.show', $user)->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Updated));
     }
 
     public function editUser(User $user)
@@ -152,19 +160,21 @@ class UserController extends Controller
 
     public function deleteUser(User $user)
     {
-        Mail::to($user->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserDeletedMail(User::where('matricula',$user->matricula)->firstOrFail()));
-        
+        Mail::to($user->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserDeletedMail(User::where('matricula', $user->matricula)->firstOrFail()));
+
+        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Destroyed);
+
         $user->delete();
 
-        if($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', 'User '.$user->matricula.' has been deleted.');
-        if(in_array($user->role, ['DEV','ADM','DIR','COO','DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', 'User '.$user->matricula.' has been deleted.');
+        if ($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
+        if (in_array($user->role, ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
     }
 
     public function restoreUser(User $user)
     {
         $user->restore();
 
-        Mail::to($user->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserRestoredMail(User::where('matricula',$user->matricula)->firstOrFail(), null));
+        Mail::to($user->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserRestoredMail(User::where('matricula', $user->matricula)->firstOrFail(), null));
 
         Notification::create([
             'user_matricula' => $user->matricula,
@@ -174,7 +184,9 @@ class UserController extends Controller
             'created_by' => Auth::user()->matricula
         ]);
 
-        if($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', 'User '.$user->matricula.' has been restored.');
-        if(in_array($user->role, ['DEV','ADM','DIR','COO','DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', 'User '.$user->matricula.' has been restored.');
+        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Restored);
+
+        if ($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
+        if (in_array($user->role, ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
     }
 }
