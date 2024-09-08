@@ -21,11 +21,6 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    private $sexFilters = [
-        'hiddenSexMale' => 'M',
-        'hiddenSexFemale' => 'F'
-    ];
-
     private $employeeRolesFilter = [
         'hiddenRoleDeveloper' => 'DEV',
         'hiddenRoleAdministrativo' => 'ADM',
@@ -58,11 +53,11 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        if($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
+        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
             $users->where('sex', 'M');
         }
 
-        if($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
+        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
             $users->where('sex', 'F');
         }
 
@@ -95,10 +90,12 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        foreach ($this->sexFilters as $key => $sex) {
-            if ($request->has($key) && $request->input($key) == 1) {
-                $users->where('sex', $sex);
-            }
+        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
+            $users->where('sex', 'M');
+        }
+
+        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
+            $users->where('sex', 'F');
         }
 
         if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
