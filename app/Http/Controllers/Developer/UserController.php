@@ -14,6 +14,7 @@ use App\Mail\User\UserRestoredMail;
 use App\Mail\User\UserUpdatedMail;
 use App\Models\Notification;
 use App\Models\User;
+use App\Traits\UserQueryTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    private $employeeRolesFilter = [
+    use UserQueryTrait;
+
+    protected $employeeRolesFilter = [
         'hiddenRoleDeveloper' => 'DEV',
         'hiddenRoleAdministrativo' => 'ADM',
         'hiddenRoleDirector' => 'DIR',
@@ -41,83 +44,32 @@ class UserController extends Controller
     {
         $users = User::query()->where('role', '=', 'ALU');
 
-        if ($request->has('simple-search')) {
-            $input = $request->input('simple-search');
-            $users->whereAny([
-                'matricula',
-                'email',
-                'phone_number',
-                'name',
-                'first_lastname',
-                'second_lastname'
-            ], 'like', $input . '%');
-        }
-
-        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
-            $users->where('sex', 'M');
-        }
-
-        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
-            $users->where('sex', 'F');
-        }
-
-        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
-            $users->onlyTrashed();
-        }
-
-        $users = $users->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10,
-            ['avatar', 'name', 'role', 'first_lastname', 'second_lastname', 'matricula', 'email', 'phone_number', 'sex', 'deleted_at']
-        )->withQueryString();
+        $users = $this->applyFilters($users, $request);
 
         return view('Pages.Developer.Users.List.listStudents', compact('users'));
     }
 
     public function listEmployees(Request $request)
     {
-        $users = User::query()->where('role', '!=', 'ALU');
+        $users = User::query()->whereIn('role', $this->employeeRoles);
 
-        if ($request->has('simple-search')) {
-            $input = $request->input('simple-search');
-            $users->whereAny([
-                'matricula',
-                'email',
-                'cedula_profesional',
-                'phone_number',
-                'name',
-                'first_lastname',
-                'second_lastname'
-            ], 'like', $input . '%');
-        }
+        $additionalConditions = [
+            function ($query, $request) {
+                $searchRoles = [];
 
-        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
-            $users->where('sex', 'M');
-        }
+                foreach ($this->employeeRolesFilter as $key => $role) {
+                    if ($request->has($key) && $request->input($key) == 1) {
+                        $searchRoles[] = $role;
+                    }
+                }
 
-        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
-            $users->where('sex', 'F');
-        }
-
-        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
-            $users->onlyTrashed();
-        }
-
-        $searchRoles = [];
-
-        foreach ($this->employeeRolesFilter as $key => $role) {
-            if ($request->has($key) && $request->input($key) == 1) {
-                $searchRoles[] = $role;
+                if (!empty($searchRoles)) {
+                    $query->whereIn('role', $searchRoles);
+                }
             }
-        }
+        ];
 
-        if (!empty($searchRoles)) {
-            $users->whereIn('role', $searchRoles);
-        }
-
-        $users = $users->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10,
-            ['avatar', 'name', 'role', 'first_lastname', 'second_lastname', 'matricula', 'cedula_profesional', 'email', 'phone_number', 'sex', 'deleted_at']
-        )->withQueryString();
+        $users = $this->applyFilters($users, $request, $additionalConditions);
 
         return view('Pages.Developer.Users.List.listEmployees', compact('users'));
     }
