@@ -58,12 +58,12 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
+        if($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) {
+            $users->where('sex', 'M');
+        }
 
-
-        foreach ($this->sexFilters as $key => $sex) {
-            if ($request->has($key) && $request->input($key) == 1) {
-                $users->where('sex', $sex);
-            }
+        if($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) {
+            $users->where('sex', 'F');
         }
 
         if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
