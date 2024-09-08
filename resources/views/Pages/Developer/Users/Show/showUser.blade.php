@@ -14,7 +14,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información de contacto</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
@@ -173,7 +173,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información del usuario</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         @if ($user->cedula_profesional != null)
                             <li class="py-3 sm:py-4">
                                 <div class="flex items-center">

@@ -12,7 +12,7 @@ class StoreRoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(Auth::user()->role == 'DEV'){
+        if (Auth::user()->role == 'DEV') {
             return true;
         }
 

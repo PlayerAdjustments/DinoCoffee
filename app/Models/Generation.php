@@ -30,7 +30,7 @@ class Generation extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'code';    
+        return 'code';
     }
 
     /**
@@ -61,21 +61,18 @@ class Generation extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Mutators and accessors
      */
-    protected function code() : Attribute
+    protected function code(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim($value);
             }
         );
     }
-
 }

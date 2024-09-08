@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class listNotifications extends Component
+class ListNotifications extends Component
 {
     public $notifications;
     /**

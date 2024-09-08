@@ -8,11 +8,9 @@ use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\School\StoreSchoolRequest;
 use App\Http\Requests\School\UpdateSchoolRequest;
-use App\Models\Notification;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller
 {
@@ -23,21 +21,23 @@ class SchoolController extends Controller
     {
         $schools = School::query();
 
-        if($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
             $schools->whereAny([
                 'abbreviation',
                 'name',
                 'director_matricula'
-            ], 'like', $input.'%');
+            ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenSchoolDeactivated') && $request->input('hiddenSchoolDeactivated') == 1) $schools->onlyTrashed();
+        if ($request->has('hiddenSchoolDeactivated') && $request->input('hiddenSchoolDeactivated') == 1) {
+            $schools->onlyTrashed();
+        }
 
         $schools = $schools->orderBy('id')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10, 
-            ['abbreviation','name','director_matricula','color','deleted_at']
-            )->withQueryString();
+            $request->has('perpage') ? $request->input('perpage') : 10,
+            ['abbreviation', 'name', 'director_matricula', 'color', 'deleted_at']
+        )->withQueryString();
 
         return view('Pages.Developer.School.List.listSchools', compact('schools'));
     }
@@ -48,7 +48,7 @@ class SchoolController extends Controller
     public function create()
     {
         $candidates = User::whereIn('role', ['DIR'])->get();
-        return view('Pages.Developer.School.Create.createSchool', compact('candidates','candidates'));
+        return view('Pages.Developer.School.Create.createSchool', compact('candidates', 'candidates'));
     }
 
     /**
@@ -57,15 +57,13 @@ class SchoolController extends Controller
     public function store(StoreSchoolRequest $request)
     {
         School::create($request->validated());
-        
-        $this->NotifyDevelopers(ControllerNames::School, $request->validated('abbreviation'), NotificationMethods::Stored);
 
-        
+        $this->NotifyDevelopers(ControllerNames::School, $request->validated('abbreviation'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.schools.listSchools')->with('Success', $this->ActionMessages(ControllerNames::School, $request->validated('abbreviation'), ActionMethods::Stored));
+        return redirect()->route('developer.schools.listSchools')->with('Success', $this->actionMessages(ControllerNames::School, $request->validated('abbreviation'), ActionMethods::Stored));
     }
 
     /**
@@ -83,7 +81,7 @@ class SchoolController extends Controller
     {
         $candidates = User::whereIn('role', ['DIR'])->get();
 
-        return view('Pages.Developer.School.Edit.editSchool', compact('school','candidates'));
+        return view('Pages.Developer.School.Edit.editSchool', compact('school', 'candidates'));
     }
 
     /**
@@ -95,7 +93,7 @@ class SchoolController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Updated);
 
-        return redirect()->route('developer.schools.show', $school)->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Updated));
+        return redirect()->route('developer.schools.show', $school)->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Updated));
     }
 
     /**
@@ -107,7 +105,7 @@ class SchoolController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.schools.index')->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Destroyed));
+        return redirect()->route('developer.schools.index')->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Destroyed));
     }
 
     /**
@@ -119,6 +117,6 @@ class SchoolController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Restored);
 
-        return redirect()->route('developer.schools.index')->with('Success', $this->ActionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Restored));
+        return redirect()->route('developer.schools.index')->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Restored));
     }
 }

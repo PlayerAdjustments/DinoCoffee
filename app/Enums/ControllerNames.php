@@ -13,7 +13,6 @@ enum ControllerNames: string
 
   /**
    * Get translation for Notifications
-   * 
    * @return string
    */
   public function getTranslation(): string

@@ -11,25 +11,23 @@ enum NotificationMethods: string
 
   /**
    * Get the subject for the notification message.
-   * @param ControllerNames $ControllerName
-   * @param string $Item
-   * 
+   * @param ControllerNames $controllerName
+   * @param string $item
    * @return string
    */
-  public function getSubject(ControllerNames $ControllerName, $Item): string
+  public function getSubject(ControllerNames $controllerName, $item): string
   {
-    $ControllerNameTranslated = trim(strtolower($ControllerName->getTranslation()));
+    $controllerNameTranslated = trim(strtolower($controllerName->getTranslation()));
     return match ($this) {
-      self::Stored => "¡Han creado un/a nuevo/a {$ControllerNameTranslated}! ({$Item})",
-      self::Destroyed => "¡Han eliminado un/a {$ControllerNameTranslated}! ({$Item})",
-      self::Restored => "¡Han restaurado un/a {$ControllerNameTranslated}! ({$Item})",
-      self::Updated => "¡Han actualizado un/a {$ControllerNameTranslated}! ({$Item})"
+      self::Stored => "¡Han creado un/a nuevo/a {$controllerNameTranslated}! ({$item})",
+      self::Destroyed => "¡Han eliminado un/a {$controllerNameTranslated}! ({$item})",
+      self::Restored => "¡Han restaurado un/a {$controllerNameTranslated}! ({$item})",
+      self::Updated => "¡Han actualizado un/a {$controllerNameTranslated}! ({$item})"
     };
   }
 
   /**
    * Get the body for the notification message.
-   * 
    * @return string
    */
   public function getBody(): string
@@ -46,7 +44,7 @@ enum NotificationMethods: string
    * Get the icon for the notification message.
    * @return NotificationIcons
    */
-  public function getIcon(): NotificationIcons 
+  public function getIcon(): NotificationIcons
   {
     return match ($this) {
       self::Stored => NotificationIcons::RexxiCheer,
@@ -56,5 +54,3 @@ enum NotificationMethods: string
     };
   }
 }
-
-

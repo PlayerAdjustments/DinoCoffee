@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            if(Schema::hasColumns('users',['created_by','updated_by'])){
+            if (Schema::hasColumns('users', ['created_by', 'updated_by'])) {
                 $table->foreign('created_by')->references('matricula')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
-                $table->foreign('updated_by')->references('matricula')->on('users')->cascadeOnUpdate()->cascadeOnDelete();    
+                $table->foreign('updated_by')->references('matricula')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             }
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            if(Schema::hasColumns('users',['created_by','updated_by'])){
+            if (Schema::hasColumns('users', ['created_by', 'updated_by'])) {
                 $table->dropForeign(['created_by']);
                 $table->dropForeign(['updated_by']);
             }

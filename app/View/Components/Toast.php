@@ -14,11 +14,13 @@ class Toast extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($type='Info',  $icon=null)
+    public function __construct($type = 'Info',  $icon = null)
     {
-        if($icon == null) $icon=$type;
+        if ($icon == null) {
+            $icon = $type;
+        }
 
-        switch ($type){
+        switch ($type) {
             case 'Success':
                 $class = 'text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200';
                 break;

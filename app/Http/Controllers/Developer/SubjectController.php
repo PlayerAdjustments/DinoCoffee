@@ -8,16 +8,11 @@ use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subject\StoreSubjectRequest;
 use App\Http\Requests\Subject\UpdateSubjectRequest;
-use App\Models\Notification;
 use App\Models\Subject;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
-    public $controllerName = ControllerNames::Subject;
-
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +27,9 @@ class SubjectController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenSubjectDeactivated') && $request->input('hiddenSubjectDeactivated') == 1) $subjects->onlyTrashed();
+        if ($request->has('hiddenSubjectDeactivated') && $request->input('hiddenSubjectDeactivated') == 1) {
+            $subjects->onlyTrashed();
+        }
 
         $subjects = $subjects->orderBy('id')->paginate(
             $request->has('perpage') ? $request->input('perpage') : 10,
@@ -54,7 +51,7 @@ class SubjectController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $request->validated('name'), ActionMethods::Stored));
+        return redirect()->route('developer.subjects.index')->with('Success', $this->actionMessages(ControllerNames::Subject, $request->validated('name'), ActionMethods::Stored));
     }
 
     /**
@@ -66,7 +63,7 @@ class SubjectController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Updated);
 
-        return redirect()->route('developer.subjects.index', $subject)->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Updated));
+        return redirect()->route('developer.subjects.index', $subject)->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Updated));
     }
 
     /**
@@ -78,7 +75,7 @@ class SubjectController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Destroyed));
+        return redirect()->route('developer.subjects.index')->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Destroyed));
     }
 
     /**
@@ -90,6 +87,6 @@ class SubjectController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Restored);
 
-        return redirect()->route('developer.subjects.index')->with('Success', $this->ActionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Restored));
+        return redirect()->route('developer.subjects.index')->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Restored));
     }
 }

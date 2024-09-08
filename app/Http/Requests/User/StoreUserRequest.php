@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(in_array(Auth::user()->role, ['ADM', 'DEV'])){
+        if (in_array(Auth::user()->role, ['ADM', 'DEV'])) {
             return true;
         }
 
@@ -27,18 +27,22 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $nameAndLastnameRule = 'required|string|max:255|regex:^[a-zA-Z ]*$^';
+
         return [
             'matricula' => 'required|alpha_num|unique:users,matricula|max:25',
-            'name' => 'required|string|max:255|regex:^[a-zA-Z ]*$^',
-            'first_lastname' => 'required|string|max:255|regex:^[a-zA-Z ]*$^',
-            'second_lastname' => 'required|string|max:255|regex:^[a-zA-Z ]*$^',
+            'name' => $nameAndLastnameRule,
+            'first_lastname' => $nameAndLastnameRule,
+            'second_lastname' => $nameAndLastnameRule,
             'role' => ['required', Rule::exists('roles', 'abbreviation')->where('deleted_at', null)],
             'sex' => ['required', Rule::in(['F', 'M'])],
             'phone_number' => ['required', 'unique:users,phone_number', 'regex:^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$^'],
             'birthday' => 'required|date_format:Y-m-d',
             'cedula_profesional' => [
-                Rule::requiredIf(fn () => in_array(strtoupper($this->role), ['DOC', 'COO', 'DIR'])),
-                'integer', 'digits_between:7,8', 'unique:users,cedula_profesional'
+                Rule::requiredIf(fn() => in_array(strtoupper($this->role), ['DOC', 'COO', 'DIR'])),
+                'integer',
+                'digits_between:7,8',
+                'unique:users,cedula_profesional'
             ],
             'email' => 'required|unique:users,email|email',
             'password' => 'required',

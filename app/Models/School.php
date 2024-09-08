@@ -32,14 +32,8 @@ class School extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'abbreviation';        
+        return 'abbreviation';
     }
-
-    /**
-     * Primary key
-     * @var string
-     */
-    //protected $primaryKey = 'abbreviation';
 
     /**
      * For soft delete
@@ -70,15 +64,13 @@ class School extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Db relations
      */
-    public function directorObj() : HasOne
+    public function directorObj(): HasOne
     {
         return $this->hasOne(User::class, 'matricula', 'director_matricula')->withTrashed();
     }
@@ -86,28 +78,28 @@ class School extends Model
     /**
      * Mutators and accessors
      */
-    protected function abbreviation() : Attribute
+    protected function abbreviation(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtoupper($value));
             }
         );
     }
 
-    protected function name() : Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(ucfirst(strtolower($value)));
             }
         );
     }
 
-    protected function color() : Attribute
+    protected function color(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtolower($value));
             }
         );

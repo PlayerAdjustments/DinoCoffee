@@ -13,8 +13,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        //Role::factory(3)->create();
-
         Role::factory()->create([
             'abbreviation' => 'DEV',
             'name' => 'Developer',

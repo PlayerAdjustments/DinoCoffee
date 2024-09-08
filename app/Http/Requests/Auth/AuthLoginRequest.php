@@ -32,7 +32,8 @@ class AuthLoginRequest extends FormRequest
                 'nullable'
             ],
             'remember' => [
-                'required','boolean'
+                'required',
+                'boolean'
             ]
         ];
     }

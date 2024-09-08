@@ -31,14 +31,8 @@ class Subject extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'slug';        
+        return 'slug';
     }
-
-    /**
-     * Primary key
-     * @var string
-     */
-    //protected $primaryKey = 'abbreviation';
 
     /**
      * For soft delete
@@ -67,30 +61,27 @@ class Subject extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Mutators and accessors
      */
-    protected function slug() : Attribute
+    protected function slug(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return Str::slug($value);
             }
         );
     }
 
-    protected function name() : Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim($value);
             }
         );
     }
-
 }

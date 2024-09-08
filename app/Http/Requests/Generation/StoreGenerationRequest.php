@@ -45,7 +45,7 @@ class StoreGenerationRequest extends FormRequest
         $end_date = Carbon::parse($this->end_date);
 
         $this->merge([
-            'code' => $start_date->year. '-' .$end_date->year,
+            'code' => $start_date->year . '-' . $end_date->year,
         ]);
     }
 
@@ -57,7 +57,7 @@ class StoreGenerationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code.unique' => 'The code value '.$this->code.' has already been taken.',
+            'code.unique' => 'The code value ' . $this->code . ' has already been taken.',
         ];
     }
 }

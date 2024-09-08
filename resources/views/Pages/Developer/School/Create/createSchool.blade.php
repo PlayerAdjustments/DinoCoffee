@@ -47,37 +47,31 @@
                                 </div>
                             </div>
                             <div class="grid gap-5 sm:grid-cols-2 sm:gap-6 mt-4">
-                                
+
                             </div>
-                            
+
                             {{-- Schoolbadge color --}}
                             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                                 <div>
                                     <label for="color"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color del icono</label>
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color del
+                                        icono</label>
                                     <select id="color" onchange="onColorChanged()" name="color"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         <option>Select color</option>
-                                        <option value="purple"
-                                            @if (old('color') == 'purple') {{ 'selected' }} @endif>
+                                        <option value="purple" @if (old('color') == 'purple') {{ 'selected' }} @endif>
                                             Morado</option>
-                                        <option value="blue"
-                                            @if (old('color') == 'blue') {{ 'selected' }} @endif>
+                                        <option value="blue" @if (old('color') == 'blue') {{ 'selected' }} @endif>
                                             Azul</option>
-                                        <option value="red"
-                                            @if (old('color') == 'red') {{ 'selected' }} @endif>
+                                        <option value="red" @if (old('color') == 'red') {{ 'selected' }} @endif>
                                             Rojo</option>
-                                        <option value="amber"
-                                            @if (old('color') == 'amber') {{ 'selected' }} @endif>
+                                        <option value="amber" @if (old('color') == 'amber') {{ 'selected' }} @endif>
                                             Ámbar</option>
-                                        <option value="yellow"
-                                            @if (old('color') == 'yellow') {{ 'selected' }} @endif>
+                                        <option value="yellow" @if (old('color') == 'yellow') {{ 'selected' }} @endif>
                                             Amarillo</option>
-                                        <option value="lime"
-                                            @if (old('color') == 'lime') {{ 'selected' }} @endif>
+                                        <option value="lime" @if (old('color') == 'lime') {{ 'selected' }} @endif>
                                             Lima</option>
-                                        <option value="violet"
-                                            @if (old('color') == 'violet') {{ 'selected' }} @endif>
+                                        <option value="violet" @if (old('color') == 'violet') {{ 'selected' }} @endif>
                                             Violeta</option>
                                         <option value="rose"
                                             @if (old('color') == 'rose') {{ 'selected' }} @endif>
@@ -116,9 +110,11 @@
                                 </div>
                                 <div class="py-4 px-4">
                                     <div class="h-full content-center items-center">
-                                        <label for="preview" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preview</label>
-                                        @foreach (['purple','blue','red','amber','yellow','lime','violet','teal','rose','green','fuchsia','sky','pink','emerald','cyan','orange','indigo','slate','gray'] as $color)
-                                            <a disabled class="hidden" name="preview-{{$color}}" id="preview-{{$color}}">
+                                        <label for="preview"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preview</label>
+                                        @foreach (['purple', 'blue', 'red', 'amber', 'yellow', 'lime', 'violet', 'teal', 'rose', 'green', 'fuchsia', 'sky', 'pink', 'emerald', 'cyan', 'orange', 'indigo', 'slate', 'gray'] as $color)
+                                            <a disabled class="hidden" name="preview-{{ $color }}"
+                                                id="preview-{{ $color }}">
                                                 <x-badges.schoolbadge :type="'TXT'" :color="$color" />
                                             </a>
                                         @endforeach
@@ -153,11 +149,14 @@
                                 <div>
                                     <label for="director_matricula"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Matricula</label>
-                                    <select id="director_matricula" name="director_matricula" onchange="onCandidateChanged()" readonly
+                                    <select id="director_matricula" name="director_matricula"
+                                        onchange="onCandidateChanged()" readonly
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         <option selected>Select principal</option>
                                         @foreach ($candidates as $c)
-                                            <option value="{{$c->matricula}}" @if (old('director_matricula') == '{{$c->matricula}}') {{ 'selected' }} @endif>({{$c->matricula}}) - {{$c->fullName}}</option>
+                                            <option value="{{ $c->matricula }}"
+                                                @if (old('director_matricula') == '{{ $c->matricula }}') {{ 'selected' }} @endif>
+                                                ({{ $c->matricula }}) - {{ $c->fullName }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -223,28 +222,27 @@
             color = document.getElementById('color').value;
             let xPreviews = document.querySelectorAll('[id^="preview-"]');
             xPreviews.forEach(element => {
-                if(element.name == "preview-"+color){
+                if (element.name == "preview-" + color) {
                     element.classList.remove('hidden');
-                }else{
+                } else {
                     element.classList.add('hidden');
                 }
             });
         }
 
-        function onCandidateChanged(){
+        function onCandidateChanged() {
             candidate = document.getElementById('director_matricula').value;
             emailInput = document.getElementById('email');
 
             @json($candidates).forEach(element => {
-                if(element['matricula'] == candidate){
+                if (element['matricula'] == candidate) {
                     emailInput.value = element['email']
                 }
             });
 
-            if(candidate == 'Select principal'){
+            if (candidate == 'Select principal') {
                 emailInput.value = null;
             }
         }
-
     </script>
 @endsection

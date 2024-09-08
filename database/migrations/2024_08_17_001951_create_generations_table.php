@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('generations', function (Blueprint $table) {
             $table->id();
-            $table->string('code',9)->unique();
+            $table->string('code', 9)->unique();
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
 
             /**
              * Foreign keys, timestamps and softdeletes.

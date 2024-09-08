@@ -54,7 +54,7 @@ class UpdateCareerCodeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'joined.unique' => 'The joined value '.$this->joined.' has already been taken.',
+            'joined.unique' => 'The joined value ' . $this->joined . ' has already been taken.',
         ];
     }
 }

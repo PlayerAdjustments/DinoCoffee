@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Enums\ActionMethods;
 use App\Enums\ControllerNames;
 use App\Enums\NotificationMethods;
@@ -13,14 +14,14 @@ abstract class Controller
 
     /**
      * Generate a popup message based on the provided enum and entity name.
-     * @param ControllerNames $ControllerName
-     * @param ActionMethods $Method
-     * @param string $NotificationItem
+     * @param ControllerNames $controllerName
+     * @param ActionMethods $method
+     * @param string $actionItem
      * @return string
      */
-    public function ActionMessages(ControllerNames $ControllerName,$NotificationItem, ActionMethods $Method) : string
+    public function actionMessages(ControllerNames $controllerName, $actionItem, ActionMethods $method): string
     {
-        return $ControllerName->value.$NotificationItem.$Method->value;
+        return $controllerName->value . $actionItem . $method->value;
     }
 
     /**
@@ -30,14 +31,14 @@ abstract class Controller
      * @param string $NotificationItem
      * @return string
      */
-    public function NotifyDevelopers(ControllerNames $ControllerName, $NotificationItem, NotificationMethods $Method) : void 
+    public function NotifyDevelopers(ControllerNames $controllerName, $notificationItem, NotificationMethods $method): void
     {
         foreach (User::whereIn('role', ['DEV'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => $Method->getSubject($ControllerName, $NotificationItem),
-                'body' => $Method->getBody(),
-                'icon' => $Method->getIcon(),
+                'subject' => $method->getSubject($controllerName, $notificationItem),
+                'body' => $method->getBody(),
+                'icon' => $method->getIcon(),
                 'created_by' => Auth::user()->matricula
             ]);
         }

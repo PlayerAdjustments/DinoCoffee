@@ -139,7 +139,7 @@
                                                 {{ $c->name }}
                                             </div>
                                             <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                                {{$c->schoolObj->name}}</div>
+                                                {{ $c->schoolObj->name }}</div>
                                         </div>
                                     </td>
                                     {{-- Coordinador info --}}

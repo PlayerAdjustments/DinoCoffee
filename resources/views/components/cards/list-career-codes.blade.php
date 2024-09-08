@@ -12,7 +12,7 @@
     {{-- Main list --}}
     <div
         class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($codes as $c)
                 <li class="py-3 sm:py-4">
                     <a class="flex items-center" disabled>

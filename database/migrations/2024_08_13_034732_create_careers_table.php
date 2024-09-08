@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
-            $table->string('abbreviation',3)->unique();
-            $table->string('name',255)->index();
+            $table->string('abbreviation', 3)->unique();
+            $table->string('name', 255)->index();
             $table->string('school_abbreviation', 3)->index();
             $table->string('coordinador_matricula', 25)->index();
             $table->tinyInteger('semester_duration')->index();
-            $table->string('color',25);
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('color', 25);
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
 
             /**
              * Foreign keys, timestamps and softdeletes.

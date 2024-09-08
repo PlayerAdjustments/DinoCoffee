@@ -30,7 +30,7 @@ class StoreCareerCodeRequest extends FormRequest
     {
         return [
             'joined' => 'required|unique:career_codes,joined|string|max:255',
-            'career_abbreviation' => ['required', Rule::exists('careers','abbreviation')->where('deleted_at', null)],
+            'career_abbreviation' => ['required', Rule::exists('careers', 'abbreviation')->where('deleted_at', null)],
             'code' => 'required|integer|min:0|max:100000',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula'
@@ -55,7 +55,7 @@ class StoreCareerCodeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'joined.unique' => 'The joined value '.$this->joined.' has already been taken.',
+            'joined.unique' => 'The joined value ' . $this->joined . ' has already been taken.',
         ];
     }
 }

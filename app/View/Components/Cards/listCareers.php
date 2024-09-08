@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class listCareers extends Component
+class ListCareers extends Component
 {
     public $school;
     public $careers;

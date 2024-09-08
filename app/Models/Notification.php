@@ -39,9 +39,7 @@ class Notification extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * Get the attributes that should be cast.
@@ -50,35 +48,6 @@ class Notification extends Model
      */
     protected function casts(): array
     {
-        return [
-            
-        ];
+        return [];
     }
-
-    // protected function subject() : Attribute
-    // {
-    //     return Attribute::make(
-    //         set:function($value){
-    //             return trim(ucwords(strtolower($value)));
-    //         }
-    //     );
-    // }
-
-    // protected function body() : Attribute
-    // {
-    //     return Attribute::make(
-    //         set:function($value){
-    //             return trim(ucwords(strtolower($value)));
-    //         }
-    //     );
-    // }
-
-    // protected function icon() : Attribute
-    // {
-    //     return Attribute::make(
-    //         set:function($value){
-    //             return trim(ucwords(strtolower($value)));
-    //         }
-    //     );
-    // }
 }

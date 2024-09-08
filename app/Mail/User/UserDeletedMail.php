@@ -30,7 +30,7 @@ class UserDeletedMail extends Mailable
     {
         return new Envelope(
             from: new Address('DinoCodeAdvisor@gmail.com', 'DinoBackend'),
-            subject: 'Usuario Eliminado ['.$this->user->matricula.'] - ('.now().')',
+            subject: 'Usuario Eliminado [' . $this->user->matricula . '] - (' . now() . ')',
         );
     }
 

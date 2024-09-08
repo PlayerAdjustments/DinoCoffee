@@ -19,7 +19,7 @@
                         </h5>
                     </div>
                     <div class="flow-root">
-                        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                             <li class="py-3 sm:py-4">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
@@ -251,7 +251,7 @@
                         </h5>
                     </div>
                     <div class="flow-root">
-                        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                             <li class="py-3 sm:py-4">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">

@@ -9,10 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Generation\StoreGenerationRequest;
 use App\Http\Requests\Generation\UpdateGenerationRequest;
 use App\Models\Generation;
-use App\Models\Notification;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class GenerationController extends Controller
 {
@@ -30,7 +27,9 @@ class GenerationController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenGenerationDeactivated') && $request->input('hiddenGenerationDeactivated') == 1) $generations->onlyTrashed();
+        if ($request->has('hiddenGenerationDeactivated') && $request->input('hiddenGenerationDeactivated') == 1) {
+            $generations->onlyTrashed();
+        }
 
         $generations = $generations->orderBy('id')->paginate(
             $request->has('perpage') ? $request->input('perpage') : 10,
@@ -52,7 +51,7 @@ class GenerationController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.generations.index')->with('Success', $this->ActionMessages(ControllerNames::Generation, $request->validated('code'), ActionMethods::Stored));
+        return redirect()->route('developer.generations.index')->with('Success', $this->actionMessages(ControllerNames::Generation, $request->validated('code'), ActionMethods::Stored));
     }
 
 
@@ -65,7 +64,7 @@ class GenerationController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Updated);
 
-        return redirect()->route('developer.generations.index', $generation)->with('Success', $this->ActionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Updated));
+        return redirect()->route('developer.generations.index', $generation)->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Updated));
     }
 
     /**
@@ -77,7 +76,7 @@ class GenerationController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.generations.index')->with('Success', $this->ActionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Destroyed));
+        return redirect()->route('developer.generations.index')->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Destroyed));
     }
 
     /**
@@ -89,6 +88,6 @@ class GenerationController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Restored);
 
-        return redirect()->route('developer.generations.index')->with('Success', $this->ActionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Restored));
+        return redirect()->route('developer.generations.index')->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Restored));
     }
 }

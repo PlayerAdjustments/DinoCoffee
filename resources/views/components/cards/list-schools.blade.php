@@ -6,7 +6,7 @@
             <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Actualmente dirige:</h5>
         </div>
         <div class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
-            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach ($schools as $s)
                     <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <a class="flex items-center" href="{{ route('developer.schools.show', $s) }}">

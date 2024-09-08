@@ -37,11 +37,20 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
+        $sexFilters = [
+            'hiddenSexMale' => 'M',
+            'hiddenSexFemale' => 'F'
+        ];
 
-        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
+        foreach ($sexFilters as $key => $sex) {
+            if ($request->has($key) && $request->input($key) == 1) {
+                $users->where('sex', $sex);
+            }
+        }
 
-        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) $users->onlyTrashed();
+        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
+            $users->onlyTrashed();
+        }
 
         $users = $users->orderBy('id')->paginate(
             $request->has('perpage') ? $request->input('perpage') : 10,
@@ -68,19 +77,40 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenSexMale') && $request->input('hiddenSexMale') == 1) $users->where('sex', 'M');
-        if ($request->has('hiddenSexFemale') && $request->input('hiddenSexFemale') == 1) $users->where('sex', 'F');
-        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) $users->onlyTrashed();
+        $sexFilters = [
+            'hiddenSexMale' => 'M',
+            'hiddenSexFemale' => 'F'
+        ];
+
+        foreach ($sexFilters as $key => $sex) {
+            if ($request->has($key) && $request->input($key) == 1) {
+                $users->where('sex', $sex);
+            }
+        }
+
+        if ($request->has('hiddenUserDeactivated') && $request->input('hiddenUserDeactivated') == 1) {
+            $users->onlyTrashed();
+        }
 
         $searchRoles = [];
 
-        if ($request->has('hiddenRoleDeveloper') && $request->input('hiddenRoleDeveloper') == 1) array_push($searchRoles, 'DEV');
-        if ($request->has('hiddenRoleAdministrativo') && $request->input('hiddenRoleAdministrativo') == 1) array_push($searchRoles, 'ADM');
-        if ($request->has('hiddenRoleDirector') && $request->input('hiddenRoleDirector') == 1) array_push($searchRoles, 'DIR');
-        if ($request->has('hiddenRoleCoordinador') && $request->input('hiddenRoleCoordinador') == 1) array_push($searchRoles, 'COO');
-        if ($request->has('hiddenRoleDocente') && $request->input('hiddenRoleDocente') == 1) array_push($searchRoles, 'DOC');
+        $roles = [
+            'hiddenRoleDeveloper' => 'DEV',
+            'hiddenRoleAdministrativo' => 'ADM',
+            'hiddenRoleDirector' => 'DIR',
+            'hiddenRoleCoordinador' => 'COO',
+            'hiddenRoleDocente' => 'DOC',
+        ];
 
-        if (!empty($searchRoles)) $users->whereIn('role', $searchRoles);
+        foreach ($roles as $key => $role) {
+            if ($request->has($key) && $request->input($key) == 1) {
+                $searchRoles[] = $role;
+            }
+        }
+
+        if (!empty($searchRoles)) {
+            $users->whereIn('role', $searchRoles);
+        }
 
         $users = $users->orderBy('id')->paginate(
             $request->has('perpage') ? $request->input('perpage') : 10,
@@ -113,9 +143,14 @@ class UserController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        if ($request->validated('role') == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
-
-        if (in_array($request->validated('role'), ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
+        switch ($request->validated('role') == 'ALU') {
+            case 'ALU':
+                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
+                break;
+            default:
+                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
+                break;
+        }
     }
 
     public function createStudent()
@@ -150,7 +185,7 @@ class UserController extends Controller
         $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Updated);
 
 
-        return redirect()->route('developer.users.show', $user)->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Updated));
+        return redirect()->route('developer.users.show', $user)->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Updated));
     }
 
     public function editUser(User $user)
@@ -166,8 +201,14 @@ class UserController extends Controller
 
         $user->delete();
 
-        if ($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
-        if (in_array($user->role, ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
+        switch ($user->role) {
+            case 'ALU':
+                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
+                break;
+            default:
+                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
+                break;
+        }
     }
 
     public function restoreUser(User $user)
@@ -186,7 +227,13 @@ class UserController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Restored);
 
-        if ($user->role == 'ALU') return redirect()->route('developer.users.listStudents')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
-        if (in_array($user->role, ['DEV', 'ADM', 'DIR', 'COO', 'DOC'])) return redirect()->route('developer.users.listEmployees')->with('Success', $this->ActionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
+        switch ($user->role) {
+            case 'ALU':
+                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
+                break;
+            default:
+                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
+                break;
+        }
     }
 }

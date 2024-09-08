@@ -45,7 +45,7 @@ class UpdateGenerationRequest extends FormRequest
         $end_date = Carbon::parse($this->end_date);
 
         $this->merge([
-            'code' => $start_date->year. '-' .$end_date->year,
+            'code' => $start_date->year . '-' . $end_date->year,
         ]);
     }
 

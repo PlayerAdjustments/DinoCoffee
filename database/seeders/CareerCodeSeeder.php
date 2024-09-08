@@ -19,13 +19,13 @@ class CareerCodeSeeder extends Seeder
             'IAM' => [35],
             'IBM' => [33],
             'IIL' => [32],
-            'IEP' => [48,285] 
+            'IEP' => [48, 285]
         ];
         /**Engineering CareerCode */
-        foreach($career_codes as $career_abbreviation => $codes){
-            foreach ($codes as $code){
+        foreach ($career_codes as $career_abbreviation => $codes) {
+            foreach ($codes as $code) {
                 CareerCode::factory()->create([
-                    'joined' => $career_abbreviation.'-'.$code,
+                    'joined' => $career_abbreviation . '-' . $code,
                     'career_abbreviation' => $career_abbreviation,
                     'code' => $code,
                     'created_by' => '00'
@@ -33,7 +33,9 @@ class CareerCodeSeeder extends Seeder
             }
         }
 
-        /**Random CareerCodes */
+        /**
+         * Random CareerCodes 
+         */
         CareerCode::factory(30)->create();
     }
 }

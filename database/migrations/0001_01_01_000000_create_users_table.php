@@ -16,19 +16,19 @@ return new class extends Migration
             /**
              * Custom data
              */
-            $table->string('matricula',25)->unique();
+            $table->string('matricula', 25)->unique();
             $table->string('name')->index();
             $table->string('first_lastname')->index();
             $table->string('second_lastname')->index();
-            $table->string('role',3)->index();
+            $table->string('role', 3)->index();
             $table->foreign('role')->references('abbreviation')->on('roles')->cascadeOnUpdate()->cascadeOnDelete();
             $table->char('sex')->index();
-            $table->string('phone_number',15)->unique();
+            $table->string('phone_number', 15)->unique();
             $table->date('birthday')->index();
-            $table->string('cedula_profesional',8)->nullable()->index();
+            $table->string('cedula_profesional', 8)->nullable()->index();
             $table->string('avatar')->default('Monki.jpg');
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
             /**
              * Default values
              */

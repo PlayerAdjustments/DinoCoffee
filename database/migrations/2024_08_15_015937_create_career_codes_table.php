@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('career_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('joined',255)->unique();
-            $table->string('career_abbreviation',3)->index();
+            $table->string('joined', 255)->unique();
+            $table->string('career_abbreviation', 3)->index();
             $table->integer('code')->index();
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
 
             /**
              * Multicolumn unique constraints.
              */
-            $table->unique(['career_abbreviation','code']);
+            $table->unique(['career_abbreviation', 'code']);
 
             /**
              * Foreign keys, timestamps and softdeletes.

@@ -23,7 +23,7 @@ class Career extends Model
      * Load relationship functions
      * @var array 
      */
-    protected $with = ['coordinadorObj','schoolObj'];
+    protected $with = ['coordinadorObj', 'schoolObj'];
 
     /**
      * For using routeModelBinding
@@ -31,7 +31,7 @@ class Career extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'abbreviation';        
+        return 'abbreviation';
     }
 
     /**
@@ -65,20 +65,18 @@ class Career extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Db relations
      */
-    public function coordinadorObj() : HasOne
+    public function coordinadorObj(): HasOne
     {
         return $this->hasOne(User::class, 'matricula', 'coordinador_matricula')->withTrashed();
     }
 
-    public function schoolObj() : HasOne
+    public function schoolObj(): HasOne
     {
         return $this->hasOne(School::class, 'abbreviation', 'school_abbreviation')->withTrashed();
     }
@@ -86,28 +84,28 @@ class Career extends Model
     /**
      * Mutators and accessors
      */
-    protected function abbreviation() : Attribute
+    protected function abbreviation(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtoupper($value));
             }
         );
     }
 
-    protected function name() : Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(ucfirst(strtolower($value)));
             }
         );
     }
 
-    protected function color() : Attribute
+    protected function color(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtolower($value));
             }
         );

@@ -9,14 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CareerCode\StoreCareerCodeRequest;
 use App\Http\Requests\CareerCode\UpdateCareerCodeRequest;
 use App\Models\CareerCode;
-use App\Models\Notification;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CareerCodeController extends Controller
 {
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -29,7 +25,7 @@ class CareerCodeController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.careers.show', $request->validated('career_abbreviation'))->with('Success', $this->ActionMessages(ControllerNames::CareerCode, $request->validated('joined'), ActionMethods::Stored));
+        return redirect()->route('developer.careers.show', $request->validated('career_abbreviation'))->with('Success', $this->actionMessages(ControllerNames::CareerCode, $request->validated('joined'), ActionMethods::Stored));
     }
 
     /**
@@ -41,8 +37,7 @@ class CareerCodeController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Updated);
 
-        return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->ActionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Updated));
-
+        return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Updated));
     }
 
     /**
@@ -50,12 +45,12 @@ class CareerCodeController extends Controller
      */
     public function destroy(CareerCode $careercode)
     {
-        
+
         $careercode->delete();
 
         $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.careers.show',$careercode->career_abbreviation)->with('Success',$this->ActionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Destroyed));
+        return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Destroyed));
     }
 
     /**
@@ -67,6 +62,6 @@ class CareerCodeController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Restored);
 
-        return redirect()->route('developer.careers.show',$careercode->career_abbreviation)->with('Success', $this->ActionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Restored));
+        return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Restored));
     }
 }

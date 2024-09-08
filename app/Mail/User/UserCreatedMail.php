@@ -30,7 +30,7 @@ class UserCreatedMail extends Mailable
     {
         return new Envelope(
             from: new Address('DinoCodeAdvisor@gmail.com', 'DinoBackend'),
-            subject: 'Usuario Registrado ['.$this->user->matricula.'] - ('.now().')',
+            subject: 'Usuario Registrado [' . $this->user->matricula . '] - (' . now() . ')',
         );
     }
 

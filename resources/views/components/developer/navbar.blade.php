@@ -96,7 +96,7 @@
                 id="notification-dropdown">
                 <div
                     class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
-                    ({{$notifications->count()}}/{{$total_notifications}}) Notifications
+                    ({{$notifications->count()}}/{{$totalNotifications}}) Notifications
                 </div>
                 <div>
                     @foreach ($notifications as $n)

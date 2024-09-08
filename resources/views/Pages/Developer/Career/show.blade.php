@@ -14,7 +14,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información de contacto</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
@@ -218,7 +218,7 @@
                     <span class="text-sm text-gray-500 dark:text-gray-400 text-center">
                         {{ $career->schoolObj->name }}</span>
                     {{-- Showing school tag -> career tag --}}
-                        <div class="mt-4 text-gray-800 inline-flex dark:text-white">
+                    <div class="mt-4 text-gray-800 inline-flex dark:text-white">
                         <a href="{{ route('developer.schools.show', $career->schoolObj->abbreviation) }}"
                             class="inline-flex hover:scale-110">
                             <x-badges.schoolbadge :type="$career->schoolObj->abbreviation" :color="$career->schoolObj->color" />
@@ -247,7 +247,7 @@
                     </h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <a class="flex items-center"
                                 href="{{ route('developer.users.show', $career->coordinadorObj->matricula) }}">
@@ -315,7 +315,7 @@
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
-        <x-cards.list-career-codes :career="$career->abbreviation"/>
+        <x-cards.list-career-codes :career="$career->abbreviation" />
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('name', 150)->unique();
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
 
             /**
              * Foreign keys, timestamps and softdeletes.

@@ -12,7 +12,7 @@ class Navbar extends Component
 {
     public $user;
     public $notifications;
-    public $total_notifications;
+    public $totalNotifications;
     /**
      * Create a new component instance.
      */
@@ -20,7 +20,7 @@ class Navbar extends Component
     {
         $this->user = Auth::user();
         $this->notifications = Notification::where('user_matricula',Auth::user()->matricula)->limit(3)->orderBy('created_at','desc')->get(['id','subject','body','created_at','icon','deleted_at']);
-        $this->total_notifications = Notification::where('user_matricula', Auth::user()->matricula)->count();
+        $this->totalNotifications = Notification::where('user_matricula', Auth::user()->matricula)->count();
     }
 
     /**

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('subject', 80);
             $table->tinyText('body');
             $table->tinyText('icon');
-            $table->string('created_by',25)->nullable();
-            $table->string('updated_by',25)->nullable();
+            $table->string('created_by', 25)->nullable();
+            $table->string('updated_by', 25)->nullable();
 
             /**
              * Foreign keys, timestamps and softdeletes.

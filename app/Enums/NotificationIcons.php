@@ -25,27 +25,25 @@ enum NotificationIcons: string
 
   /**
    * Get the asset URL for the enum case.
-   * 
    * @return string
-   */ 
+   */
   public function getAsset(): string
   {
     $mainPath = 'storage/Notification_Icons/';
-    $birthdayPath = $mainPath.'Birthday/';
+    $birthdayPath = $mainPath . 'Birthday/';
 
-    return match ($this)
-    {
-      self::RexxiCheer => asset($mainPath.'Rexxi_cheer.gif'),
-      self::SeriConfused => asset($mainPath.'Seri_Confused.png'),
-      self::SeriGlasses => asset($mainPath.'Seri_Glasses.png'),
-      self::SeriReading => asset($mainPath.'Seri_Reading.png'),
+    return match ($this) {
+      self::RexxiCheer => asset($mainPath . 'Rexxi_cheer.gif'),
+      self::SeriConfused => asset($mainPath . 'Seri_Confused.png'),
+      self::SeriGlasses => asset($mainPath . 'Seri_Glasses.png'),
+      self::SeriReading => asset($mainPath . 'Seri_Reading.png'),
 
-      self::CelebrateBrontiA => asset($birthdayPath.'Celebrate_Bronti.gif'),
-      self::CelebrateBrontiB => asset($birthdayPath.'Celebrate_Bronti.png'),
-      self::CelebrateRexxi => asset($birthdayPath.'Celebrate_Rexxi.png'),
-      self::CelebrateSeri => asset($birthdayPath.'Celebrate_Seri.png'),
-      self::CelebrateSteggi => asset($birthdayPath.'Celebrate_Steggi.png'),
-      self::CelebrateTeri => asset($birthdayPath.'Celebrate_Teri.png'),
+      self::CelebrateBrontiA => asset($birthdayPath . 'Celebrate_Bronti.gif'),
+      self::CelebrateBrontiB => asset($birthdayPath . 'Celebrate_Bronti.png'),
+      self::CelebrateRexxi => asset($birthdayPath . 'Celebrate_Rexxi.png'),
+      self::CelebrateSeri => asset($birthdayPath . 'Celebrate_Seri.png'),
+      self::CelebrateSteggi => asset($birthdayPath . 'Celebrate_Steggi.png'),
+      self::CelebrateTeri => asset($birthdayPath . 'Celebrate_Teri.png'),
     };
   }
 }

@@ -9,7 +9,7 @@
     </div>
     <div
         class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($notifications as $n)
                 <a href="{{ route('notification.delete', $n) }}"
                     class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-700  dark:border-gray-600">

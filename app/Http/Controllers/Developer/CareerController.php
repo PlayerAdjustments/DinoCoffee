@@ -10,17 +10,12 @@ use App\Http\Requests\Career\StoreCareerRequest;
 use App\Http\Requests\Career\UpdateCareerRequest;
 use App\Models\Career;
 use App\Models\CareerCode;
-use App\Models\Notification;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CareerController extends Controller
 {
-    //Notification message item on '$NotificationItem'.$code. was (created|updated|deleted|restored|etc.)
-    public $NotificactionItem = 'Career ';
-
     /**
      * Display a listing of the resource.
      */
@@ -38,7 +33,9 @@ class CareerController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenCareerDeactivated') && $request->input('hiddenCareerDeactivated') == 1) $careers->onlyTrashed();
+        if ($request->has('hiddenCareerDeactivated') && $request->input('hiddenCareerDeactivated') == 1) {
+            $careers->onlyTrashed();
+        }
 
         $careers = $careers->orderBy('school_abbreviation')->paginate(
             $request->has('perpage') ? $request->input('perpage') : 10,
@@ -70,7 +67,7 @@ class CareerController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.careers.index')->with('Success', $this->ActionMessages(ControllerNames::Career, $request->validated('abbreviation'), ActionMethods::Stored));
+        return redirect()->route('developer.careers.index')->with('Success', $this->actionMessages(ControllerNames::Career, $request->validated('abbreviation'), ActionMethods::Stored));
     }
 
     /**
@@ -111,7 +108,7 @@ class CareerController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Updated);
 
-        return redirect()->route('developer.careers.show', $career)->with('Success', $this->ActionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Updated));
+        return redirect()->route('developer.careers.show', $career)->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Updated));
     }
 
     /**
@@ -123,7 +120,7 @@ class CareerController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.careers.index')->with('Success', $this->ActionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Destroyed));
+        return redirect()->route('developer.careers.index')->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Destroyed));
     }
 
     /**
@@ -135,6 +132,6 @@ class CareerController extends Controller
 
         $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Restored);
 
-        return redirect()->route('developer.careers.index')->with('Success', $this->ActionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Restored));
+        return redirect()->route('developer.careers.index')->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Restored));
     }
 }

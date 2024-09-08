@@ -1,3 +1,38 @@
+const safelistColors = [
+    "purple",
+    "teal",
+    "blue",
+    "red",
+    "amber",
+    "yellow",
+    "lime",
+    "violet",
+    "rose",
+    "green",
+    "fuchsia",
+    "sky",
+    "pink",
+    "emerald",
+    "cyan",
+    "orange",
+    "indigo",
+    "slate",
+    "gray",
+];
+const safelistShades = [
+    "50",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "950",
+];
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -9,7 +44,6 @@ export default {
     theme: {
         extend: {
             colors: {
-
                 primary: {
                     50: "#F0FDFB",
                     100: "#CCFBF3",
@@ -88,18 +122,19 @@ export default {
         require("flowbite/plugin")({
             charts: true,
         }),
-        require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' }),
+        require("tailwind-scrollbar")({
+            nocompatible: true,
+            preferredStrategy: "pseudoelements",
+        }),
     ],
     safelist: [
         "animate-slide_in",
         {
-            pattern:
-                /bg-(purple|teal|blue|red|amber|yellow|lime|violet|rose|green|fuchsia|sky|pink|emerald|cyan|orange|indigo|slate|gray)-(50|100|200|300|400|500|600|700|800|900|950)/,
-            variants: ["dark"],
-        },
-        {
-            pattern:
-                /text-(purple|teal|blue|red|amber|yellow|lime|violet|rose|green|fuchsia|sky|pink|emerald|cyan|orange|indigo|slate|gray)-(100|200|300|400|500|600|700|800|900|950)/,
+            pattern: new RegExp(
+                `^(bg|text)-(${safelistColors.join(
+                    "|"
+                )})-(${safelistShades.join("|")})$`
+            ),
             variants: ["dark"],
         },
     ],

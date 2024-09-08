@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
-class recentUserCount extends Component
+class RecentUserCount extends Component
 {
 
     public $totalUsersThisYear;
@@ -32,7 +32,11 @@ class recentUserCount extends Component
 
         $this->totalUsersThisYear = User::withTrashed()->whereYear('created_at', date('Y'))->count();
         $this->totalUsersLastYear = User::withTrashed()->whereYear('created_at', date('Y')-1)->count();
-        if($this->totalUsersLastYear <= 0) $this->totalUsersLastYear = 1;
+
+        if($this->totalUsersLastYear <= 0){
+            $this->totalUsersLastYear = 1;
+        } 
+        
         $this->performancePercentage = ($this->totalUsersThisYear/$this->totalUsersLastYear)*100;
     }
 

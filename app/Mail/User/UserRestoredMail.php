@@ -30,7 +30,7 @@ class UserRestoredMail extends Mailable
     {
         return new Envelope(
             from: new Address('DinoCodeAdvisor@gmail.com', 'DinoBackend'),
-            subject: 'Usuario Reactivado ['.$this->user->matricula.'] - ('.now().')',
+            subject: 'Usuario Reactivado [' . $this->user->matricula . '] - (' . now() . ')',
         );
     }
 

@@ -25,7 +25,7 @@ class CareerCode extends Model
      */
     public function getRouteKeyName(): string
     {
-        return 'joined';        
+        return 'joined';
     }
 
     /**
@@ -62,15 +62,13 @@ class CareerCode extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Db relations
      */
-    public function careerObj() : HasOne
+    public function careerObj(): HasOne
     {
         return $this->hasOne(Career::class, 'abbreviation', 'career_abbreviation')->withTrashed();
     }
@@ -78,13 +76,12 @@ class CareerCode extends Model
     /**
      * Mutators and accessors
      */
-    protected function joined() : Attribute
+    protected function joined(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim($value);
             }
         );
     }
-
 }

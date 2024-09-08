@@ -4,7 +4,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
         {{-- School information --}}
         <div>
-            <x-cards.card-template> 
+            <x-cards.card-template>
                 <div class="flex items-center mb-4">
                     <svg class="w-8 h-8 text-gray-800 dark:text-white mr-4" aria-hidden="true" width="32" height="32"
                         fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -14,7 +14,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información de la escuela</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
@@ -105,8 +105,7 @@
         </div>
         {{-- Main school card --}}
         <div>
-            <div
-                class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex justify-end px-4 pt-4">
                     <button id="dropdownButton" data-dropdown-toggle="dropdown-editSchool"
                         class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
@@ -254,7 +253,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información del director</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <a class="flex items-center"
                                 href="{{ route('developer.users.show', $school->directorObj->matricula) }}">
@@ -322,7 +321,7 @@
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
-            <x-cards.list-careers :school="$school->abbreviation" />
+        <x-cards.list-careers :school="$school->abbreviation" />
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +27,7 @@ class User extends Authenticatable
      * @var array 
      */
     protected $with = ['roleObj'];
-    
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -43,7 +41,7 @@ class User extends Authenticatable
      */
     public function getRouteKeyName(): string
     {
-        return 'matricula';        
+        return 'matricula';
     }
 
     /**
@@ -104,10 +102,10 @@ class User extends Authenticatable
      * Db relations
      * All relations will follow the name syntax of {columnName}Obj
      */
-    public function roleObj() : HasOne
+    public function roleObj(): HasOne
     {
         //hasOne(Model::class, ColumnSearchingBy, ColumnNameOnThisTable)
-        return $this->hasOne(Role::class, 'abbreviation','role')->withTrashed();
+        return $this->hasOne(Role::class, 'abbreviation', 'role')->withTrashed();
     }
 
     /**
@@ -116,7 +114,7 @@ class User extends Authenticatable
      */
     public function scopeOfFullname(Builder $query, string $fullName): void
     {
-        $query->where(DB::raw("CONCAT(`name`, ' ', `first_lastname`, ' ', `second_lastname`)"), 'like', '%'.$fullName . '%');
+        $query->where(DB::raw("CONCAT(`name`, ' ', `first_lastname`, ' ', `second_lastname`)"), 'like', '%' . $fullName . '%');
     }
 
     /**
@@ -125,59 +123,59 @@ class User extends Authenticatable
     protected function matricula(): Attribute
     {
         return new Attribute(
-            set: function($value){
+            set: function ($value) {
                 return trim($value);
             }
         );
     }
 
-    protected function fullName(): Attribute 
+    protected function fullName(): Attribute
     {
         return new Attribute(
-            get:fn() => $this->name.' '.$this->first_lastname.' '.$this->second_lastname
+            get: fn() => $this->name . ' ' . $this->first_lastname . ' ' . $this->second_lastname
         );
     }
 
-    protected function name() : Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(ucwords(strtolower($value)));
             }
         );
     }
 
-    protected function firstLastname() : Attribute
+    protected function firstLastname(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(ucwords(strtolower($value)));
             }
         );
     }
 
-    protected function secondLastname() : Attribute
+    protected function secondLastname(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(ucwords(strtolower($value)));
             }
         );
     }
 
-    protected function role() : Attribute
+    protected function role(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtoupper($value));
             }
         );
     }
 
-    protected function sex() : Attribute
+    protected function sex(): Attribute
     {
         return Attribute::make(
-            set:function($value){
+            set: function ($value) {
                 return trim(strtoupper($value));
             }
         );
@@ -186,19 +184,20 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: function($value){
+            set: function ($value) {
                 return Hash::make($value);
             }
         );
     }
 
-    protected function avatar(): Attribute{
+    protected function avatar(): Attribute
+    {
         return Attribute::make(
-            set: function(){
+            set: function () {
                 /**
                  * Assigns a random avatar to a user.
                  */
-                $randomAvatar = fake()->randomElement([
+                return fake()->randomElement([
                     'Parasauri.jpg',
                     'Bronti.jpg',
                     'Seri.jpg',
@@ -215,7 +214,6 @@ class User extends Authenticatable
                     'Piggi.jpg',
                     'Monki.jpg'
                 ]);
-                return $randomAvatar;
             }
         );
     }

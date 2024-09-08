@@ -165,7 +165,8 @@
                                         @foreach ($candidates as $c)
                                             <option value="{{ $c->matricula }}"
                                                 @if (old('director_matricula') == '{{ $c->matricula }}') {{ 'selected' }} @endif>
-                                                ({{ $c->matricula }}) - {{ $c->fullName }}</option>
+                                                ({{ $c->matricula }})
+                                                - {{ $c->fullName }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -221,21 +222,19 @@
 
     <script>
         colorSelect = document.getElementById('color');
-        if (@json(old('color')) != null){
+        if (@json(old('color')) != null) {
             colorSelect.value = @json(old('color'));
+        } else {
+            colorSelect.value = @json($school->color);
         }
-        else{
-            colorSelect.value =  @json($school->color);
-        }
-        
-        onColorChanged();
-        candidateSelect = document.getElementById('director_matricula');      
 
-        if (@json(old('director_matricula')) != null){
+        onColorChanged();
+        candidateSelect = document.getElementById('director_matricula');
+
+        if (@json(old('director_matricula')) != null) {
             candidateSelect.value = @json(old('director_matricula'));
-        }
-        else{
-            candidateSelect.value =  @json($school->director_matricula);
+        } else {
+            candidateSelect.value = @json($school->director_matricula);
         }
 
         onCandidateChanged();
