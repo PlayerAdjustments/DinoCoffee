@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudyPlan\StoreStudyPlanRequest;
+use App\Models\CareerCode;
 use App\Models\Notification;
 use App\Models\StudyPlan;
 use App\Models\User;
@@ -22,9 +24,16 @@ class StudyPlanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreStudyPlanRequest $request)
     {
-        //
+        StudyPlan::create($request->validated());
+        $career_abbreviation = CareerCode::where('joined', $request->validated('career_code'))->pluck('career_abbreviation')->first();
+        
+        /**
+         * Include the $this->notifyDevelopers() function and replace the with sucess message.
+         */
+
+        return redirect()->route('developer.careers.show', $career_abbreviation)->with('Success', 'StudyPlan ' . $request->validated('code') . ' has been created.');
     }
 
     /**
@@ -58,17 +67,17 @@ class StudyPlanController extends Controller
     {
         $studyPlan->delete();
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han desactivado un plan de estudios ('.$studyPlan->code.')!',
+                'subject' => '¡Han desactivado un plan de estudios (' . $studyPlan->code . ')!',
                 'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
                 'icon' => 'Seri_Confused.png',
                 'created_by' => Auth::user()->matricula
             ]);
         }
 
-        return redirect()->route('developer.careers.show', $studyPlan->careerCode->career_abbreviation)->with('Success','Study plan '.$studyPlan->code.' has been deleted.');
+        return redirect()->route('developer.careers.show', $studyPlan->careerCode->career_abbreviation)->with('Success', 'Study plan ' . $studyPlan->code . ' has been deleted.');
     }
 
     /**
@@ -78,17 +87,16 @@ class StudyPlanController extends Controller
     {
         $studyPlan->restore();
 
-        foreach(User::whereIn('role', ['DEV','ADM'])->pluck('matricula') as $m){
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han restaurado un plan de estudios ('.$studyPlan->code.')!',
+                'subject' => '¡Han restaurado un plan de estudios (' . $studyPlan->code . ')!',
                 'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
                 'icon' => 'Seri_Reading.png',
                 'created_by' => Auth::user()->matricula
             ]);
         }
 
-        return redirect()->route('developer.careers.show',$studyPlan->careerCode->career_abbreviation)->with('Success', 'Study Plan '.$studyPlan->code.' has been restored');
-
+        return redirect()->route('developer.careers.show', $studyPlan->careerCode->career_abbreviation)->with('Success', 'Study Plan ' . $studyPlan->code . ' has been restored');
     }
 }

@@ -31,9 +31,8 @@ class StoreStudyPlanRequest extends FormRequest
         return [
             'slug' => 'required|unique:subjects,slug|max:250|string',
             'code' => 'required|string|max:75|unique:study_plans,code',
-            'career_code' => ['required',Rule::exists('career_codes', 'joined')->where('deleted_at', null)],
-            'unique_code_careercode' => ['required', Rule::unique('study_plans')->where('code', $this->code)->where('career_code',$this->career_code)],
-            'passing_grade' => 'required|decimal:5,2|max:100',
+            'career_code' => ['required',Rule::exists('career_codes', 'joined')->where('deleted_at', null), Rule::unique('study_plans')->where('code', $this->code)->where('career_code',$this->career_code)],
+            'passing_grade' => 'required|min:50|decimal:0,2|max:100',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula',
         ];
@@ -45,8 +44,7 @@ class StoreStudyPlanRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => Str::slug($this->code),
-            'unique_code_careercode' => "x"
+            'slug' => Str::slug(str_replace('/','-year-',$this->code)),
         ]);
     }
 
@@ -58,7 +56,7 @@ class StoreStudyPlanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'unique_code_careercode.unique' => 'The combination value of ' . $this->code . 'and' . $this->career_code . ' has already been taken.',
+            'career_code.unique' => 'The combination value of ' . $this->code . ' and ' . $this->career_code . ' has already been taken.',
         ];
     }
 }

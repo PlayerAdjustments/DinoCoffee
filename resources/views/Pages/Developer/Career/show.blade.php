@@ -14,7 +14,7 @@
                     <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Información de contacto</h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
@@ -247,7 +247,7 @@
                     </h5>
                 </div>
                 <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <a class="flex items-center"
                                 href="{{ route('developer.users.show', $career->coordinadorObj->matricula) }}">
@@ -336,7 +336,7 @@
             <div
                 class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
                 {{-- Listing StudyPlans --}}
-                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach ($career->careerCodes as $cc)
                         @foreach ($cc->studyPlans as $sp)
                             <li class="py-3 sm:py-4">
@@ -348,7 +348,7 @@
                                                 {{ $sp->code }}
                                             </p>
                                             <p class="text-sm text-red-500 truncate dark:text-red-300">
-                                                {{ $sp->career_code }} ({{ $sp->semester_duration }} Semestres)
+                                                {{ $sp->career_code }} ({{ $career->semester_duration }} Semestres)
                                             </p>
                                         </div>
                                     @else
@@ -357,7 +357,7 @@
                                                 {{ $sp->code }}
                                             </p>
                                             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                {{ $sp->career_code }} ({{ $sp->semester_duration }} Semestres)
+                                                {{ $sp->career_code }} ({{ $career->semester_duration }} Semestres)
                                             </p>
                                         </div>
                                     @endif
@@ -441,6 +441,127 @@
             </div>
 
         </x-cards.card-template>
+
+        {{-- Create StudyPlan Modal --}}
+        <div id="studyPlan-create-modal" tabindex="-1" aria-hidden="true"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                {{-- Modal content --}}
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    {{-- Header --}}
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            Crear plan de estudio
+                        </h3>
+                        <button data-modal-toggle="studyPlan-create-modal" type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <form class="p-4 md:p-5" action="{{ route('developer.studyplans.store') }}" method="POST">
+                        @csrf
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+                            {{-- Autofill Studyplan code --}}
+                            <div class="col-span-2">
+                                <label for="create_studyplan_code"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Código <span class="text-xs">(autofill)</span>
+                                </label>
+                                <input type="text" name="code" id="create_studyplan_code"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="RVOE no. xxxx/202x">
+                            </div>
+                            {{-- Studyplan Key --}}
+                            <div class="col-span-1">
+                                <label for="create_studyplan_key"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Clave
+                                </label>
+                                <input type="text" name="key" id="create_studyplan_key"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="2126" pattern="[A-Za-z0-9]*">
+                            </div>
+                            {{-- Studyplan Year --}}
+                            <div class="col-span-1">
+                                <label for="create_studyplan_year"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Año
+                                </label>
+                                <input type="number" min="2000" max="2099" name="year"
+                                    id="create_studyplan_year"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="2024">
+                            </div>
+                            {{-- Studyplan careercode --}}
+                            <div class="col-span-1">
+                                <label for="create_studyplan_careercode"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Código carrera
+                                </label>
+                                <select id="create_studyplan_careercode" name="career_code" readonly
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option selected disabled>Select career code</option>
+                                    @foreach ($career->careerCodes as $cc)
+                                        <option value="{{ $cc->joined }}"
+                                            @if (old('career_code') == '{{ $cc->joined }}') {{ 'selected' }} @endif>
+                                            {{ $cc->joined }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            {{-- Studyplan passing grade --}}
+                            <div class="col-span-1">
+                                <label for="create_studyplan_year"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Mínimo aprobatorio
+                                </label>
+                                <input type="number" min="50" max="100" name="passing_grade" value="60.00"
+                                    id="create_studyplan_passing_grade"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="2024">
+                            </div>
+                            {{-- Created_by and Updated_by fields --}}
+                            <div class="hidden col-span-1">
+                                <label for="create_studyplan_created_by"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Created_by
+                                </label>
+                                <input readonly type="text" name="created_by" value="{{Auth::user()->matricula}}"
+                                    id="create_studyplan_created_by"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="15221669">
+                            </div>
+                            <div class="hidden col-span-1">
+                                <label for="create_studyplan_updated_by"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Updated_by
+                                </label>
+                                <input readonly type="text" name="updated_by" value="{{Auth::user()->matricula}}"
+                                    id="create_studyplan_updated_by"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    required="" placeholder="15221669">
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Crear plan de estudio
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">
@@ -552,5 +673,19 @@
             $successmatriculaTooltipMessage.classList.add('hidden');
             $matriculaClipboardTooltip.classList.add('hidden');
         }
+
+        // Study Plan
+        $createStudyPlanCode = document.getElementById('create_studyplan_code');
+        $createStudyPlanKey = document.getElementById('create_studyplan_key');
+        $createStudyPlanYear = document.getElementById('create_studyplan_year');
+
+        function updateStudyPlanCode() {
+            const keyValue = $createStudyPlanKey.value || '';
+            const yearValue = $createStudyPlanYear.value || '';
+            $createStudyPlanCode.value = `RVOE no. ${keyValue}/${yearValue}`;
+        }
+
+        $createStudyPlanKey.addEventListener('input', updateStudyPlanCode);
+        $createStudyPlanYear.addEventListener('input', updateStudyPlanCode);
     </script>
 @endsection

@@ -22,22 +22,22 @@ class CareerController extends Controller
     {
         $careers = Career::query();
 
-        if($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
             $careers->whereAny([
                 'abbreviation',
                 'name',
                 'coordinador_matricula',
                 'school_abbreviation'
-            ], 'like', $input.'%');
+            ], 'like', $input . '%');
         }
 
         if ($request->has('hiddenCareerDeactivated') && $request->input('hiddenCareerDeactivated') == 1) $careers->onlyTrashed();
 
         $careers = $careers->orderBy('school_abbreviation')->paginate(
-            $request->has('perpage') ? $request->input('perpage') : 10, 
-            ['abbreviation','name','coordinador_matricula','school_abbreviation','color','deleted_at']
-            )->withQueryString();
+            $request->has('perpage') ? $request->input('perpage') : 10,
+            ['abbreviation', 'name', 'coordinador_matricula', 'school_abbreviation', 'color', 'deleted_at']
+        )->withQueryString();
 
         return view('Pages.Developer.Career.list', compact('careers'));
     }
@@ -47,9 +47,9 @@ class CareerController extends Controller
      */
     public function create()
     {
-        $schools = School::query()->get(['abbreviation','name','director_matricula']);
+        $schools = School::query()->get(['abbreviation', 'name', 'director_matricula']);
         $candidates = User::whereIn('role', ['COO'])->get();
-        return view('Pages.Developer.Career.Create', compact('candidates','schools'));
+        return view('Pages.Developer.Career.Create', compact('candidates', 'schools'));
     }
 
     /**
@@ -63,22 +63,22 @@ class CareerController extends Controller
          * Send email and create notification for the user.
          */
         // Mail::to(env('MAIL_FROM_ADDRESS'))->send(new UserCreatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han creado una carrera! ('.$request->validated('abbreviation').')',
+                'subject' => '¡Han creado una carrera! (' . $request->validated('abbreviation') . ')',
                 'body' => 'Recuerda configurar todos los detalles.',
                 'icon' => 'Rexxi_cheer.gif',
                 'created_by' => Auth::user()->matricula
             ]);
         }
-        
+
 
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.careers.index')->with('Success', 'Career '.$request->validated('abbreviation').' has been created.');
+        return redirect()->route('developer.careers.index')->with('Success', 'Career ' . $request->validated('abbreviation') . ' has been created.');
     }
 
     /**
@@ -87,9 +87,9 @@ class CareerController extends Controller
     public function show(Career $career)
     {
         $career_codesObj = $career->careerCodes;
-        $study_plans = $career->studyPlans;         
+        $study_plans = $career->studyPlans;
 
-        return view('Pages.Developer.Career.show', compact('career','career_codesObj','study_plans'));
+        return view('Pages.Developer.Career.show', compact('career', 'career_codesObj', 'study_plans'));
     }
 
     /**
@@ -97,10 +97,10 @@ class CareerController extends Controller
      */
     public function edit(Career $career)
     {
-        $schools = School::query()->get(['abbreviation','name','director_matricula']);
+        $schools = School::query()->get(['abbreviation', 'name', 'director_matricula']);
         $candidates = User::whereIn('role', ['COO'])->get();
 
-        return view('Pages.Developer.Career.edit', compact('career','candidates','schools'));
+        return view('Pages.Developer.Career.edit', compact('career', 'candidates', 'schools'));
     }
 
     /**
@@ -113,24 +113,24 @@ class CareerController extends Controller
         /**
          * Update career_codes joined value.
          */
-        $career_codes = CareerCode::where('career_abbreviation',$career->abbreviation)->withTrashed()->get();
-        foreach($career_codes as $code){
-            CareerCode::where('joined',$code->joined)->update(['joined' => $code->career_abbreviation.'-'.$code->code]);
+        $career_codes = CareerCode::where('career_abbreviation', $career->abbreviation)->withTrashed()->get();
+        foreach ($career_codes as $code) {
+            CareerCode::where('joined', $code->joined)->update(['joined' => $code->career_abbreviation . '-' . $code->code]);
         }
 
         // Mail::to($request->validated('email'))->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserUpdatedMail(User::where('matricula',$request->validated('matricula'))->firstOrFail(), $request->validated('password')));
-        
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han actualizado una carrera ('.$career->abbreviation.')!',
+                'subject' => '¡Han actualizado una carrera (' . $career->abbreviation . ')!',
                 'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
                 'icon' => 'Seri_Glasses.png',
                 'created_by' => Auth::user()->matricula
             ]);
         }
 
-        return redirect()->route('developer.careers.show', $career)->with('Success', 'Career '.$career->abbreviation.' was updated.');
+        return redirect()->route('developer.careers.show', $career)->with('Success', 'Career ' . $career->abbreviation . ' was updated.');
     }
 
     /**
@@ -139,20 +139,20 @@ class CareerController extends Controller
     public function destroy(Career $career)
     {
         // Mail::to($school->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new schoolDeletedMail(school::where('matricula',$school->matricula)->firstOrFail()));
-        
+
         $career->delete();
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han desactivado una carrera ('.$career->abbreviation.')!',
+                'subject' => '¡Han desactivado una carrera (' . $career->abbreviation . ')!',
                 'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
                 'icon' => 'Seri_Confused.png',
                 'created_by' => Auth::user()->matricula
             ]);
         }
 
-        return redirect()->route('developer.careers.index')->with('Success','Career '.$career->abbreviation.' has been deleted.');
+        return redirect()->route('developer.careers.index')->with('Success', 'Career ' . $career->abbreviation . ' has been deleted.');
     }
 
     /**
@@ -164,16 +164,16 @@ class CareerController extends Controller
 
         // Mail::to($career->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new careerRestoredMail(career::where('matricula',$career->matricula)->firstOrFail(), null));
 
-        foreach(User::whereIn('role',['DEV','ADM'])->pluck('matricula') as $m){
+        foreach (User::whereIn('role', ['DEV', 'ADM'])->pluck('matricula') as $m) {
             Notification::create([
                 'user_matricula' => $m,
-                'subject' => '¡Han restaurado una careera ('.$career->abbreviation.')!',
+                'subject' => '¡Han restaurado una careera (' . $career->abbreviation . ')!',
                 'body' => 'Corroboren la información, antes de realizar cualquier cambio.',
                 'icon' => 'Seri_Glasses.png',
                 'created_by' => Auth::user()->matricula
             ]);
         }
 
-        return redirect()->route('developer.careers.index')->with('Success', 'Career '.$career->abbreviation.' has been restored');
+        return redirect()->route('developer.careers.index')->with('Success', 'Career ' . $career->abbreviation . ' has been restored');
     }
 }

@@ -38,11 +38,12 @@
                                     <select id="school_abbreviation" name="school_abbreviation" onchange="onSchoolChanged()"
                                         readonly
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option selected>Select school</option>
+                                        <option selected disabled>Select school</option>
                                         @foreach ($schools as $s)
                                             <option value="{{ $s->abbreviation }}"
                                                 @if (old('school_abbreviation') == '{{ $s->abbreviation }}') {{ 'selected' }} @endif>
-                                                ({{ $s->abbreviation }}) - {{ $s->name }}</option>
+                                                ({{ $s->abbreviation }})
+                                                - {{ $s->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -101,11 +102,12 @@
                                     <select id="coordinador_matricula" name="coordinador_matricula"
                                         onchange="onCandidateChanged()" readonly
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option selected>Select coordinador</option>
+                                        <option selected disabled>Select coordinador</option>
                                         @foreach ($candidates as $c)
                                             <option value="{{ $c->matricula }}"
                                                 @if (old('coordinador_matricula') == '{{ $c->matricula }}') {{ 'selected' }} @endif>
-                                                ({{ $c->matricula }}) - {{ $c->fullName }}</option>
+                                                ({{ $c->matricula }})
+                                                - {{ $c->fullName }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -172,7 +174,8 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación</label>
                                     <input type="text" name="abbreviation" id="abbreviation" maxlength="3"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="DTS" required="" @if (old('abbreviation') != null) value="{{ old('abbreviation') }}"
+                                        placeholder="DTS" required=""
+                                        @if (old('abbreviation') != null) value="{{ old('abbreviation') }}"
                                         @else
                                             value="{{ $career->abbreviation }}" @endif>
                                 </div>
@@ -180,10 +183,13 @@
                             <div class="grid gap-4 grid-cols-5 sm:gap-6 mt-4">
                                 <div class="col-span-2">
                                     <label for="semester_duration"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duración (Semestres)</label>
-                                    <input type="number" min="2" max="12" step="2" inputmode="numeric" name="semester_duration" id="semester_duration"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duración
+                                        (Semestres)</label>
+                                    <input type="number" min="2" max="12" step="2"
+                                        inputmode="numeric" name="semester_duration" id="semester_duration"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="8 (4 años)" required="" @if (old('semester_duration') != null) value="{{ old('semester_duration') }}"
+                                        placeholder="8 (4 años)" required=""
+                                        @if (old('semester_duration') != null) value="{{ old('semester_duration') }}"
                                         @else
                                             value="{{ $career->semester_duration }}" @endif>
                                 </div>
@@ -300,17 +306,19 @@
     </section>
 
     <script>
-
         schoolSelect = document.getElementById('school_abbreviation');
 
         //Condition ? If True : If false --> also known as ternary operators (It's a one line if else)
-        @json(old('school_abbreviation')) != null ? schoolSelect.value = @json(old('school_abbreviation')) : schoolSelect.value = @json($career->school_abbreviation);
+        @json(old('school_abbreviation')) != null ? schoolSelect.value = @json(old('school_abbreviation')) : schoolSelect.value =
+            @json($career->school_abbreviation);
 
         coordinadorSelect = document.getElementById('coordinador_matricula');
-        @json(old('coordinador_matricula')) != null ? coordinadorSelect.value = @json(old('coordinador_matricula')) : coordinadorSelect.value = @json($career->coordinador_matricula);
+        @json(old('coordinador_matricula')) != null ? coordinadorSelect.value = @json(old('coordinador_matricula')) : coordinadorSelect
+            .value = @json($career->coordinador_matricula);
 
         colorSelect = document.getElementById('color');
-        @json(old('color')) != null ?  colorSelect.value = @json(old('color')) : colorSelect.value =  @json($career->color);
+        @json(old('color')) != null ? colorSelect.value = @json(old('color')) : colorSelect.value =
+            @json($career->color);
 
         onSchoolChanged()
         onColorChanged()
