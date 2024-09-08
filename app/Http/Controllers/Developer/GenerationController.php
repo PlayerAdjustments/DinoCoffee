@@ -46,7 +46,7 @@ class GenerationController extends Controller
     {
         Generation::create($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::Generation, $request->validated('code'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::Generation, $request->validated('code'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
@@ -62,7 +62,7 @@ class GenerationController extends Controller
     {
         $generation->update($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Updated);
 
         return redirect()->route('developer.generations.index', $generation)->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Updated));
     }
@@ -74,7 +74,7 @@ class GenerationController extends Controller
     {
         $generation->delete();
 
-        $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Destroyed);
 
         return redirect()->route('developer.generations.index')->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Destroyed));
     }
@@ -86,7 +86,7 @@ class GenerationController extends Controller
     {
         $generation->restore();
 
-        $this->NotifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::Generation, $generation->code, NotificationMethods::Restored);
 
         return redirect()->route('developer.generations.index')->with('Success', $this->actionMessages(ControllerNames::Generation, $generation->code, ActionMethods::Restored));
     }

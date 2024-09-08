@@ -31,7 +31,7 @@ abstract class Controller
      * @param string $NotificationItem
      * @return string
      */
-    public function NotifyDevelopers(ControllerNames $controllerName, $notificationItem, NotificationMethods $method): void
+    public function notifyDevelopers(ControllerNames $controllerName, $notificationItem, NotificationMethods $method): void
     {
         foreach (User::whereIn('role', ['DEV'])->pluck('matricula') as $m) {
             Notification::create([

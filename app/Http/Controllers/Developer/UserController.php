@@ -21,6 +21,27 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    private $sexFilters = [
+        'hiddenSexMale' => 'M',
+        'hiddenSexFemale' => 'F'
+    ];
+
+    private $employeeRolesFilter = [
+        'hiddenRoleDeveloper' => 'DEV',
+        'hiddenRoleAdministrativo' => 'ADM',
+        'hiddenRoleDirector' => 'DIR',
+        'hiddenRoleCoordinador' => 'COO',
+        'hiddenRoleDocente' => 'DOC',
+    ];
+
+    private $employeeRoles = [
+        'DEV',
+        'ADM',
+        'DIR',
+        'COO',
+        'DOC'
+    ];
+
     public function listStudents(Request $request)
     {
         $users = User::query()->where('role', '=', 'ALU');
@@ -37,12 +58,9 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        $sexFilters = [
-            'hiddenSexMale' => 'M',
-            'hiddenSexFemale' => 'F'
-        ];
 
-        foreach ($sexFilters as $key => $sex) {
+
+        foreach ($this->sexFilters as $key => $sex) {
             if ($request->has($key) && $request->input($key) == 1) {
                 $users->where('sex', $sex);
             }
@@ -77,12 +95,7 @@ class UserController extends Controller
             ], 'like', $input . '%');
         }
 
-        $sexFilters = [
-            'hiddenSexMale' => 'M',
-            'hiddenSexFemale' => 'F'
-        ];
-
-        foreach ($sexFilters as $key => $sex) {
+        foreach ($this->sexFilters as $key => $sex) {
             if ($request->has($key) && $request->input($key) == 1) {
                 $users->where('sex', $sex);
             }
@@ -94,15 +107,7 @@ class UserController extends Controller
 
         $searchRoles = [];
 
-        $roles = [
-            'hiddenRoleDeveloper' => 'DEV',
-            'hiddenRoleAdministrativo' => 'ADM',
-            'hiddenRoleDirector' => 'DIR',
-            'hiddenRoleCoordinador' => 'COO',
-            'hiddenRoleDocente' => 'DOC',
-        ];
-
-        foreach ($roles as $key => $role) {
+        foreach ($this->employeeRolesFilter as $key => $role) {
             if ($request->has($key) && $request->input($key) == 1) {
                 $searchRoles[] = $role;
             }
@@ -138,18 +143,19 @@ class UserController extends Controller
             'created_by' => Auth::user()->matricula
         ]);
 
-        $this->NotifyDevelopers(ControllerNames::User, $request->validated('matricula'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::User, $request->validated('matricula'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
          */
-        switch ($request->validated('role') == 'ALU') {
-            case 'ALU':
-                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
-                break;
-            default:
-                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
-                break;
+        $userRole = $request->validated('role');
+
+        if ($userRole == 'ALU') {
+            return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
+        }
+
+        if (in_array($userRole, $this->employeeRoles)) {
+            return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $request->validated('matricula'), ActionMethods::Stored));
         }
     }
 
@@ -182,7 +188,7 @@ class UserController extends Controller
             'created_by' => Auth::user()->matricula
         ]);
 
-        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Updated);
 
 
         return redirect()->route('developer.users.show', $user)->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Updated));
@@ -197,17 +203,18 @@ class UserController extends Controller
     {
         Mail::to($user->email)->bcc(env('MAIL_FROM_ADDRESS'))->send(new UserDeletedMail(User::where('matricula', $user->matricula)->firstOrFail()));
 
-        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Destroyed);
 
         $user->delete();
 
-        switch ($user->role) {
-            case 'ALU':
-                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
-                break;
-            default:
-                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
-                break;
+        $userRole = $user->role;
+
+        if ($userRole == 'ALU') {
+            return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
+        }
+
+        if (in_array($userRole, $this->employeeRoles)) {
+            return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Destroyed));
         }
     }
 
@@ -225,15 +232,16 @@ class UserController extends Controller
             'created_by' => Auth::user()->matricula
         ]);
 
-        $this->NotifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::User, $user->matricula, NotificationMethods::Restored);
 
-        switch ($user->role) {
-            case 'ALU':
-                return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
-                break;
-            default:
-                return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
-                break;
+        $userRole = $user->role;
+
+        if ($userRole == 'ALU') {
+            return redirect()->route('developer.users.listStudents')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
+        }
+
+        if (in_array($userRole, $this->employeeRoles)) {
+            return redirect()->route('developer.users.listEmployees')->with('Success', $this->actionMessages(ControllerNames::User, $user->matricula, ActionMethods::Restored));
         }
     }
 }

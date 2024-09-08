@@ -21,7 +21,7 @@ class Subject extends Model
 
     /**
      * Load relationship functions
-     * @var array 
+     * @var array
      */
     protected $with = [];
 

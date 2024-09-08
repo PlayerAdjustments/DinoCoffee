@@ -20,7 +20,7 @@ class CareerCodeController extends Controller
     {
         CareerCode::create($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::CareerCode, $request->validated('joined'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::CareerCode, $request->validated('joined'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
@@ -35,7 +35,7 @@ class CareerCodeController extends Controller
     {
         $careercode->update($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Updated);
 
         return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Updated));
     }
@@ -48,7 +48,7 @@ class CareerCodeController extends Controller
 
         $careercode->delete();
 
-        $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Destroyed);
 
         return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Destroyed));
     }
@@ -60,7 +60,7 @@ class CareerCodeController extends Controller
     {
         $careercode->restore();
 
-        $this->NotifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::CareerCode, $careercode->joined, NotificationMethods::Restored);
 
         return redirect()->route('developer.careers.show', $careercode->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::CareerCode, $careercode->joined, ActionMethods::Restored));
     }

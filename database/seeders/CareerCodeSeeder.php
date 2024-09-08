@@ -34,7 +34,7 @@ class CareerCodeSeeder extends Seeder
         }
 
         /**
-         * Random CareerCodes 
+         * Random CareerCodes
          */
         CareerCode::factory(30)->create();
     }

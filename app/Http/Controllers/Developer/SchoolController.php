@@ -58,7 +58,7 @@ class SchoolController extends Controller
     {
         School::create($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::School, $request->validated('abbreviation'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::School, $request->validated('abbreviation'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
@@ -91,7 +91,7 @@ class SchoolController extends Controller
     {
         $school->update($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Updated);
 
         return redirect()->route('developer.schools.show', $school)->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Updated));
     }
@@ -103,7 +103,7 @@ class SchoolController extends Controller
     {
         $school->delete();
 
-        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Destroyed);
 
         return redirect()->route('developer.schools.index')->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Destroyed));
     }
@@ -115,7 +115,7 @@ class SchoolController extends Controller
     {
         $school->restore();
 
-        $this->NotifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::School, $school->abbreviation, NotificationMethods::Restored);
 
         return redirect()->route('developer.schools.index')->with('Success', $this->actionMessages(ControllerNames::School, $school->abbreviation, ActionMethods::Restored));
     }

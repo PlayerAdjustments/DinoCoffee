@@ -24,7 +24,7 @@ class User extends Authenticatable
 
     /**
      * Load relationship functions
-     * @var array 
+     * @var array
      */
     protected $with = ['roleObj'];
 

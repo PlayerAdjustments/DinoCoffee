@@ -304,7 +304,7 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
                 <span class="sr-only">Open user menu</span>
                 <img class="w-8 h-8 rounded-full" src="{{ asset('storage/avatars/' . $user->avatar) }}"
-                    alt="user photo" />
+                    alt="user avatar" />
             </button>
             <!-- Dropdown menu -->
             <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"

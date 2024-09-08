@@ -62,7 +62,7 @@ class CareerController extends Controller
     {
         Career::create($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::Career, $request->validate('abbreviation'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::Career, $request->validate('abbreviation'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
@@ -106,7 +106,7 @@ class CareerController extends Controller
             CareerCode::where('joined', $code->joined)->update(['joined' => $code->career_abbreviation . '-' . $code->code]);
         }
 
-        $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Updated);
 
         return redirect()->route('developer.careers.show', $career)->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Updated));
     }
@@ -118,7 +118,7 @@ class CareerController extends Controller
     {
         $career->delete();
 
-        $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Destroyed);
 
         return redirect()->route('developer.careers.index')->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Destroyed));
     }
@@ -130,7 +130,7 @@ class CareerController extends Controller
     {
         $career->restore();
 
-        $this->NotifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::Career, $career->abbreviation, NotificationMethods::Restored);
 
         return redirect()->route('developer.careers.index')->with('Success', $this->actionMessages(ControllerNames::Career, $career->abbreviation, ActionMethods::Restored));
     }

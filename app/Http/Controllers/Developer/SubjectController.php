@@ -46,7 +46,7 @@ class SubjectController extends Controller
     {
         Subject::create($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::Subject, $request->validated('name'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::Subject, $request->validated('name'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page
@@ -61,7 +61,7 @@ class SubjectController extends Controller
     {
         $subject->update($request->validated());
 
-        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Updated);
+        $this->notifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Updated);
 
         return redirect()->route('developer.subjects.index', $subject)->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Updated));
     }
@@ -73,7 +73,7 @@ class SubjectController extends Controller
     {
         $subject->delete();
 
-        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Destroyed);
 
         return redirect()->route('developer.subjects.index')->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Destroyed));
     }
@@ -85,7 +85,7 @@ class SubjectController extends Controller
     {
         $subject->restore();
 
-        $this->NotifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Restored);
+        $this->notifyDevelopers(ControllerNames::Subject, $subject->name, NotificationMethods::Restored);
 
         return redirect()->route('developer.subjects.index')->with('Success', $this->actionMessages(ControllerNames::Subject, $subject->name, ActionMethods::Restored));
     }

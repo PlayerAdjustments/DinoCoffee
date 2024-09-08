@@ -21,7 +21,7 @@ class Career extends Model
 
     /**
      * Load relationship functions
-     * @var array 
+     * @var array
      */
     protected $with = ['coordinadorObj', 'schoolObj'];
 

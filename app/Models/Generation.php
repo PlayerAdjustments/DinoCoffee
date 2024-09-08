@@ -20,7 +20,7 @@ class Generation extends Model
 
     /**
      * Load relationship functions
-     * @var array 
+     * @var array
      */
     protected $with = [];
 

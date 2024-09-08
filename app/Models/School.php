@@ -22,7 +22,7 @@ class School extends Model
 
     /**
      * Load relationship functions
-     * @var array 
+     * @var array
      */
     protected $with = ['directorObj'];
 

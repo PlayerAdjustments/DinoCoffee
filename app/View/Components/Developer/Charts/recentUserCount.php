@@ -17,7 +17,7 @@ class RecentUserCount extends Component
     public $performancePercentage;
     public $usersRegisteredThisYear = [];
     public $usersRegisteredLastYear = [];
-    
+
     /**
      * Create a new component instance.
      */
@@ -25,19 +25,19 @@ class RecentUserCount extends Component
     {
         /**Inneficient method of getting data for each month, since it requires going through all the monts each the component is generated. */
         $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-        foreach($months as $m){
+        foreach ($months as $m) {
             array_push($this->usersRegisteredThisYear, User::withTrashed()->whereMonth('created_at', $m)->whereYear('created_at', date('Y'))->count());
-            array_push($this->usersRegisteredLastYear, User::withTrashed()->whereMonth('created_at', $m)->whereYear('created_at', date('Y')-1)->count());
+            array_push($this->usersRegisteredLastYear, User::withTrashed()->whereMonth('created_at', $m)->whereYear('created_at', date('Y') - 1)->count());
         }
 
         $this->totalUsersThisYear = User::withTrashed()->whereYear('created_at', date('Y'))->count();
-        $this->totalUsersLastYear = User::withTrashed()->whereYear('created_at', date('Y')-1)->count();
+        $this->totalUsersLastYear = User::withTrashed()->whereYear('created_at', date('Y') - 1)->count();
 
-        if($this->totalUsersLastYear <= 0){
+        if ($this->totalUsersLastYear <= 0) {
             $this->totalUsersLastYear = 1;
-        } 
-        
-        $this->performancePercentage = ($this->totalUsersThisYear/$this->totalUsersLastYear)*100;
+        }
+
+        $this->performancePercentage = ($this->totalUsersThisYear / $this->totalUsersLastYear) * 100;
     }
 
     /**
