@@ -185,7 +185,7 @@
                                             Rol (Cédula Profesional)
                                         </p>
                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            {{ $user->roleObj->name }}
+                                            {{ $user->roleDetails->name }}
                                             <span class="text-xs">
                                                 ( {{ $user->cedula_profesional }} )
                                             </span>
@@ -204,7 +204,7 @@
                                             Rol
                                         </p>
                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            {{ $user->roleObj->name }}
+                                            {{ $user->roleDetails->name }}
                                         </p>
                                     </div>
                                 </div>

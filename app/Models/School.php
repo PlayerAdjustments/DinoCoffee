@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,7 +25,7 @@ class School extends Model
      * Load relationship functions
      * @var array
      */
-    protected $with = ['directorObj'];
+    protected $with = [];
 
     /**
      * For using routeModelBinding
@@ -70,9 +71,17 @@ class School extends Model
     /**
      * Db relations
      */
-    public function directorObj(): HasOne
+
+    // Connecting Models the right way
+
+    public function principal(): BelongsTo
     {
-        return $this->hasOne(User::class, 'matricula', 'director_matricula')->withTrashed();
+        return $this->belongsTo(User::class, 'director_matricula', 'matricula')->withTrashed();
+    }
+
+    public function careers(): HasMany
+    {
+        return $this->hasMany(Career::class, 'school_abbreviation', 'abbreviation');
     }
 
     /**

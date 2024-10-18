@@ -73,6 +73,12 @@ class CareerCode extends Model
         return $this->hasOne(Career::class, 'abbreviation', 'career_abbreviation')->withTrashed();
     }
 
+    // Connecting models the right way
+    public function career()
+    {
+        return $this->belongsTo(Career::class, 'career_abbreviation', 'abbreviation')->withTrashed();
+    }
+
     /**
      * Mutators and accessors
      */

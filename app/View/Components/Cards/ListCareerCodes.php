@@ -5,6 +5,7 @@ namespace App\View\Components\Cards;
 use App\Models\CareerCode;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class ListCareerCodes extends Component
@@ -13,9 +14,9 @@ class ListCareerCodes extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($career)
+    public function __construct(Collection $codes)
     {
-        $this->codes = CareerCode::where('career_abbreviation',$career)->withTrashed()->get(['id','joined','career_abbreviation','code','deleted_at']);
+        $this->codes = $codes;
     }
 
     /**

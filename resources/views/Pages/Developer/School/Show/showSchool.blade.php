@@ -154,6 +154,7 @@
                 </div>
                 <div class="flex flex-col items-center pb-10">
                     <div class="w-24 h-24 mb-3 text-{{ $school->color }}-800 dark:text-{{ $school->color }}-300">
+                        {{-- TODO: We must change this to a new system, so we let the user select the logo for their school --}}
                         @switch($school->abbreviation)
                             @case('ING')
                                 <svg class="w-full h-full me-1.5" aria-hidden="true" fill="currentColor"
@@ -256,16 +257,16 @@
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <a class="flex items-center"
-                                href="{{ route('developer.users.show', $school->directorObj->matricula) }}">
+                                href="{{ route('developer.users.show', $school->principal->matricula) }}">
                                 <div class="flex-shrink-0">
-                                    <x-badges.rolebadge :role="$school->directorObj->role" />
+                                    <x-badges.rolebadge :role="$school->principal->role" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-2 w-full">
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                         Nombre completo
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $school->directorObj->fullname }}
+                                        {{ $school->principal->fullname }}
                                     </p>
                                 </div>
                             </a>
@@ -306,10 +307,10 @@
                                         Matricula
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $school->directorObj->matricula }}
+                                        {{ $school->principal->matricula }}
                                     </p>
                                     <input id="user_matricula_paragraph" type="text"
-                                        value="{{ $school->directorObj->matricula }}" class="hidden" readonly>
+                                        value="{{ $school->principal->matricula }}" class="hidden" readonly>
                                 </div>
                             </div>
                         </li>
@@ -321,7 +322,7 @@
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
-        <x-cards.list-careers :school="$school->abbreviation" />
+        <x-cards.list-careers :careers="$school->careers" />
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">
