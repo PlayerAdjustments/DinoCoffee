@@ -32,7 +32,7 @@ class CareerCode extends Model
      * Load relationship functions
      * @var array
      */
-    protected $with = ['careerObj'];
+    protected $with = [];
 
     /**
      * For soft delete
@@ -68,9 +68,11 @@ class CareerCode extends Model
     /**
      * Db relations
      */
-    public function careerObj(): HasOne
+
+    // Connecting models the right way
+    public function career()
     {
-        return $this->hasOne(Career::class, 'abbreviation', 'career_abbreviation')->withTrashed();
+        return $this->belongsTo(Career::class, 'career_abbreviation', 'abbreviation')->withTrashed();
     }
 
     /**

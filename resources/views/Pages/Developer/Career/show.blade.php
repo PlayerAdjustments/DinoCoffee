@@ -50,10 +50,10 @@
                                         Correo electrónico
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $career->coordinadorObj->email }}
+                                        {{ $career->coordinator->email }}
                                     </p>
                                     <input id="user_email_paragraph" type="text"
-                                        value="{{ $career->coordinadorObj->email }}" class="hidden" readonly>
+                                        value="{{ $career->coordinator->email }}" class="hidden" readonly>
                                 </div>
                             </div>
                         </li>
@@ -90,10 +90,10 @@
                                         Número celular
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $career->coordinadorObj->phone_number }}
+                                        {{ $career->coordinator->phone_number }}
                                     </p>
                                     <input id="user_phone_paragraph" type="text"
-                                        value="{{ $career->coordinadorObj->phone_number }}" class="hidden" readonly>
+                                        value="{{ $career->coordinator->phone_number }}" class="hidden" readonly>
                                 </div>
                             </div>
                         </li>
@@ -216,12 +216,12 @@
                     <h5 class="mb-1 text-xl px-4 font-medium text-gray-900 dark:text-white text-center">{{ $career->name }}
                     </h5>
                     <span class="text-sm text-gray-500 dark:text-gray-400 text-center">
-                        {{ $career->schoolObj->name }}</span>
+                        {{ $career->school->name }}</span>
                     {{-- Showing school tag -> career tag --}}
                     <div class="mt-4 text-gray-800 inline-flex dark:text-white">
-                        <a href="{{ route('developer.schools.show', $career->schoolObj->abbreviation) }}"
+                        <a href="{{ route('developer.schools.show', $career->school->abbreviation) }}"
                             class="inline-flex hover:scale-110">
-                            <x-badges.schoolbadge :type="$career->schoolObj->abbreviation" :color="$career->schoolObj->color" />
+                            <x-badges.schoolbadge :type="$career->school->abbreviation" :color="$career->school->color" />
                             <svg class="w-4 h-4 mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 448 512">
                                 <path
@@ -250,16 +250,16 @@
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         <li class="py-3 sm:py-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <a class="flex items-center"
-                                href="{{ route('developer.users.show', $career->coordinadorObj->matricula) }}">
+                                href="{{ route('developer.users.show', $career->coordinator->matricula) }}">
                                 <div class="flex-shrink-0">
-                                    <x-badges.rolebadge :role="$career->coordinadorObj->role" />
+                                    <x-badges.rolebadge :role="$career->coordinator->role" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-2 w-full">
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                         Nombre completo
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $career->coordinadorObj->fullname }}
+                                        {{ $career->coordinator->fullname }}
                                     </p>
                                 </div>
                             </a>
@@ -300,10 +300,10 @@
                                         Matricula
                                     </p>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        {{ $career->coordinadorObj->matricula }}
+                                        {{ $career->coordinator->matricula }}
                                     </p>
                                     <input id="user_matricula_paragraph" type="text"
-                                        value="{{ $career->coordinadorObj->matricula }}" class="hidden" readonly>
+                                        value="{{ $career->coordinator->matricula }}" class="hidden" readonly>
                                 </div>
                             </div>
                         </li>
@@ -315,7 +315,7 @@
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
-        <x-cards.list-career-codes :career="$career->abbreviation" />
+        <x-cards.list-career-codes :codes="$career->codes" />
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">

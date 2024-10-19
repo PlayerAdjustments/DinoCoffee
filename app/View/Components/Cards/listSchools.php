@@ -7,17 +7,17 @@ use App\Models\User;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Collection;
 
 class ListSchools extends Component
 {
-    public $user;
     public $schools;
     /**
      * Create a new component instance.
      */
-    public function __construct($user)
+    public function __construct(Collection $schools)
     {
-        $this->schools = School::where('director_matricula', $user)->orderBy('created_at','desc')->get(['abbreviation','name','color']);
+        $this->schools = $schools;
     }
 
     /**

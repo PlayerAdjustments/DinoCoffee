@@ -146,16 +146,16 @@
                                     {{-- Director info --}}
                                     <td class="items-center p-4 mr-12 space-x-6 whitespace-nowrap">
                                         <a class="flex items-center mr-12 space-x-2 whitespace-nowrap hover:scale-110"
-                                            href="{{ route('developer.users.show', $s->directorObj->matricula) }}">
+                                            href="{{ route('developer.users.show', $s->principal->matricula) }}">
                                             <img class="w-10 h-10 rounded-full"
-                                                src="{{ asset('storage/avatars/' . $s->directorObj->avatar) }}"
-                                                alt="{{ $s->directorObj->matricula }} avatar">
+                                                src="{{ asset('storage/avatars/' . $s->principal->avatar) }}"
+                                                alt="{{ $s->principal->matricula }} avatar">
                                             <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
                                                 <div class="text-base font-semibold text-gray-900 dark:text-white">
-                                                    {{ $s->directorObj->fullName }}
+                                                    {{ $s->principal->fullName }}
                                                 </div>
                                                 <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                                    {{ $s->directorObj->email }}</div>
+                                                    {{ $s->principal->email }}</div>
                                             </div>
                                         </a>
                                     </td>

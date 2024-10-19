@@ -5,19 +5,19 @@ namespace App\View\Components\Cards;
 use App\Models\Career;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class ListCoordinadorCareers extends Component
 {
-    public $user;
     public $careers;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($user)
+    public function __construct(Collection $careers)
     {
-        $this->careers = Career::where('coordinador_matricula', $user)->orderBy('created_at','desc')->get(['abbreviation','name','color']);
+        $this->careers = $careers;
     }
 
     /**

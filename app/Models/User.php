@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,7 +28,7 @@ class User extends Authenticatable
      * Load relationship functions
      * @var array
      */
-    protected $with = ['roleObj'];
+    protected $with = [];
 
     /**
      * The accessors to append to the model's array form.
@@ -100,12 +102,21 @@ class User extends Authenticatable
 
     /**
      * Db relations
-     * All relations will follow the name syntax of {columnName}Obj
      */
-    public function roleObj(): HasOne
+
+    public function roleDetails(): BelongsTo
     {
-        //hasOne(Model::class, ColumnSearchingBy, ColumnNameOnThisTable)
-        return $this->hasOne(Role::class, 'abbreviation', 'role')->withTrashed();
+        return $this->belongsTo(Role::class, 'role', 'abbreviation')->withTrashed();
+    }
+
+    public function careersCoordinator() : HasMany
+    {
+        return $this->hasMany(Career::class, 'coordinador_matricula', 'matricula');
+    }
+
+    public function schoolsPrincipal() : HasMany
+    {
+        return $this->hasMany(School::class, 'director_matricula', 'matricula');
     }
 
     /**

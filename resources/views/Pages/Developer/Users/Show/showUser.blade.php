@@ -185,7 +185,7 @@
                                             Rol (Cédula Profesional)
                                         </p>
                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            {{ $user->roleObj->name }}
+                                            {{ $user->roleDetails->name }}
                                             <span class="text-xs">
                                                 ( {{ $user->cedula_profesional }} )
                                             </span>
@@ -204,7 +204,7 @@
                                             Rol
                                         </p>
                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            {{ $user->roleObj->name }}
+                                            {{ $user->roleDetails->name }}
                                         </p>
                                     </div>
                                 </div>
@@ -263,8 +263,8 @@
     </div>
     <div class="grid grid-cols-2 gap-4 mb-4">
 
-        <x-cards.list-schools :user="$user->matricula" />
-        <x-cards.list-coordinador-careers :user="$user->matricula" />
+        <x-cards.list-schools :schools="$user->schoolsPrincipal" />
+        <x-cards.list-coordinador-careers :careers="$user->careersCoordinator" />
 
 
     </div>
