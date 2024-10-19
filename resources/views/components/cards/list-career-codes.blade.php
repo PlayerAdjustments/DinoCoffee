@@ -15,8 +15,8 @@
         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($codes as $c)
                 <li class="py-3 sm:py-4">
-                    <a class="flex items-center" disabled>
-                        <div class="text-lg font-medium w-full text-center text-gray-900 truncate dark:text-white">
+                    <a class="flex items-center align-middle" disabled>
+                        <div class="text-lg font-medium w-full text-start text-gray-900 truncate dark:text-white">
                             {{ $c->joined }}
                         </div>
                         <div class="inline-flex min-w-0 ms-4 w-full justify-end">
@@ -126,7 +126,7 @@
                                 <label for="edit_career_name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
                                     de la carrera</label>
-                                <input disabled readonly value="{{ $c->careerObj->name }}" type="text"
+                                <input disabled readonly value="{{ $c->career->name }}" type="text"
                                     name="edit_career_name" id="edit_career_name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Ingeniería en desarollo de tecnología y software." required="">
@@ -217,7 +217,7 @@
                             <label for="create_career_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
                                 de la carrera</label>
-                            <input disabled readonly value="{{ $c->careerObj->name }}" type="text"
+                            <input disabled readonly value="{{ $c->career->name }}" type="text"
                                 name="create_career_name" id="create_career_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Ingeniería en desarollo de tecnología y software." required="">

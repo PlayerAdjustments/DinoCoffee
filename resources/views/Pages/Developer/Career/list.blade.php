@@ -139,30 +139,30 @@
                                                 {{ $c->name }}
                                             </div>
                                             <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                                {{ $c->schoolObj->name }}</div>
+                                                {{ $c->school->name }}</div>
                                         </div>
                                     </td>
                                     {{-- Coordinador info --}}
                                     <td class="items-center p-4 mr-12 space-x-6 whitespace-nowrap">
                                         <a class="flex items-center mr-12 space-x-2 whitespace-nowrap hover:scale-110"
-                                            href="{{ route('developer.users.show', $c->coordinadorObj->matricula) }}">
+                                            href="{{ route('developer.users.show', $c->coordinator->matricula) }}">
                                             <img class="w-10 h-10 rounded-full"
-                                                src="{{ asset('storage/avatars/' . $c->coordinadorObj->avatar) }}"
-                                                alt="{{ $c->coordinadorObj->matricula }} avatar">
+                                                src="{{ asset('storage/avatars/' . $c->coordinator->avatar) }}"
+                                                alt="{{ $c->coordinator->matricula }} avatar">
                                             <div class="text-sm font-normal text-wrap text-gray-500 dark:text-gray-400">
                                                 <div class="text-base font-semibold text-gray-900 dark:text-white">
-                                                    {{ $c->coordinadorObj->fullName }}
+                                                    {{ $c->coordinator->fullName }}
                                                 </div>
                                                 <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                                    {{ $c->coordinadorObj->email }}</div>
+                                                    {{ $c->coordinator->email }}</div>
                                             </div>
                                         </a>
                                     </td>
                                     {{-- School info --}}
                                     <td class="items-center p-4 space-x-2 whitespace-nowrap">
                                         <a class="flex items-center mr-12 space-x-2 whitespace-nowrap hover:scale-110"
-                                            href="{{ route('developer.schools.show', $c->schoolObj->abbreviation) }}">
-                                            <x-badges.schoolbadge :type="$c->schoolObj->abbreviation" :color="$c->schoolObj->color" />
+                                            href="{{ route('developer.schools.show', $c->school->abbreviation) }}">
+                                            <x-badges.schoolbadge :type="$c->school->abbreviation" :color="$c->school->color" />
                                         </a>
                                     </td>
                                     {{-- Action properties --}}

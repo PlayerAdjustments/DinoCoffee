@@ -16,7 +16,7 @@
                                 {{ $c->name }}
                             </p>
                             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                {{$c->schoolObj->name}}
+                                {{$c->school->name}}
                             </p>
                         </div>
                     </a>

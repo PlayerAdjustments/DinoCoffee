@@ -263,8 +263,8 @@
     </div>
     <div class="grid grid-cols-2 gap-4 mb-4">
 
-        <x-cards.list-schools :user="$user->matricula" />
-        <x-cards.list-coordinador-careers :user="$user->matricula" />
+        <x-cards.list-schools :schools="$user->schoolsPrincipal" />
+        <x-cards.list-coordinador-careers :careers="$user->careersCoordinator" />
 
 
     </div>
