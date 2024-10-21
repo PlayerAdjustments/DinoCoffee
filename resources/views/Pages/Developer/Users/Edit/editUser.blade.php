@@ -145,13 +145,6 @@
                             </div>
                         @endisset
                         <div class="hidden">
-                            <label for="updated_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                            <input readonly type="text" name="updated_by" id="updated_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="15221669" required="" value="{{ Auth::user()->matricula }}">
-                        </div>
-                        <div class="hidden">
                             <label for="deleted_at"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">deleted_at</label>
                             <input readonly disabled type="text" name="deleted_at" id="deleted_at"

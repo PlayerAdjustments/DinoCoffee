@@ -315,7 +315,8 @@
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 justify-between">
-        <x-cards.list-career-codes :codes="$career->codes" />
+        <x-cards.list-career-codes :career="$career" />
+        <x-cards.list-study-plans :career="$career" />
     </div>
     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"></div>
     <div class="grid grid-cols-2 gap-4">

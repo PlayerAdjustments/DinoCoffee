@@ -35,4 +35,14 @@ class UpdateSchoolRequest extends FormRequest
             'updated_by' => 'required|exists:users,matricula',
         ];
     }
+
+    /**
+     * Prepare data for validation.
+     */
+    public function prepareForValidation() : void
+    {
+        $this->merge([
+            'updated_by' => Auth::user()->matricula,
+        ]);
+    }
 }

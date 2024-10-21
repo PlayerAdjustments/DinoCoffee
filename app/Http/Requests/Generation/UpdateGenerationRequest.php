@@ -46,6 +46,7 @@ class UpdateGenerationRequest extends FormRequest
 
         $this->merge([
             'code' => $start_date->year . '-' . $end_date->year,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 

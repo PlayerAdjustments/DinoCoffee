@@ -42,6 +42,8 @@ class StoreSubjectRequest extends FormRequest
     {
         $this->merge([
             'slug' => Str::slug($this->name),
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 }

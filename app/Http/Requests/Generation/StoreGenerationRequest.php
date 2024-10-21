@@ -46,6 +46,8 @@ class StoreGenerationRequest extends FormRequest
 
         $this->merge([
             'code' => $start_date->year . '-' . $end_date->year,
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 

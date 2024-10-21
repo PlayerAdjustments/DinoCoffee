@@ -377,20 +377,6 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Desarrollo Web III" required="" max="150">
                         </div>
-                        <div class="col-span-2 hidden">
-                            <label for="store_created_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Created_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text" name="created_by"
-                                id="store_created_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="99" required="">
-                            <label for="store_updated_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text" name="updated_by"
-                                id="store_updated_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="99" required="">
-                        </div>
                     </div>
                     <div class="mb-4">
                         <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Aseguresé que la

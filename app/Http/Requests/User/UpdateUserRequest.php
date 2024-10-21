@@ -67,5 +67,9 @@ class UpdateUserRequest extends FormRequest
                 'password' => fake()->password(8, 12),
             ]);
         }
+
+        $this->merge([
+            'updated_by' => Auth::user()->matricula,
+        ]);
     }
 }

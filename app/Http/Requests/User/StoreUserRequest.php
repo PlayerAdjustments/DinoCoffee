@@ -64,6 +64,8 @@ class StoreUserRequest extends FormRequest
         $this->merge([
             'password' => fake()->password(8, 12),
             'avatar' => null,
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 }

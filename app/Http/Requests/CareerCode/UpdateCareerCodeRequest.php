@@ -43,6 +43,7 @@ class UpdateCareerCodeRequest extends FormRequest
     {
         $this->merge([
             'joined' => $this->career_abbreviation . '-' . $this->code,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 

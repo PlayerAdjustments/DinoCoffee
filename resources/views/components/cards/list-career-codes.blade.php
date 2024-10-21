@@ -149,14 +149,6 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="99" required="">
                             </div>
-                            <div class="col-span-2 hidden">
-                                <label for="edit_updated_by"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                                <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                    name="updated_by" id="edit_updated_by"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="99" required="">
-                            </div>
                         </div>
                         <button type="submit"
                             class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
@@ -174,6 +166,7 @@
         </div>
     @endforeach
 
+    {{-- Create CareerCode Modal --}}
     <div data-modal-target="careercode-create-modal"
         data-modal-toggle="careercode-create-modal" class="pt-2 w-full border-t border-gray-200 dark:border-gray-700 item-start">
         <button type="submit"
@@ -199,7 +192,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Crear código de la carrera
                     </h3>
-                    <button data-modal-toggle="careercode-{{ $c->joined }}-edit-modal" type="button"
+                    <button data-modal-toggle="careercode-create-modal" type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -217,7 +210,7 @@
                             <label for="create_career_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
                                 de la carrera</label>
-                            <input disabled readonly value="{{ $c->career->name }}" type="text"
+                            <input disabled readonly value="{{ $career->name }}" type="text"
                                 name="create_career_name" id="create_career_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Ingeniería en desarollo de tecnología y software." required="">
@@ -226,33 +219,18 @@
                             <label for="create_career_abbreviation" max="3"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación
                                 carrera</label>
-                            <input readonly value="{{ $c->career_abbreviation }}" type="text"
+                            <input readonly value="{{ $career->abbreviation }}" type="text"
                                 name="career_abbreviation" id="create_career_abbreviation"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="DTS" required="">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
                             <label for="create_career_code"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación
-                                carrera</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código</label>
                             <input value="" type="number" min="0" max="100000"
                                 name="code" id="create_career_code"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="99" required="">
-                        </div>
-                        <div class="col-span-2 hidden">
-                            <label for="create_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Created_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                name="created_by" id="created_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="00" required="">
-                            <label for="updated_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                name="updated_by" id="updated_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="00" required="">
                         </div>
                     </div>
                     <button type="submit"
