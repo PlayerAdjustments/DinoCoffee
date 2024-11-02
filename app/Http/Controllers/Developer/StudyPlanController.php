@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Developer;
 
+use App\Enums\ActionMethods;
 use App\Enums\ControllerNames;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
@@ -72,8 +73,24 @@ class StudyPlanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(StudyPlan $studyplan)
     {
-        //
+        $studyplan->delete();
+
+        $this->notifyDevelopers(ControllerNames::StudyPlan, $studyplan->code, NotificationMethods::Destroyed);
+
+        return redirect()->route('developer.careers.show', $studyplan->careercodes->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::StudyPlan, $studyplan->code, ActionMethods::Destroyed));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore(StudyPlan $studyplan)
+    {
+        $studyplan->restore();
+
+        $this->notifyDevelopers(ControllerNames::StudyPlan, $studyplan->code, NotificationMethods::Restored);
+
+        return redirect()->route('developer.careers.show', $studyplan->careercodes->career_abbreviation)->with('Success', $this->actionMessages(ControllerNames::StudyPlan, $studyplan->code, ActionMethods::Restored));
     }
 }
