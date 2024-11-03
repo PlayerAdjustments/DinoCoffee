@@ -1,3 +1,4 @@
+<!-- Component wrapper start -->
 <x-cards.card-template>
 
     <div class="block">
@@ -333,9 +334,12 @@
         </div>
     @endforeach
 
+
+</x-cards.card-template>
+<!-- Component wrapper end -->
+
 <script>
     function studyplan_ToggleTrashedItems() {
-        console.log('ran command');
         const isChecked = document.getElementById('studyplan-show-trashed').checked;
         const studyplanItems = document.querySelectorAll('.studyplan-item');
 
@@ -350,13 +354,6 @@
         });
     }
 
-
     // Initial call to set the visibility based on the toggle state on page load
     document.addEventListener('DOMContentLoaded', studyplan_ToggleTrashedItems);
 </script>
-
-
-</x-cards.card-template>
-
-
-
