@@ -333,10 +333,6 @@
         </div>
     @endforeach
 
-
-</x-cards.card-template>
-
-
 <script>
     function studyplan_ToggleTrashedItems() {
         console.log('ran command');
@@ -358,3 +354,9 @@
     // Initial call to set the visibility based on the toggle state on page load
     document.addEventListener('DOMContentLoaded', studyplan_ToggleTrashedItems);
 </script>
+
+
+</x-cards.card-template>
+
+
+
