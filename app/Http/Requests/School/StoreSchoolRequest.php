@@ -42,7 +42,7 @@ class StoreSchoolRequest extends FormRequest
     /**
      * Prepare data for validation.
      */
-    public function prepareForValidation(): void 
+    public function prepareForValidation(): void
     {
         $this->merge([
             'created_by' => Auth::user()->matricula,

@@ -69,9 +69,9 @@ class StudyPlan extends Model
     /**
      * Database relations
      */
-    public function careercodes() : BelongsTo
+    public function careercodes(): BelongsTo
     {
-        return $this->belongsTo(CareerCode::class,'career_code','joined')->withTrashed();
+        return $this->belongsTo(CareerCode::class, 'career_code', 'joined')->withTrashed();
     }
 
     /**
@@ -80,17 +80,17 @@ class StudyPlan extends Model
     protected function slug(): Attribute
     {
         return Attribute::make(
-            set:function($value){
-                $cleaned_string = preg_replace('/\/{2,}/','/',$value); 
-                return Str::slug(str_replace('/','-year-',$cleaned_string));
+            set: function ($value) {
+                $cleaned_string = preg_replace('/\/{2,}/', '/', $value);
+                return Str::slug(str_replace('/', '-year-', $cleaned_string));
             }
         );
     }
 
-    protected function code() : Attribute
+    protected function code(): Attribute
     {
         return Attribute::make(
-            set: function($value){
+            set: function ($value) {
                 return trim($value);
             }
         );
@@ -100,7 +100,7 @@ class StudyPlan extends Model
      * Extracts the NNNN and YYYY from the studyplan code
      *  >-Ex: RVOE no. NNNNNNN/YYYY-<
      */
-    protected function RVOENumbers() : Attribute
+    protected function RVOENumbers(): Attribute
     {
         return new Attribute(
             get: fn() => [

@@ -38,14 +38,14 @@ class StudyPlanController extends Controller
         $model = StudyPlan::create($request->validated());
 
         $this->notifyDevelopers(ControllerNames::StudyPlan, $request->validated('code'), NotificationMethods::Stored);
-        
+
         return redirect()->route('developer.careers.show', $model->careercodes->career_abbreviation)->with('Success', "StudyPlan {$request->validated('code')} has been created.");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
         //
     }
@@ -53,7 +53,7 @@ class StudyPlanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
         //
     }

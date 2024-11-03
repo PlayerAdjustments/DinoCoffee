@@ -26,7 +26,7 @@
     {{-- Main list --}}
     <div
         class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             {{-- First StudyPlans is the careerObj, Second is the StudyPlans in the career  --}}
             @foreach ($studyplans as $s)
                 <li class="py-3 studyplan-item {{ $s->trashed() ? 'trashed' : '' }} sm:py-4">
@@ -338,23 +338,23 @@
 
 
 <script>
-function studyplan_ToggleTrashedItems() {
-    console.log('ran command');
-    const isChecked = document.getElementById('studyplan-show-trashed').checked;
-    const studyplanItems = document.querySelectorAll('.studyplan-item');
+    function studyplan_ToggleTrashedItems() {
+        console.log('ran command');
+        const isChecked = document.getElementById('studyplan-show-trashed').checked;
+        const studyplanItems = document.querySelectorAll('.studyplan-item');
 
-    studyplanItems.forEach(item => {
-        if (item.classList.contains('trashed')) {
-            // Show trashed items only if toggle is checked
-            item.classList.toggle('hidden', !isChecked);
-        } else {
-            // Hide non-trashed items if toggle is checked
-            item.classList.toggle('hidden', isChecked);
-        }
-    });
-}
+        studyplanItems.forEach(item => {
+            if (item.classList.contains('trashed')) {
+                // Show trashed items only if toggle is checked
+                item.classList.toggle('hidden', !isChecked);
+            } else {
+                // Hide non-trashed items if toggle is checked
+                item.classList.toggle('hidden', isChecked);
+            }
+        });
+    }
 
 
-// Initial call to set the visibility based on the toggle state on page load
-document.addEventListener('DOMContentLoaded', studyplan_ToggleTrashedItems);
+    // Initial call to set the visibility based on the toggle state on page load
+    document.addEventListener('DOMContentLoaded', studyplan_ToggleTrashedItems);
 </script>
