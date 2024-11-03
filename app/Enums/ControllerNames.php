@@ -10,7 +10,8 @@ enum ControllerNames: string
   case Subject = 'Subject ';
   case Generation = 'Generation ';
   case School = 'School ';
-
+  case StudyPlan = 'StudyPlan ';
+  
   /**
    * Get translation for Notifications
    * @return string
@@ -24,6 +25,7 @@ enum ControllerNames: string
       self::Subject => 'Materia ',
       self::Generation => 'Generación ',
       self::School => 'Escuela ',
+      self::StudyPlan => 'Plan de estudio ',
     };
   }
 }

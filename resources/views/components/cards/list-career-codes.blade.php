@@ -1,20 +1,35 @@
 <x-cards.card-template>
-    <div class="flex items-center mb-4">
-        <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <path
-                d="M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z" />
-        </svg>
 
-        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Códigos</h5>
+    <div class="block">
+        <div class="flex items-center mb-4">
+            <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                    d="M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z" />
+            </svg>
+
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Códigos</h5>
+        </div>
+
+        <div>
+            <label class="inline-flex items-center mb-5 cursor-pointer">
+                <input id="careercode-show-trashed" type="checkbox" onchange="careercode_ToggleTrashedItems()"
+                    value="" class="sr-only peer">
+                <div
+                    class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-350 dark:peer-focus:ring-secondary-400 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+                </div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Ver desactivados</span>
+            </label>
+        </div>
     </div>
+
 
     {{-- Main list --}}
     <div
         class="flow-root max-h-96 max-w-full scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-white dark:scrollbar-track-gray-800 overflow-y-auto">
         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($codes as $c)
-                <li class="py-3 sm:py-4">
+                <li class="py-3 sm:py-4 careercode-item {{ $c->trashed() ? 'trashed' : '' }}">
                     <a class="flex items-center align-middle" disabled>
                         <div class="text-lg font-medium w-full text-start text-gray-900 truncate dark:text-white">
                             {{ $c->joined }}
@@ -149,14 +164,6 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="99" required="">
                             </div>
-                            <div class="col-span-2 hidden">
-                                <label for="edit_updated_by"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                                <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                    name="updated_by" id="edit_updated_by"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="99" required="">
-                            </div>
                         </div>
                         <button type="submit"
                             class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
@@ -174,8 +181,9 @@
         </div>
     @endforeach
 
-    <div data-modal-target="careercode-create-modal"
-        data-modal-toggle="careercode-create-modal" class="pt-2 w-full border-t border-gray-200 dark:border-gray-700 item-start">
+    {{-- Create CareerCode Modal --}}
+    <div data-modal-target="careercode-create-modal" data-modal-toggle="careercode-create-modal"
+        class="pt-2 w-full border-t border-gray-200 dark:border-gray-700 item-start">
         <button type="submit"
             class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
             <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -199,7 +207,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Crear código de la carrera
                     </h3>
-                    <button data-modal-toggle="careercode-{{ $c->joined }}-edit-modal" type="button"
+                    <button data-modal-toggle="careercode-create-modal" type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -217,7 +225,7 @@
                             <label for="create_career_name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
                                 de la carrera</label>
-                            <input disabled readonly value="{{ $c->career->name }}" type="text"
+                            <input disabled readonly value="{{ $career->name }}" type="text"
                                 name="create_career_name" id="create_career_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Ingeniería en desarollo de tecnología y software." required="">
@@ -226,33 +234,18 @@
                             <label for="create_career_abbreviation" max="3"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación
                                 carrera</label>
-                            <input readonly value="{{ $c->career_abbreviation }}" type="text"
+                            <input readonly value="{{ $career->abbreviation }}" type="text"
                                 name="career_abbreviation" id="create_career_abbreviation"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="DTS" required="">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
                             <label for="create_career_code"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación
-                                carrera</label>
-                            <input value="" type="number" min="0" max="100000"
-                                name="code" id="create_career_code"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código</label>
+                            <input value="" type="number" min="0" max="100000" name="code"
+                                id="create_career_code"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="99" required="">
-                        </div>
-                        <div class="col-span-2 hidden">
-                            <label for="create_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Created_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                name="created_by" id="created_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="00" required="">
-                            <label for="updated_by"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                            <input readonly value="{{ Auth::user()->matricula }}" type="text"
-                                name="updated_by" id="updated_by"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="00" required="">
                         </div>
                     </div>
                     <button type="submit"
@@ -270,3 +263,26 @@
         </div>
     </div>
 </x-cards.card-template>
+
+
+<script>
+    function careercode_ToggleTrashedItems() {
+        console.log('ran command');
+        const isChecked = document.getElementById('careercode-show-trashed').checked;
+        const careercodeItems = document.querySelectorAll('.careercode-item');
+
+        careercodeItems.forEach(item => {
+            if (item.classList.contains('trashed')) {
+                // Show trashed items only if toggle is checked
+                item.classList.toggle('hidden', !isChecked);
+            } else {
+                // Hide non-trashed items if toggle is checked
+                item.classList.toggle('hidden', isChecked);
+            }
+        });
+    }
+
+
+    // Initial call to set the visibility based on the toggle state on page load
+    document.addEventListener('DOMContentLoaded', careercode_ToggleTrashedItems);
+</script>

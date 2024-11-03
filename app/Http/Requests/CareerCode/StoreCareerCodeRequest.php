@@ -44,6 +44,8 @@ class StoreCareerCodeRequest extends FormRequest
     {
         $this->merge([
             'joined' => $this->career_abbreviation . '-' . $this->code,
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 
@@ -55,7 +57,7 @@ class StoreCareerCodeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'joined.unique' => 'The joined value ' . $this->joined . ' has already been taken.',
+            'joined.unique' => "The joined value {$this->joined} has already been taken.",
         ];
     }
 }

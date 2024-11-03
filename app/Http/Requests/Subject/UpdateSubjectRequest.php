@@ -42,6 +42,7 @@ class UpdateSubjectRequest extends FormRequest
     {
         $this->merge([
             'slug' => Str::slug($this->name),
+            'updated_by' => Auth::user()->matricula,
         ]);
     }
 }

@@ -3,23 +3,21 @@
 namespace App\View\Components\Cards;
 
 use App\Models\Career;
-use App\Models\CareerCode;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class ListCareerCodes extends Component
+class ListStudyPlans extends Component
 {
-    public $career;
-    public $codes;
+    public $studyplans;
+    public $careercodes;
     /**
      * Create a new component instance.
      */
     public function __construct(Career $career)
     {
-        $this->career = $career;
-        $this->codes = $career->codes;
+        $this->studyplans = $career->codes->flatMap->studyplans;
+        $this->careercodes = $career->codes->where('deleted_at', null)->pluck('joined');
     }
 
     /**
@@ -27,6 +25,6 @@ class ListCareerCodes extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.cards.list-career-codes');
+        return view('components.cards.list-study-plans');
     }
 }

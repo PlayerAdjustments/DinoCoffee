@@ -38,4 +38,15 @@ class StoreSchoolRequest extends FormRequest
             'updated_by' => 'required|exists:users,matricula',
         ];
     }
+
+    /**
+     * Prepare data for validation.
+     */
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
+        ]);
+    }
 }
