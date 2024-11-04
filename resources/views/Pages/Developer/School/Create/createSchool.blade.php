@@ -152,7 +152,7 @@
                                     <select id="director_matricula" name="director_matricula"
                                         onchange="onCandidateChanged()" readonly
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option selected>Select principal</option>
+                                        <option disabled selected>Select principal</option>
                                         @foreach ($candidates as $c)
                                             <option value="{{ $c->matricula }}"
                                                 @if (old('director_matricula') == '{{ $c->matricula }}') {{ 'selected' }} @endif>
@@ -217,11 +217,13 @@
 
             @json($candidates).forEach(element => {
                 if (element['matricula'] == candidate) {
-                    emailInput.value = element['email']
+                    candidate.value = element['matricula'];
+                    emailInput.value = element['email'];
                 }
             });
 
             if (candidate == 'Select principal') {
+                candidate.value = null;
                 emailInput.value = null;
             }
         }

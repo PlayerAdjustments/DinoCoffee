@@ -28,7 +28,6 @@
                             </div>
                         </form>
                     </div>
-                    {{-- This button will lead to the developer.careers.create route --}}
                     <div
                         class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         <a type="button" data-modal-target="generations-create-modal"
@@ -323,8 +322,7 @@
                         <div class="grid gap-4 grid-cols-2">
                             <div class="col-span-2">
                                 <label for="edit_name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
-                                    de la materia</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas de la generación</label>
                                 <div id="date-{{ $g->code }}-range-picker" class="flex items-center">
                                     <div class="relative">
                                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -431,8 +429,7 @@
                     <div class="grid gap-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="edit_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo
-                                de la materia</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas de la generación</label>
                             <div id="date-create-range-picker" class="flex items-center">
                                 <div class="relative">
                                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

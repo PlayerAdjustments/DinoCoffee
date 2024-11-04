@@ -28,7 +28,7 @@ class UpdateSchoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'abbreviation' => ['required', Rule::unique('schools', 'abbreviation')->ignore($this->school), 'min:3', 'max:3', 'alpha', 'string'],
+            'abbreviation' => ['required', Rule::unique('App\Models\School', 'abbreviation')->ignore($this->school), 'min:3', 'max:3', 'alpha', 'string'],
             'name' => 'required|min:3|max:75|string',
             'director_matricula' => ['required', Rule::exists('users', 'matricula')->where('role', 'DIR')->where('deleted_at', null)],
             'color' => ['required', Rule::in(['purple', 'blue', 'red', 'amber', 'yellow', 'lime', 'violet', 'teal', 'rose', 'green', 'fuchsia', 'sky', 'pink', 'emerald', 'cyan', 'orange', 'indigo', 'slate', 'gray'])],

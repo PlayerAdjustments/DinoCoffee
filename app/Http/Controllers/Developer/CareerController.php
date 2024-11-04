@@ -50,7 +50,7 @@ class CareerController extends Controller
      */
     public function create()
     {
-        $schools = School::query()->get(['abbreviation', 'name', 'director_matricula']);
+        $schools = School::with('principal')->get(['abbreviation', 'name', 'director_matricula']);
         $candidates = User::whereIn('role', ['COO'])->get();
         return view('Pages.Developer.Career.Create', compact('candidates', 'schools'));
     }
@@ -62,7 +62,7 @@ class CareerController extends Controller
     {
         Career::create($request->validated());
 
-        $this->notifyDevelopers(ControllerNames::Career, $request->validate('abbreviation'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::Career, $request->validated('abbreviation'), NotificationMethods::Stored);
 
         /**
          * Send user back to the correspondent list page

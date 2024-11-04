@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('role', 3)->index();
             $table->foreign('role')->references('abbreviation')->on('roles')->cascadeOnUpdate()->cascadeOnDelete();
             $table->char('sex')->index();
-            $table->string('phone_number', 15)->unique();
+            $table->string('phone_number', 20)->unique();
             $table->date('birthday')->index();
             $table->string('cedula_profesional', 8)->nullable()->index();
             $table->string('avatar')->default('Monki.jpg');

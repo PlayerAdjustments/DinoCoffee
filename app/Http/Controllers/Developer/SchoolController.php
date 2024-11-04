@@ -63,7 +63,7 @@ class SchoolController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.schools.listSchools')->with('Success', $this->actionMessages(ControllerNames::School, $request->validated('abbreviation'), ActionMethods::Stored));
+        return redirect()->route('developer.schools.index')->with('Success', $this->actionMessages(ControllerNames::School, $request->validated('abbreviation'), ActionMethods::Stored));
     }
 
     /**

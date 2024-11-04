@@ -317,15 +317,14 @@
 
             @json($schools).forEach(element => {
                 if (element['abbreviation'] == school) {
-                    datosDirector.value = element['director_obj']['matricula'] + ' - ' + element['director_obj'][
-                        'full_name'
-                    ];
+                    datosDirector.value = element['director_matricula'] + ' - ' + element['principal']['full_name'];
                     abbreviationInput.value = element['abbreviation'];
                 }
             });
 
-            if (school == 'Select principal') {
+            if (school == 'Select school') {
                 datosDirector.value = null;
+                abbreviationInput.value = null;
             }
         }
     </script>

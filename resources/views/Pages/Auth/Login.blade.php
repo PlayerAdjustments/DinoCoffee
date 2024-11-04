@@ -8,10 +8,12 @@
     <title>Login</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     {{-- Dark mode check user preferences --}}
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark')
@@ -19,9 +21,9 @@
     </script>
 </head>
 
-<body>
-    @if ($errors->any() || session()->has('Success'))
-        <div class="absolute top-2 right-0 transition-transform overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900">
+    @if ($errors->any() || session()->has('Success') || session()->has('Info'))
+        <div class="absolute top-20 right-0 transition-transform overflow-hidden z-40">
             <ul>
                 {{-- Show errors to user --}}
                 @foreach ($errors->all() as $e)
@@ -39,11 +41,19 @@
                         </x-toast>
                     </li>
                 @endif
+                {{-- Show info message to user --}}
+                @if (session()->has('Info'))
+                    <li>
+                        <x-toast type='Info'>
+                            {{ session('Info') }}
+                        </x-toast>
+                    </li>
+                @endif
             </ul>
         </div>
     @endif
 
-    <section class="bg-gray-50 dark:bg-gray-900">
+    <section class="flex h-screen">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div
                 class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md  dark:bg-gray-800 dark:border-gray-700 pt-4">
