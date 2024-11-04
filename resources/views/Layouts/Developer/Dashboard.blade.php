@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts" integrity="sha384-mqozHMOtx/762srWJnvm5wDYIVNSZw691t+rgXQoo/83uZG6A1aMi23a3fwExvZi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js" integrity="sha384-SwLKRRNiVJqs2wqB+G5yEJfYuFngJWupGEYFq2Z0dK6+9adS+jWPUVTQ/iCYRNu1" crossorigin="anonymous"></script>
     {{-- Dark mode check user preferences --}}
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
