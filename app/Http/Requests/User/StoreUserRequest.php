@@ -36,7 +36,7 @@ class StoreUserRequest extends FormRequest
             'second_lastname' => $nameAndLastnameRule,
             'role' => ['required', Rule::exists('roles', 'abbreviation')->where('deleted_at', null)],
             'sex' => ['required', Rule::in(['F', 'M'])],
-            'phone_number' => ['required', 'unique:users,phone_number'. 'max:20', 'regex:^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$^'],
+            'phone_number' => ['required', 'unique:users,phone_number', 'max:20', 'regex:^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$^'],
             'birthday' => 'required|date_format:Y-m-d',
             'cedula_profesional' => [
                 Rule::requiredIf(fn() => in_array(strtoupper($this->role), ['DOC', 'COO', 'DIR'])),
