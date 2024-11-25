@@ -16,9 +16,13 @@ class MidtermController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
- 
+        $midterms = Midterm::query();
+
+        if ($request->has('simple-search')){
+            
+        }
     }
 
     /**
