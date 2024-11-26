@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Midterm;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class StoreMidtermRequest extends FormRequest
 {
@@ -12,12 +14,9 @@ class StoreMidtermRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if (in_array(Auth::user()->role, ['ADM', 'DEV'])) {
-            return true;
-        }
-
-        return false;
+        return in_array(Auth::user()->role, ['ADM', 'DEV']);
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,17 +25,31 @@ class StoreMidtermRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'midtermCode' => 'required|unique:midterms,midtermCode|string:30',
-            'abbreviation' => 'required|unique:midterms,abrevviation|min:5|max:5|alpha|string',
-            'fullName' => 'required|max:75|string',
-            'startDate' => 'required|date_format:Y-m-d|before:end_date',
-            'endDate' => 'required|date_format:Y-m-d|after:start_date',
+            'midtermCode' => [
+                'required',
+                'string',
+                'max:30',
+                Rule::unique('midterms', 'midtermCode')
+            ],
+            'abbreviation' => [
+                'required',
+                'string',
+                'size:5',
+                'alpha',
+                Rule::unique('midterms', 'abbreviation')
+            ],
+            'fullName' => 'required|string|max:75',
+            'startDate' => 'required|date_format:Y-m-d|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'created_by' => 'required|exists:users,matricula',
-            'updated_by' => 'required|exists:users,matricula'
+            'updated_by' => 'required|exists:users,matricula',
         ];
     }
 
-    public function prepareForValidation(): void
+    /**
+     * Prepare data for validation.
+     */
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'created_by' => Auth::user()->matricula,
@@ -44,10 +57,17 @@ class StoreMidtermRequest extends FormRequest
         ]);
     }
 
+    /**
+     * Get the error messages for defined validation rules.
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
-            'midtermCode.unique' => 'The midtermCode value ' . $this->midtermCode . ' has already been taken.',
+            'midtermCode.unique' => "The midterm code '{$this->midtermCode}' has already been taken.",
+            'abbreviation.unique' => "The abbreviation '{$this->abbreviation}' has already been taken.",
+            'startDate.before' => 'The start date must be before the end date.',
+            'endDate.after' => 'The end date must be after the start date.',
         ];
     }
 }

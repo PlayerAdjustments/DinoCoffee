@@ -4,6 +4,9 @@ namespace App\Http\Requests\Midterm;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateMidtermRequest extends FormRequest
 {
@@ -12,11 +15,7 @@ class UpdateMidtermRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if (in_array(Auth::user()->role, ['ADM', 'DEV'])) {
-            return true;
-        }
-
-        return false;
+        return in_array(Auth::user()->role, ['ADM', 'DEV']);
     }
 
     /**
@@ -27,19 +26,30 @@ class UpdateMidtermRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'midtermCode' => 'required|unique:midterms,midtermCode|string:30',
-            'abbreviation' => 'required|unique:midterms,abrevviation|min:5|max:5|alpha|string',
-            'fullName' => 'required|max:75|string',
-            'startDate' => 'required|date_format:Y-m-d|before:end_date',
-            'endDate' => 'required|date_format:Y-m-d|after:start_date',
-            'updated_by' => 'required|exists:users,matricula'
+            'midtermCode' => [
+                'required',
+                'string',
+                'max:30',
+                Rule::unique('midterms', 'midtermCode')->ignore($this->midterm)
+            ],
+            'abbreviation' => [
+                'required',
+                'string',
+                'size:5',
+                'alpha',
+                Rule::unique('midterms', 'abbreviation')->ignore($this->midterm)
+            ],
+            'fullName' => 'required|string|max:75',
+            'startDate' => 'required|date_format:Y-m-d|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d|after:startDate',
+            'updated_by' => 'required|exists:users,matricula',
         ];
     }
 
     /**
      * Prepare the data for validation.
      */
-    public function prepareForValidation(): void
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'created_by' => Auth::user()->matricula,
@@ -47,10 +57,29 @@ class UpdateMidtermRequest extends FormRequest
         ]);
     }
 
+    /**
+     * Get the error messages for the defined validation rules.
+     */
     public function messages(): array
     {
         return [
-            'midtermCode.unique' => 'The midtermCode value ' . $this->midtermCode . ' has already been taken.',
+            'midtermCode.unique' => "The midterm code '{$this->midtermCode}' has already been taken.",
+            'abbreviation.unique' => "The abbreviation '{$this->abbreviation}' has already been taken.",
+        ];
+    }
+
+    /**
+     * Get the "after" validation callables for the request.
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                if ($this->startDate && $this->endDate && $this->startDate >= $this->endDate) {
+                    $validator->errors()->add('startDate', 'The start date must be before the end date.');
+                }
+            },
         ];
     }
 }
+
