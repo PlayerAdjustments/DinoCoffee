@@ -29,8 +29,8 @@ class StoreMidtermRequest extends FormRequest
             'midtermCode' => 'required|unique:midterms,midtermCode|string:30',
             'abbreviation' => 'required|unique:midterms,abrevviation|min:5|max:5|alpha|string',
             'fullName' => 'required|max:75|string',
-            'start_date' => 'required|date_format:Y-m-d|before:end_date',
-            'end_date' => 'required|date_format:Y-m-d|after:start_date',
+            'startDate' => 'required|date_format:Y-m-d|before:end_date',
+            'endDate' => 'required|date_format:Y-m-d|after:start_date',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula'
         ];

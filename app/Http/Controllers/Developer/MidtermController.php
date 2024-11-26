@@ -21,16 +21,24 @@ class MidtermController extends Controller
         $midterms = Midterm::query();
 
         if ($request->has('simple-search')){
-            
+            $input = $request->input('simple-search');
+            $midterms->whereAny([
+                'midtermCode',
+                'abbreviation',
+                'fullName'
+            ], 'like', $input . '%');
         }
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        if ($request->has('hiddenGenerationDeactivated') && $request->input('hiddenGenerationDeactivated') == 1) {
+            $midterms->onlyTrashed();
+        }
+
+        $midterms = $midterms->orderBy('id')->paginate(
+        $request->has('perage') ? $request->input('perage') : 10,
+        ['midtermCode', 'abbreviation', 'fullName', 'startDate', 'endDate', 'deleted_at']
+        )->withQueryString();
+
+        return view('Pages.Developer.Midterm.list', compact('midterms'));
     }
 
     /**
@@ -38,7 +46,7 @@ class MidtermController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Midterm::create($request->validated());
     }
 
     /**
