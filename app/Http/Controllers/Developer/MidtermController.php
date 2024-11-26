@@ -6,9 +6,7 @@ use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Midterm\StoreMidtermRequest;
 use App\Http\Requests\Midterm\UpdateMidtermRequest;
-use App\Http\Requests\UpdateMidtermRequest as RequestsUpdateMidtermRequest;
 use App\Models\Midterm;
 use Illuminate\Http\Request;
 

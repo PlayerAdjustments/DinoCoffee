@@ -33,8 +33,6 @@ class MidtermSeeder extends Seeder
             'created_by' => '00', // Matricula del usuario
             'updated_by' => '01', // Matricula del usuario
         ]);
-
-        //Midterm::factory(2)->create();
     }
 }
 
