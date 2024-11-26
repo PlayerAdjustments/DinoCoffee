@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Developer;
 
 use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
