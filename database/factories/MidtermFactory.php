@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class MidtermsFactory extends Factory
+class MidtermFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,8 +23,8 @@ class MidtermsFactory extends Factory
             'midtermCode' => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{4}'),
             'abbreviation' => $this->faker->unique()->lexify('???'),
             'fullName' => $this->faker->words(3, true),
-            'start_date' => $start_date,
-            'end_date' => $end_date,
+            'startDate' => $start_date,
+            'endDate' => $end_date,
             'created_by' => $this->faker->randomDigitNotNull(),
             'updated_by' => $this->faker->randomDigitNotNull(),
             'created_at' => now(),

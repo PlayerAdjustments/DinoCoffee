@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_midterm', function (Blueprint $table) {
+        Schema::create('midterms', function (Blueprint $table) {
             $table->id();
             $table->string('midtermCode', 30)->unique();
             $table->string('abbreviation', 5)->unique();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_midterm');
+        Schema::dropIfExists('_midterms');
     }
 };
