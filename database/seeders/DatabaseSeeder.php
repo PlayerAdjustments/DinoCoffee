@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             GenerationSeeder::class,
             StudyPlanSeeder::class,
+            MidtermSeeder::class,
         ]);
     }
 }

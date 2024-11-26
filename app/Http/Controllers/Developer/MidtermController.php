@@ -6,8 +6,9 @@ use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Generation\StoreMidtermRequest;
-use App\Http\Requests\Generation\UpdateMidtermRequest;
+use App\Http\Requests\Midterm\StoreMidtermRequest;
+use App\Http\Requests\Midterm\UpdateMidtermRequest;
+use App\Http\Requests\UpdateMidtermRequest as RequestsUpdateMidtermRequest;
 use App\Models\Midterm;
 use Illuminate\Http\Request;
 
@@ -47,37 +48,33 @@ class MidtermController extends Controller
     public function store(Request $request)
     {
         Midterm::create($request->validated());
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $this->notifyDevelopers(ControllerNames::Midterm, $request->validated('midtermCode'), NotificationMethods::Stored);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return redirect()->route('developer.midterm.index')->with('Success', $this->actionMessages(ControllerNames::Midterm, $request->validated('midtermCode'), ActionMethods::Stored));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMidtermRequest $request, Midterm $midterm)
     {
-        //
+        $midterm->update($request->validated());
+
+        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Updated);
+
+        return redirect()->route('developer.midterm.index', $midterm)->with('Success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Updated));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Midterm $midterm)
     {
-        //
+        $midterm->delete();
+
+        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->code, NotificationMethods::Destroyed);
+
+        return redirect()->route('developer.midterm.index')->with('Success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Destroyed));
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Midterm;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateMidtermRequest extends FormRequest
 {
@@ -11,6 +12,10 @@ class UpdateMidtermRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if (in_array(Auth::user()->role, ['ADM', 'DEV'])) {
+            return true;
+        }
+
         return false;
     }
 
@@ -22,7 +27,30 @@ class UpdateMidtermRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'midtermCode' => 'required|unique:midterms,midtermCode|string:30',
+            'abbreviation' => 'required|unique:midterms,abrevviation|min:5|max:5|alpha|string',
+            'fullName' => 'required|max:75|string',
+            'startDate' => 'required|date_format:Y-m-d|before:end_date',
+            'endDate' => 'required|date_format:Y-m-d|after:start_date',
+            'updated_by' => 'required|exists:users,matricula'
+        ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'created_by' => Auth::user()->matricula,
+            'updated_by' => Auth::user()->matricula,
+        ]);
+    }
+
+    public function messages(): array
+    {
+        return [
+            'midtermCode.unique' => 'The midtermCode value ' . $this->midtermCode . ' has already been taken.',
         ];
     }
 }

@@ -43,4 +43,11 @@ class StoreMidtermRequest extends FormRequest
             'updated_by' => Auth::user()->matricula,
         ]);
     }
+
+    public function messages(): array
+    {
+        return [
+            'midtermCode.unique' => 'The midtermCode value ' . $this->midtermCode . ' has already been taken.',
+        ];
+    }
 }
