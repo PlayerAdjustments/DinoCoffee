@@ -127,23 +127,23 @@
                                     </td>
                                 </tr>
                             @endif
-                            {{-- If records are found, show each generation data --}}
+                            {{-- If records are found, show each midterm data --}}
                             @foreach ($midterms->items() as $g)
                                 <tr class="border-b dark:border-gray-700">
-                                    {{-- Generation Code --}}
+                                    {{-- Midterm Code --}}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $g->midtermCode }}
                                     </th>
-                                    {{-- Generation Start_date --}}
+                                    {{-- Midterm Start_date --}}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $g->start_date }}
+                                        {{ $g->startDate }}
                                     </th>
-                                    {{-- Generation End_date --}}
+                                    {{-- Midterm End_date --}}
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $g->end_date }}
+                                        {{ $g->endDate }}
                                     </th>
                                     {{-- Action properties --}}
                                     <td class="px-4 py-3 flex items-center justify-end">
@@ -334,9 +334,9 @@
                                             </svg>
                                         </div>
                                         <input id="datepicker-{{ $g->midtermCode }}-range-start" datepicker
-                                            datepicker-format="yyyy-mm-dd" name="start_date" type="text"
+                                            datepicker-format="yyyy-mm-dd" name="startDate" type="text"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select date start" value="{{ $g->start_date }}">
+                                            placeholder="Select date start" value="{{ $g->startDate }}">
                                     </div>
                                     <span class="mx-4 text-gray-500">to</span>
                                     <div class="relative">
@@ -349,9 +349,9 @@
                                             </svg>
                                         </div>
                                         <input id="datepicker-{{ $g->ode }}-range-end" datepicker
-                                            datepicker-format="yyyy-mm-dd" name="end_date" type="text"
+                                            datepicker-format="yyyy-mm-dd" name="endDate" type="text"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select date end" value="{{ $g->end_date }}">
+                                            placeholder="Select date end" value="{{ $g->endDate }}">
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +440,7 @@
                                         </svg>
                                     </div>
                                     <input id="datepicker-create-range-start" datepicker datepicker-format="yyyy-mm-dd"
-                                        name="start_date" type="text"
+                                        name="startDate" type="text"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Select date start">
                                 </div>
@@ -454,7 +454,7 @@
                                         </svg>
                                     </div>
                                     <input id="datepicker-create-range-end" datepicker datepicker-format="yyyy-mm-dd"
-                                        name="end_date" type="text"
+                                        name="endDate" type="text"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Select date end">
                                 </div>
