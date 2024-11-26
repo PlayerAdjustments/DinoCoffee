@@ -17,7 +17,7 @@ class ScheduleFactory extends Factory
      */
     public function definition(): array
     {
-        $start_hour = Carbon::parse(fake()->time('H:i:s','19:00:00'));
+        $start_hour = Carbon::parse(fake()->time('H:i','19:00'));
         $end_hour = $start_hour->copy()->addHour(2);
         return [
             'code' =>  $start_hour->format('H:i').'-'.$end_hour->format('H:i'),
