@@ -20,13 +20,13 @@ class MidtermController extends Controller
     {
         $midterms = Midterm::query();
 
-        if ($request->has('simple-search')){
+        if ($request->has('simple-search')) {
             $input = $request->input('simple-search');
-            $midterms->whereAny([
-                'midtermCode',
-                'abbreviation',
-                'fullName'
-            ], 'like', $input . '%');
+            $midterms->where(function ($query) use ($input) {
+                $query->where('midtermCode', 'like', $input . '%')
+                      ->orWhere('abbreviation', 'like', $input . '%')
+                      ->orWhere('fullName', 'like', $input . '%');
+            });
         }
 
         if ($request->has('hiddenMidtermDeactivated') && $request->input('hiddenMidtermDeactivated') == 1) {
@@ -34,8 +34,8 @@ class MidtermController extends Controller
         }
 
         $midterms = $midterms->orderBy('id')->paginate(
-        $request->has('perage') ? $request->input('perage') : 10,
-        ['midtermCode', 'abbreviation', 'fullName', 'startDate', 'endDate', 'deleted_at']
+            $request->input('perage', 10),
+            ['midtermCode', 'abbreviation', 'fullName', 'startDate', 'endDate', 'deleted_at']
         )->withQueryString();
 
         return view('Pages.Developer.Midterm.list', compact('midterms'));
@@ -46,11 +46,12 @@ class MidtermController extends Controller
      */
     public function store(StoreMidtermRequest $request)
     {
-        Midterm::create($request->validated());
+        $midterm = Midterm::create($request->validated());
 
-        $this->notifyDevelopers(ControllerNames::Midterm, $request->validated('midtermCode'), NotificationMethods::Stored);
+        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Stored);
 
-        return redirect()->route('developer.midterm.index')->with('Success', $this->actionMessages(ControllerNames::Midterm, $request->validated('midtermCode'), ActionMethods::Stored));
+        return redirect()->route('developer.midterm.index')
+            ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Stored));
     }
 
     /**
@@ -62,7 +63,8 @@ class MidtermController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Updated);
 
-        return redirect()->route('developer.midterm.index', $midterm)->with('Success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Updated));
+        return redirect()->route('developer.midterm.index')
+            ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Updated));
     }
 
     /**
@@ -72,8 +74,25 @@ class MidtermController extends Controller
     {
         $midterm->delete();
 
-        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->code, NotificationMethods::Destroyed);
+        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.midterm.index')->with('Success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Destroyed));
+        return redirect()->route('developer.midterm.index')
+            ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Destroyed));
     }
+
+    public function restore($id)
+    {
+        $midterm = Midterm::withTrashed()->find($id);
+
+        if (!$midterm) {
+            return redirect()->back()->with('info', 'The requested midterm does not exist or has been deactivated.');
+        }
+
+        $midterm->restore();
+
+        return redirect()->route('developer.midterms.index')
+        ->with('success', 'Midterm restored successfully.');
+    }
+
+
 }

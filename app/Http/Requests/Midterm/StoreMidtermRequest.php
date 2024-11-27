@@ -4,7 +4,6 @@ namespace App\Http\Requests\Midterm;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class StoreMidtermRequest extends FormRequest
@@ -29,18 +28,18 @@ class StoreMidtermRequest extends FormRequest
                 'required',
                 'string',
                 'max:30',
-                Rule::unique('midterms', 'midtermCode')
+                Rule::unique('midterms', 'midtermCode'),
             ],
             'abbreviation' => [
                 'required',
                 'string',
-                'size:5',
+                'size:3', // Ajuste según los datos generados en el Factory
                 'alpha',
-                Rule::unique('midterms', 'abbreviation')
+                Rule::unique('midterms', 'abbreviation'),
             ],
             'fullName' => 'required|string|max:75',
-            'startDate' => 'required|date_format:Y-m-d|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d|after:startDate',
+            'startDate' => 'required|date|before:endDate',
+            'endDate' => 'required|date|after:startDate',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula',
         ];
@@ -71,3 +70,4 @@ class StoreMidtermRequest extends FormRequest
         ];
     }
 }
+

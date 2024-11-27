@@ -4,9 +4,8 @@ namespace App\Http\Requests\Midterm;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateMidtermRequest extends FormRequest
 {
@@ -30,18 +29,18 @@ class UpdateMidtermRequest extends FormRequest
                 'required',
                 'string',
                 'max:30',
-                Rule::unique('midterms', 'midtermCode')->ignore($this->midterm)
+                Rule::unique('midterms', 'midtermCode')->ignore($this->midterm),
             ],
             'abbreviation' => [
                 'required',
                 'string',
-                'size:5',
+                'size:3', // Cambiar a "size:3" si la abreviación siempre debe tener 3 caracteres
                 'alpha',
-                Rule::unique('midterms', 'abbreviation')->ignore($this->midterm)
+                Rule::unique('midterms', 'abbreviation')->ignore($this->midterm),
             ],
             'fullName' => 'required|string|max:75',
-            'startDate' => 'required|date_format:Y-m-d|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d|after:startDate',
+            'startDate' => 'required|date|before:endDate',
+            'endDate' => 'required|date|after:startDate',
             'updated_by' => 'required|exists:users,matricula',
         ];
     }
@@ -52,7 +51,6 @@ class UpdateMidtermRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'created_by' => Auth::user()->matricula,
             'updated_by' => Auth::user()->matricula,
         ]);
     }
@@ -65,21 +63,18 @@ class UpdateMidtermRequest extends FormRequest
         return [
             'midtermCode.unique' => "The midterm code '{$this->midtermCode}' has already been taken.",
             'abbreviation.unique' => "The abbreviation '{$this->abbreviation}' has already been taken.",
+            'startDate.before' => 'The start date must be before the end date.',
+            'endDate.after' => 'The end date must be after the start date.',
         ];
     }
 
     /**
-     * Get the "after" validation callables for the request.
+     * Handle a failed validation attempt.
      */
-    public function after(): array
+    protected function failedValidation(Validator $validator): void
     {
-        return [
-            function (Validator $validator) {
-                if ($this->startDate && $this->endDate && $this->startDate >= $this->endDate) {
-                    $validator->errors()->add('startDate', 'The start date must be before the end date.');
-                }
-            },
-        ];
+        parent::failedValidation($validator);
     }
 }
+
 
