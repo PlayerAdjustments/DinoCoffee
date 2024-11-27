@@ -50,7 +50,7 @@ class MidtermController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Stored);
 
-        return redirect()->route('developer.midterm.index')
+        return redirect()->route('developer.midterms.index')
             ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Stored));
     }
 
@@ -63,7 +63,7 @@ class MidtermController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Updated);
 
-        return redirect()->route('developer.midterm.index')
+        return redirect()->route('developer.midterms.index')
             ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Updated));
     }
 
@@ -76,7 +76,7 @@ class MidtermController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.midterm.index')
+        return redirect()->route('developer.midterms.index')
             ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Destroyed));
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
+use Carbon\Carbon;
 
 class UpdateMidtermRequest extends FormRequest
 {
@@ -50,7 +51,11 @@ class UpdateMidtermRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $startDate = Carbon::parse($this->startDate);
+        $endDate = Carbon::parse($this->endDate);
+        $abbreviation = strtoupper(substr(md5(uniqid()), 0, 3));
         $this->merge([
+            'midtermCode' => $abbreviation.'-'.$startDate->year . '-' . $endDate->year,
             'updated_by' => Auth::user()->matricula,
         ]);
     }
@@ -61,10 +66,7 @@ class UpdateMidtermRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'midtermCode.unique' => "The midterm code '{$this->midtermCode}' has already been taken.",
-            'abbreviation.unique' => "The abbreviation '{$this->abbreviation}' has already been taken.",
-            'startDate.before' => 'The start date must be before the end date.',
-            'endDate.after' => 'The end date must be after the start date.',
+            'code.unique' => 'The code value ' . $this->midtermCode . ' has already been taken.',
         ];
     }
 

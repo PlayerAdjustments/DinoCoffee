@@ -38,7 +38,7 @@
                                 <path clip-rule="evenodd" fill-rule="evenodd"
                                     d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                             </svg>
-                            Add Midterm
+                            Add Parcial
                         </a>
                         <div class="flex items-center space-x-3 w-full md:w-auto">
                             <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
@@ -106,301 +106,184 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">Código</th>
+                                <th scope="col" class="px-4 py-3">Abreviación</th> <!-- Nueva columna -->
+                                <th scope="col" class="px-4 py-3">Nombre completo</th> <!-- Nueva columna -->
                                 <th scope="col" class="px-4 py-3">Fecha de inicio</th>
                                 <th scope="col" class="px-4 py-3">Fecha de fin</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
-                                </th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- Si no hay registros, muestra un mensaje de "No records" --}}
+                        @if ($midterms->count() == 0)
+                            <tr class="border-b dark:border-gray-700">
+                                <td colspan="6" class="text-center p-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                     No records
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {{-- If no records are found, show a No records message on the table --}}
-                            @if ($midterms->count() == 0)
-                                <tr class="border-b dark:border-gray-700">
-                                    <td class=" items-center p-4 mr-12 space-x-6 whitespace-nowrap text-center">
-                                    </td>
-                                    <td
-                                        class=" items-center p-4 mr-12 space-x-6 whitespace-nowrap text-center font-medium text-sm">
-                                        No records
-                                    </td>
-                                    <td class=" items-center p-4 mr-12 space-x-6 whitespace-nowrap text-center">
-                                    </td>
-                                </tr>
-                            @endif
-                            {{-- If records are found, show each midterm data --}}
-                            @foreach ($midterms->items() as $g)
-                                <tr class="border-b dark:border-gray-700">
-                                    {{-- Midterm Code --}}
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $g->midtermCode }}
-                                    </th>
-                                    {{-- Midterm Start_date --}}
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $g->startDate }}
-                                    </th>
-                                    {{-- Midterm End_date --}}
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $g->endDate }}
-                                    </th>
-                                    {{-- Action properties --}}
-                                    <td class="px-4 py-3 flex items-center justify-end">
-                                        <button id="{{ $g->midtermCode }}-dropdown-button"
-                                            data-dropdown-toggle="{{ $g->midtermCode }}-dropdown"
-                                            class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                            type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                            </svg>
-                                        </button>
-                                        <div id="{{ $g->midtermCode }}-dropdown"
-                                            class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="{{ $g->midtermCode }}-dropdown-button">
-                                                {{-- Subject Edit Button --}}
-                                                <li>
-                                                    <button data-modal-target="midterms-{{ $g->midtermCode }}-edit-modal"
+                        @endif
+                        {{-- Si hay registros, muestra cada uno de los parciales --}}
+                        @foreach ($midterms->items() as $g)
+                            <tr class="border-b dark:border-gray-700">
+                                {{-- Midterm Code --}}
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $g->midtermCode }}
+                                </th>
+                                {{-- Midterm Abbreviation --}}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $g->abbreviation }} <!-- Mostrar abreviación -->
+                                </td>
+                                {{-- Midterm Full Name --}}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $g->fullName }} <!-- Mostrar nombre completo -->
+                                </td>
+                                {{-- Midterm Start Date --}}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $g->startDate }}
+                                </td>
+                                {{-- Midterm End Date --}}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $g->endDate }}
+                                </td>
+                                {{-- Action properties --}}
+                                <td class="px-4 py-3 flex items-center justify-end">
+                                    <button id="{{ $g->midtermCode }}-dropdown-button"
+                                        data-dropdown-toggle="{{ $g->midtermCode }}-dropdown"
+                                        class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                                        type="button">
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    </svg>
+                                    </button>
+                                    <div id="{{ $g->midtermCode }}-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="{{ $g->midtermCode }}-dropdown-button">
+                                            {{-- Subject Edit Button --}}
+                                            <li>
+                                                <button data-modal-target="midterms-{{ $g->midtermCode }}-edit-modal"
                                                         data-modal-toggle="midterms-{{ $g->midtermCode }}-edit-modal"
                                                         class="block w-full py-2 px-4 text-start hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
-                                                </li>
-                                            </ul>
-                                            @if ($g->trashed())
-                                                <div class="py-1">
-                                                    <form action="{{ route('developer.midterms.restore', $g) }}"
-                                                        method="POST">
-                                                        @method('PUT')
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Restore</button>
-                                                    </form>
-                                                </div>
-                                            @else
-                                                <div class="py-1">
-                                                    <form action="{{ route('developer.midterms.destroy', $g) }}"
-                                                        method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Delete</button>
-                                                    </form>
-                                                </div>
-                                            @endif
-                                        </div>
+                                            </li>
+                                        </ul>
+                                         @if ($g->trashed())
+                                             <div class="py-1">
+                                                <form action="{{ route('developer.midterms.restore', $g) }}" method="POST">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <button type="submit" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Restore</button>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <div class="py-1">
+                                                <form action="{{ route('developer.midterms.destroy', $g) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Delete</button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {{-- Si hay un solo parcial, muestra un mensaje de "No more records" --}}
+                            @if ($midterms->count() == 1)
+                                <tr class="border-b dark:border-gray-700">
+                                    <td colspan="6" class="text-center p-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        No more records
                                     </td>
                                 </tr>
-
-                                @if ($midterms->count() == 1)
-                                    <tr class="border-b dark:border-gray-700">
-                                        <td
-                                            class=" items-center p-4 ml-12 space-x-6 whitespace-nowrap text-center font-medium text-sm">
-                                            No more
-                                        </td>
-                                        <td
-                                            class=" items-center p-4 mr-12 space-x-6 whitespace-nowrap text-center font-medium text-sm">
-                                            records
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                {{-- Pagination --}}
-                <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-                    aria-label="Table navigation">
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                        Showing
-                        <span
-                            class="font-semibold text-gray-900 dark:text-white">{{ $midterms->firstItem() }}-{{ $midterms->lastItem() }}</span>
-                        of
-                        <span class="font-semibold text-gray-900 dark:text-white">{{ $midterms->total() }}</span>
-                    </span>
-                    <ul class="inline-flex items-stretch -space-x-px">
-                        @if ($midterms->onFirstPage())
-                            <li>
-                                <a href="#"
-                                    class="pointer-events-none flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-400 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="{{ $midterms->previousPageUrl() }}"
-                                    class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        @endif
-                        @foreach ($midterms->links()->elements['0'] as $label => $path)
-                            @if ($label === $midterms->currentPage())
-                                <li>
-                                    <a href="{{ $path }}" aria-current="page"
-                                        class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $label }}</a>
-                                </li>
-                            @else
-                                <li>
-                                    <a href="{{ $path }}"
-                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $label }}</a>
-                                </li>
                             @endif
                         @endforeach
-                        @if ($midterms->hasMorePages())
-                            <li>
-                                <a href="{{ $midterms->nextPageUrl() }}"
-                                    class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="#"
-                                    class="pointer-events-none flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-400 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
+                    </tbody>
+                </table>
             </div>
+
         </div>
     </section>
 
     {{-- Edit Generation Modal --}}
     @foreach ($midterms as $g)
-        <div id="midterms-{{ $g->midtermCode }}-edit-modal" data-modal-placement="top-center" tabindex="-1"
-            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Actualizar parcial
-                        </h3>
-                        <button data-modal-toggle="midterms-{{ $g->midtermCode }}-edit-modal" type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <form class="p-4 md:p-5" action="{{ route('developer.midterms.update', $g) }}" method="POST">
-                        @method('PUT')
-                        @csrf
-                        <div class="grid gap-4 grid-cols-2">
-                            <div class="col-span-2">
-                                <label for="edit_name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas del parcial</label>
-                                <div id="date-{{ $g->midtermCode }}-range-picker" class="flex items-center">
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </div>
-                                        <input id="datepicker-{{ $g->midtermCode }}-range-start" datepicker
-                                            datepicker-format="yyyy-mm-dd" name="startDate" type="text"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select date start" value="{{ $g->startDate }}">
-                                    </div>
-                                    <span class="mx-4 text-gray-500">to</span>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </div>
-                                        <input id="datepicker-{{ $g->ode }}-range-end" datepicker
-                                            datepicker-format="yyyy-mm-dd" name="endDate" type="text"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select date end" value="{{ $g->endDate }}">
-                                    </div>
+    <div id="midterms-{{ $g->midtermCode }}-edit-modal" data-modal-placement="top-center" tabindex="-1"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Actualizar parcial
+                    </h3>
+                    <button data-modal-toggle="midterms-{{ $g->midtermCode }}-edit-modal" type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" action="{{ route('developer.midterms.update', $g) }}" method="POST">
+                    @method('PUT')
+                    @csrf
+                    <div class="grid gap-4 grid-cols-2">
+                        <!-- Full Name -->
+                        <div class="col-span-2">
+                            <label for="edit_full_name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre completo</label>
+                            <input type="text" id="edit_full_name" name="fullName" value="{{ $g->fullName }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Ingresa el nombre completo" required>
+                        </div>
+
+                        <!-- Abbreviation -->
+                        <div class="col-span-2">
+                            <label for="edit_abbreviation"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación</label>
+                            <input type="text" id="edit_abbreviation" name="abbreviation" value="{{ $g->abbreviation }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Ingresa la abreviación" required>
+                        </div>
+
+                        <!-- Date Range -->
+                        <div class="col-span-2">
+                            <label for="edit_date_range"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas del parcial</label>
+                            <div id="date-{{ $g->midtermCode }}-range-picker" class="flex items-center">
+                                <div class="relative">
+                                    <input id="datepicker-{{ $g->midtermCode }}-range-start" name="startDate" type="text"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Fecha de inicio" value="{{ $g->startDate }}" required>
+                                </div>
+                                <span class="mx-4 text-gray-500">a</span>
+                                <div class="relative">
+                                    <input id="datepicker-{{ $g->midtermCode }}-range-end" name="endDate" type="text"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Fecha de fin" value="{{ $g->endDate }}" required>
                                 </div>
                             </div>
-                            <div class="col-span-2 hidden">
-                                <label for="edit_updated_by"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
-                                <input readonly value="{{ Auth::user()->matricula }}" type="text" name="updated_by"
-                                    id="edit_updated_by"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="99" required="">
-                            </div>
                         </div>
-                        <div class="sm:hidden">
-                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                parcial, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
-                                esté haciendo esté bien.
-                                <br>
-                                * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                                aseguresé que no existan duplicados.
-                            </span>
-                        </div>
-                        <div id="edit_modal_mustread_{{ $g->midtermCode }}" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-900">
-                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                parcial, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
-                                esté haciendo esté bien.
-                                <br>
-                                * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                                aseguresé que no existan duplicados.
-                            </span>
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
-                        <button type="submit" data-tooltip-target="edit_modal_mustread_{{ $g->midtermCode }}"
-                            class="mt-4 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
-                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Actualizar código
-                        </button>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="mt-4 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
+                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Actualizar parcial
+                    </button>
+                </form>
             </div>
         </div>
-    @endforeach
+    </div>
+@endforeach
 
     {{-- Create Generation Modal --}}
     <div id="midterms-create-modal" data-modal-placement="top-center" tabindex="-1"
@@ -423,69 +306,53 @@
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-                <!-- Modal body -->
-                <form class="p-4 md:p-5" action="{{ route('developer.midterms.store') }}" method="POST">
-                    @csrf
-                    <div class="grid gap-4 grid-cols-2">
-                        <div class="col-span-2">
-                            <label for="edit_name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas del parcial</label>
-                            <div id="date-create-range-picker" class="flex items-center">
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                        </svg>
+                    <!-- Modal body -->
+                    <form class="p-4 md:p-5" action="{{ route('developer.midterms.store') }}" method="POST">
+                        @csrf
+                        <div class="grid gap-4 grid-cols-2">
+                            <!-- Abbreviation -->
+                            <div class="col-span-2">
+                                <label for="abbreviation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviacion</label>
+                                <input type="text" id="abbreviation" name="abbreviation" required maxlength="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Abreviación del Parcial">
+                            </div>
+
+                            <!-- Full Name -->
+                            <div class="col-span-2">
+                                <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+                                <input type="text" id="fullName" name="fullName" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nombre de Parcial">
+                            </div>
+
+                            <!-- Date Range with Scroll -->
+                            <div class="col-span-2">
+                                <label for="startDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rango de fechas del parcial</label>
+                                <div id="date-create-range-picker" class="flex items-center overflow-y-auto max-h-60"> <!-- Scroll added here -->
+                                    <div class="relative">
+                                        <input id="datepicker-create-range-start" datepicker datepicker-format="yyyy-mm-dd" name="startDate" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Fecha de Inicio" required>
                                     </div>
-                                    <input id="datepicker-create-range-start" datepicker datepicker-format="yyyy-mm-dd"
-                                        name="startDate" type="text"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Select date start">
-                                </div>
-                                <span class="mx-4 text-gray-500">to</span>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                        </svg>
+                                    <span class="mx-4 text-gray-500">to</span>
+                                    <div class="relative">
+                                        <input id="datepicker-create-range-end" datepicker datepicker-format="yyyy-mm-dd" name="endDate" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Fecha Final" required>
                                     </div>
-                                    <input id="datepicker-create-range-end" datepicker datepicker-format="yyyy-mm-dd"
-                                        name="endDate" type="text"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Select date end">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="sm:hidden">
-                        <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">
-                            * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                            aseguresé que no existan duplicados.
-                        </span>
-                    </div>
-                    <div id="create_modal_mustread" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-900">
-                        <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">
-                            * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                            aseguresé que no existan duplicados.
-                        </span>
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-                    <button type="submit" data-tooltip-target="create_modal_mustread"
-                        class="mt-4 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
-                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        Crear parcial
-                    </button>
-                </form>
+
+                        <!-- Tooltip info -->
+                        <div class="sm:hidden">
+                            <span class="text-[0.6rem] text-gray-500 dark:text-gray-400 text-center">
+                                * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
+                                asegúrese de que no existan duplicados.
+                            </span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="mt-4 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Crear parcial
+                        </button>
+                    </form>
             </div>
         </div>
     </div>

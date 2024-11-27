@@ -18,14 +18,14 @@ class MidtermFactory extends Factory
      */
     public function definition(): array
     {
-
-        $startDate = Carbon::parse(fake()->date('Y-m-d','01-01-2016'));
+        $startDate = Carbon::parse($this->faker->date('Y-m-d', '01-01-2016'));
         $endDate = Carbon::instance($startDate)->addYears(4);
         $user = User::inRandomOrder()->limit(1)->value('matricula');
+        $abbreviation = strtoupper($this->faker->lexify('???'));
 
         return [
-            'midtermCode' => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{4}'),
-            'abbreviation' => $this->faker->unique()->lexify('???'),
+            'midtermCode' => $abbreviation.'-'.$startDate->year.'-'.$endDate->year,
+            'abbreviation' => $abbreviation,
             'fullName' => $this->faker->words(3, true),
             'startDate' => $startDate,
             'endDate' => $endDate,
