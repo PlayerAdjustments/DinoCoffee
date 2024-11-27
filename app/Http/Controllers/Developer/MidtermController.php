@@ -17,29 +17,37 @@ class MidtermController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $midterms = Midterm::query();
+{
+    $midterms = Midterm::query();
 
-        if ($request->has('simple-search')) {
-            $input = $request->input('simple-search');
-            $midterms->where(function ($query) use ($input) {
-                $query->where('midtermCode', 'like', $input . '%')
-                      ->orWhere('abbreviation', 'like', $input . '%')
-                      ->orWhere('fullName', 'like', $input . '%');
-            });
-        }
-
-        if ($request->has('hiddenMidtermDeactivated') && $request->input('hiddenMidtermDeactivated') == 1) {
-            $midterms->onlyTrashed();
-        }
-
-        $midterms = $midterms->orderBy('id')->paginate(
-            $request->input('perage', 10),
-            ['midtermCode', 'abbreviation', 'fullName', 'startDate', 'endDate', 'deleted_at']
-        )->withQueryString();
-
-        return view('Pages.Developer.Midterm.list', compact('midterms'));
+    // Filtro de búsqueda
+    if ($request->has('simple-search')) {
+        $input = $request->input('simple-search');
+        $midterms->where(function ($query) use ($input) {
+            $query->where('midtermCode', 'like', $input . '%')
+                  ->orWhere('abbreviation', 'like', $input . '%')
+                  ->orWhere('fullName', 'like', $input . '%');
+        });
     }
+
+    // Filtro de desactivados
+    if ($request->has('hiddenMidtermDeactivated')) {
+        if ($request->input('hiddenMidtermDeactivated') == 1) {
+            $midterms->onlyTrashed(); // Mostrar solo desactivados
+        } else {
+            $midterms->withTrashed(); // Mostrar activos y desactivados
+        }
+    }
+
+    // Paginación
+    $midterms = $midterms->orderBy('id')->paginate(
+        $request->input('perpage', 10),
+        ['midtermCode', 'abbreviation', 'fullName', 'startDate', 'endDate', 'deleted_at']
+    )->withQueryString();
+
+    return view('Pages.Developer.Midterm.list', compact('midterms'));
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -80,18 +88,13 @@ class MidtermController extends Controller
             ->with('success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Destroyed));
     }
 
-    public function restore($id)
+    public function restore(Midterm $midterm)
     {
-        $midterm = Midterm::withTrashed()->find($id);
-
-        if (!$midterm) {
-            return redirect()->back()->with('info', 'The requested midterm does not exist or has been deactivated.');
-        }
-
         $midterm->restore();
 
-        return redirect()->route('developer.midterms.index')
-        ->with('success', 'Midterm restored successfully.');
+        $this->notifyDevelopers(ControllerNames::Midterm, $midterm->midtermCode, NotificationMethods::Restored);
+
+        return redirect()->route('developer.midterms.index')->with('Success', $this->actionMessages(ControllerNames::Midterm, $midterm->midtermCode, ActionMethods::Restored));
     }
 
 
