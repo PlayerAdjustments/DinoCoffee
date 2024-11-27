@@ -18,6 +18,7 @@ use App\Traits\UserQueryTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -116,6 +117,25 @@ class UserController extends Controller
     public function createEmployee()
     {
         return view('Pages.Developer.Users.Create.createEmployee');
+    }
+
+    public function uploadCSV()
+    {
+        return view('Pages.Developer.Users.CSV.uploadCSV');
+    }
+
+    public function downloadCSV()
+    {
+        $file = storage_path('app/CSV/plantilla_usuarios.xlsx');
+
+        Log::info($file);
+
+        if(!file_exists($file))
+        {
+            abort(404, 'File not found.');
+        }
+
+        return response()->download($file,'plantilla_usuarios.xlsx', ['Accept' => 'application/xlsx']);
     }
 
     public function showUser(User $user)

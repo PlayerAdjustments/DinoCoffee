@@ -24,7 +24,10 @@ Route::middleware('auth', 'role:DEV')->group(fn() => [
     Route::prefix('dashboard/developer/users/create')->group(fn() => [
         Route::get('/students', [UserController::class, 'createStudent'])->name('developer.users.createStudent'),
         Route::get('/employees', [UserController::class, 'createEmployee'])->name('developer.users.createEmployee'),
-        Route::post('/user', [UserController::class, 'storeUser'])->name('developer.users.store')
+        Route::post('/user', [UserController::class, 'storeUser'])->name('developer.users.store'),
+        Route::post('/user/csv', [UserController::class, 'storeCSV'])->name('developer.users.storeCSV'),
+        Route::get('/user/csv/download', [UserController::class, 'downloadCSV'])->name('developer.users.downloadCSV'),
+        Route::get('/user/uploadcsv', [UserController::class, 'uploadCSV'])->name('developer.users.uploadCSV')
     ]),
 
     /**
