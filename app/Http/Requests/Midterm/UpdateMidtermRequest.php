@@ -5,7 +5,6 @@ namespace App\Http\Requests\Midterm;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Illuminate\Contracts\Validation\Validator;
 use Carbon\Carbon;
 
 class UpdateMidtermRequest extends FormRequest
@@ -20,8 +19,6 @@ class UpdateMidtermRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -51,17 +48,30 @@ class UpdateMidtermRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        // Llamamos al método común para preparar los datos
+        $this->prepareMidtermCodeAndUser();
+    }
+
+    /**
+     * Método común para generar el midtermCode y actualizar los campos 'updated_by'.
+     */
+    private function prepareMidtermCodeAndUser(): void
+    {
         $startDate = Carbon::parse($this->startDate);
         $endDate = Carbon::parse($this->endDate);
+        
+        // Generación del código único para el parcial (Midterm)
         $abbreviation = strtoupper(substr(bin2hex(random_bytes(3)), 0, 3));
+        
+        // Unir los valores y prepararlos para la validación
         $this->merge([
-            'midtermCode' => $abbreviation.'-'.$startDate->year . '-' . $endDate->year,
+            'midtermCode' => $abbreviation . '-' . $startDate->year . '-' . $endDate->year,
             'updated_by' => Auth::user()->matricula,
         ]);
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Get the error messages for defined validation rules.
      */
     public function messages(): array
     {
@@ -69,7 +79,7 @@ class UpdateMidtermRequest extends FormRequest
             'code.unique' => 'The code value ' . $this->midtermCode . ' has already been taken.',
         ];
     }
-
 }
+
 
 

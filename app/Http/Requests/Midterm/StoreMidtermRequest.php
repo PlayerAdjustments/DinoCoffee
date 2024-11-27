@@ -18,8 +18,6 @@ class StoreMidtermRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -27,7 +25,7 @@ class StoreMidtermRequest extends FormRequest
             'midtermCode' => [
                 'required',
                 'string',
-                'max:30'
+                'max:30',
             ],
             'abbreviation' => [
                 'required',
@@ -48,11 +46,24 @@ class StoreMidtermRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        // Llamamos al método común para preparar los datos
+        $this->prepareMidtermCodeAndUser();
+    }
+
+    /**
+     * Método común para generar el midtermCode y actualizar los campos 'created_by' y 'updated_by'.
+     */
+    private function prepareMidtermCodeAndUser(): void
+    {
         $startDate = Carbon::parse($this->startDate);
         $endDate = Carbon::parse($this->endDate);
+        
+        // Generación del código único para el parcial (Midterm)
         $abbreviation = strtoupper(substr(bin2hex(random_bytes(3)), 0, 3));
+        
+        // Unir los valores y prepararlos para la validación
         $this->merge([
-            'midtermCode' => $abbreviation.'-'.$startDate->year . '-' . $endDate->year,
+            'midtermCode' => $abbreviation . '-' . $startDate->year . '-' . $endDate->year,
             'created_by' => Auth::user()->matricula,
             'updated_by' => Auth::user()->matricula,
         ]);
@@ -60,13 +71,13 @@ class StoreMidtermRequest extends FormRequest
 
     /**
      * Get the error messages for defined validation rules.
-     * @return array<string, string>
      */
     public function messages(): array
     {
         return [
-            'code.unique' => 'The code value ' . $this->midterCode . ' has already been taken.',
+            'code.unique' => 'The code value ' . $this->midtermCode . ' has already been taken.',
         ];
     }
 }
+
 
