@@ -7,8 +7,8 @@ use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreScheduleRequest;
-use App\Http\Requests\UpdateScheduleRequest;
+use App\Http\Requests\Schedule\StoreScheduleRequest;
+use App\Http\Requests\Schedule\UpdateScheduleRequest;
 use App\Models\Schedule;
 
 
@@ -52,7 +52,7 @@ class ScheduleController extends Controller
         /**
          * Send user back to the correspondent list page
          */
-        return redirect()->route('developer.schedules.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $request->validated('code'), ActionMethods::Stored));
+        return redirect()->route('developer.schedule.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $request->validated('code'), ActionMethods::Stored));
     }
 
     /**
@@ -64,7 +64,7 @@ class ScheduleController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Schedule, $schedule->code, NotificationMethods::Updated);
 
-        return redirect()->route('developer.schedules.index', $schedule)->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Updated));
+        return redirect()->route('developer.schedule.index', $schedule)->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Updated));
     }
 
     /**
@@ -76,7 +76,7 @@ class ScheduleController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Schedule, $schedule->code, NotificationMethods::Destroyed);
 
-        return redirect()->route('developer.schedules.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Destroyed));
+        return redirect()->route('developer.schedule.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Destroyed));
     }
 
     /**
@@ -88,6 +88,6 @@ class ScheduleController extends Controller
 
         $this->notifyDevelopers(ControllerNames::Schedule, $schedule->code, NotificationMethods::Restored);
 
-        return redirect()->route('developer.schedules.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Restored));
+        return redirect()->route('developer.schedule.index')->with('Success', $this->actionMessages(ControllerNames::Schedule, $schedule->code, ActionMethods::Restored));
     }
 }

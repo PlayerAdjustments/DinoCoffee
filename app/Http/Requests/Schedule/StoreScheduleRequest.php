@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Schedule;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,9 +28,9 @@ class StoreScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|unique:shedules,code|string|max:14',
-            'start_hour' => 'required|time_format:H:i|before:end_hour',
-            'end_hour' => 'required|time_format:H:i|after:start_hour',
+            'code' => 'required|unique:schedules,code|string|max:14',
+            'start_hour' => 'required|date_format:H:i|before:end_hour',
+            'end_hour' => 'required|date_format:H:i|after:start_hour',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula'
         ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Schedule;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,9 +29,9 @@ class UpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', Rule::unique('shcedules', 'code')->ignore($this->schedule), 'string', 'max:14'],
-            'start_hour' => 'required|time_format:H:i|before:end_hour',
-            'end_hour' => 'required|time_format:H:i|after:start_hour',
+            'code' => ['required', Rule::unique('schedules', 'code')->ignore($this->schedule), 'string', 'max:14'],
+            'start_hour' => 'required|date_format:H:i:s|before:end_hour',
+            'end_hour' => 'required|date_format:H:i:s|after:start_hour',
             'updated_by' => 'required|exists:users,matricula'
         ];
     }
