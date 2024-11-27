@@ -53,7 +53,7 @@ class UpdateMidtermRequest extends FormRequest
     {
         $startDate = Carbon::parse($this->startDate);
         $endDate = Carbon::parse($this->endDate);
-        $abbreviation = strtoupper(substr(md5(uniqid()), 0, 3));
+        $abbreviation = strtoupper(substr(bin2hex(random_bytes(3)), 0, 3));
         $this->merge([
             'midtermCode' => $abbreviation.'-'.$startDate->year . '-' . $endDate->year,
             'updated_by' => Auth::user()->matricula,
@@ -70,13 +70,6 @@ class UpdateMidtermRequest extends FormRequest
         ];
     }
 
-    /**
-     * Handle a failed validation attempt.
-     */
-    protected function failedValidation(Validator $validator): void
-    {
-        parent::failedValidation($validator);
-    }
 }
 
 
