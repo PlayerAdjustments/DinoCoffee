@@ -6,6 +6,7 @@ use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Midterm\StoreMidtermRequest;
 use App\Http\Requests\Midterm\UpdateMidtermRequest;
 use App\Models\Midterm;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class MidtermController extends Controller
             ], 'like', $input . '%');
         }
 
-        if ($request->has('hiddenGenerationDeactivated') && $request->input('hiddenGenerationDeactivated') == 1) {
+        if ($request->has('hiddenMidtermDeactivated') && $request->input('hiddenMidtermDeactivated') == 1) {
             $midterms->onlyTrashed();
         }
 
@@ -43,7 +44,7 @@ class MidtermController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMidtermRequest $request)
     {
         Midterm::create($request->validated());
 

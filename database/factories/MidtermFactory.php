@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Midterm>
  */
 class MidtermFactory extends Factory
 {
@@ -17,18 +18,21 @@ class MidtermFactory extends Factory
      */
     public function definition(): array
     {
-        $start_date = Carbon::parse(fake()->date('Y-m-d','01-01-2016'));
-        $end_date = Carbon::instance($start_date)->addYears(4);
+
+        $startDate = Carbon::parse(fake()->date('Y-m-d','01-01-2016'));
+        $endDate = Carbon::instance($startDate)->addYears(4);
+        $user = User::inRandomOrder()->limit(1)->value('matricula');
+
         return [
             'midtermCode' => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{4}'),
             'abbreviation' => $this->faker->unique()->lexify('???'),
             'fullName' => $this->faker->words(3, true),
-            'startDate' => $start_date,
-            'endDate' => $end_date,
-            'created_by' => $this->faker->randomDigitNotNull(),
-            'updated_by' => $this->faker->randomDigitNotNull(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'created_by' => $user,
+            'updated_by' => $user
+
         ];
     }
 }
+
