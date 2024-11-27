@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\Developer\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('dashboard/developer')->middleware('auth', 'role:DEV')->group(fn() => [

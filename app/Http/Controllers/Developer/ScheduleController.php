@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Developer;
 
 use Illuminate\Http\Request;
 use App\Enums\ControllerNames;
@@ -37,7 +37,7 @@ class ScheduleController extends Controller
             ['code', 'start_hour', 'end_hour', 'deleted_at']
         )->withQueryString();
 
-        return view('Pages.Developer.Schedule.list', compact('shedules'));
+        return view('Pages.Developer.Schedule.list', compact('schedules'));
     }
 
     /**
