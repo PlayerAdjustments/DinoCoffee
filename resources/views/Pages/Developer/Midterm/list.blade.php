@@ -237,8 +237,7 @@
                                     <div class="relative">
                                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                             </svg>
@@ -252,8 +251,7 @@
                                     <div class="relative">
                                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                             </svg>
@@ -265,6 +263,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Campo para Abreviación -->
+                            <div class="col-span-2">
+                                <label for="abbreviation"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviación</label>
+                                <input type="text" id="abbreviation" name="abbreviation" value="{{ $g->abbreviation }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Abreviación del parcial" required>
+                            </div>
+
+                            <!-- Campo para Nombre Completo -->
+                            <div class="col-span-2">
+                                <label for="fullName"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre Completo</label>
+                                <input type="text" id="fullName" name="fullName" value="{{ $g->fullName }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Nombre completo del parcial" required>
+                            </div>
+
+                            <!-- Campo oculto de 'Updated by' -->
                             <div class="col-span-2 hidden">
                                 <label for="edit_updated_by"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated_by</label>
@@ -274,28 +292,29 @@
                                     placeholder="99" required="">
                             </div>
                         </div>
+
                         <div class="sm:hidden">
                             <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                parcial, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
+                                parcial, se actualizarán todos los registros que poseían esta última. Asegúrese que lo que
                                 esté haciendo esté bien.
                                 <br>
-                                * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                                aseguresé que no existan duplicados.
+                                * Da igual la fecha que ponga, el código será formado por los años de inicio y fin,
+                                asegúrese que no existan duplicados.
                             </span>
                         </div>
+
                         <div id="edit_modal_mustread_{{ $g->midtermCode }}" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-900">
-                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                parcial, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
+                            <span class="text-[0.6rem] text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
+                                parcial, se actualizarán todos los registros que poseían esta última. Asegúrese que lo que
                                 esté haciendo esté bien.
                                 <br>
-                                * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                                aseguresé que no existan duplicados.
+                                * Da igual la fecha que ponga, el código será formado por los años de inicio y fin,
+                                asegúrese que no existan duplicados.
                             </span>
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
+
                         <button type="submit" data-tooltip-target="edit_modal_mustread_{{ $g->midtermCode }}"
                             class="mt-4 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-secondary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-secondary-800">
                             <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -312,7 +331,7 @@
         </div>
     @endforeach
 
-    {{-- Create Midterm Modal --}}
+    {{-- Create Generation Modal --}}
     <div id="midterms-create-modal" data-modal-placement="top-center" tabindex="-1"
         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -337,6 +356,7 @@
                     <form class="p-4 md:p-5" action="{{ route('developer.midterms.store') }}" method="POST">
                         @csrf
                         <div class="grid gap-4 grid-cols-2">
+
                             <!-- Abbreviation -->
                             <div class="col-span-2">
                                 <label for="abbreviation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Abreviacion</label>

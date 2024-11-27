@@ -30,13 +30,8 @@ class MidtermController extends Controller
         });
     }
 
-    // Filtro de desactivados
-    if ($request->has('hiddenMidtermDeactivated')) {
-        if ($request->input('hiddenMidtermDeactivated') == 1) {
-            $midterms->onlyTrashed(); // Mostrar solo desactivados
-        } else {
-            $midterms->withTrashed(); // Mostrar activos y desactivados
-        }
+    if ($request->has('hiddenMidtermsDeactivated') && $request->input('hiddenMidtermsDeactivated') == 1) {
+        $midterms->onlyTrashed();
     }
 
     // Paginación
@@ -47,6 +42,7 @@ class MidtermController extends Controller
 
     return view('Pages.Developer.Midterm.list', compact('midterms'));
 }
+
 
 
     /**
