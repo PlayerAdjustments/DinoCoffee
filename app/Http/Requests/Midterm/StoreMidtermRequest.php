@@ -55,18 +55,27 @@ class StoreMidtermRequest extends FormRequest
      */
     private function prepareMidtermCodeAndUser(): void
     {
-        $startDate = Carbon::parse($this->startDate);
-        $endDate = Carbon::parse($this->endDate);
-        
+        $midtermData = StoreMidtermRequest::generateMidtermData($this->startDate, $this->endDate);
+
+        $this->merge($midtermData);
+    }
+
+    /**
+     * Método estático para generar midtermCode y asignar usuarios.
+     */
+    public static function generateMidtermData(string $startDate, string $endDate): array
+    {
+        $startDate = Carbon::parse($startDate);
+        $endDate = Carbon::parse($endDate);
+
         // Generación del código único para el parcial (Midterm)
         $abbreviation = strtoupper(substr(bin2hex(random_bytes(3)), 0, 3));
-        
-        // Unir los valores y prepararlos para la validación
-        $this->merge([
+
+        return [
             'midtermCode' => $abbreviation . '-' . $startDate->year . '-' . $endDate->year,
             'created_by' => Auth::user()->matricula,
             'updated_by' => Auth::user()->matricula,
-        ]);
+        ];
     }
 
     /**
