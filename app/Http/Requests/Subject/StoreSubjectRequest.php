@@ -4,7 +4,6 @@ namespace App\Http\Requests\Subject;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class StoreSubjectRequest extends FormRequest
 {
@@ -41,7 +40,6 @@ class StoreSubjectRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => Str::slug($this->name),
             'created_by' => Auth::user()->matricula,
             'updated_by' => Auth::user()->matricula,
         ]);
