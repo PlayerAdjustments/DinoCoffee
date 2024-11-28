@@ -12,7 +12,7 @@ Route::prefix('dashboard/developer')->middleware(['auth', 'role:DEV'])->group(fn
             return redirect()->back()->with('Info', 'Midterm with that information does not exists or has been deactivated.');
         }),
 
-    Route::put('midterm/{midterm}/restore', [MidtermController::class, 'restore'])->name('developer.midterm.restore')->withTrashed()->missing(function () {
+    Route::put('midterm/{midterm}/restore', [MidtermController::class, 'restore'])->name('developer.midterms.restore')->withTrashed()->missing(function () {
         return redirect()->back()->with('Info', 'Midterm with that information does not exists.');
     }),
 ]);

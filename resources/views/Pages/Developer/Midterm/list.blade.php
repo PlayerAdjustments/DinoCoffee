@@ -88,11 +88,11 @@
                                 <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Buscar solo</h6>
                                 <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                                     <li class="flex items-center">
-                                        <input id="SubjectDeactivated" name="SubjectDeactivated" type="checkbox"
+                                        <input id="MidtermDeactivated" name="hiddenMidtermDeactivated" type="checkbox"
                                             value="1"
                                             {{ request('hiddenMidtermDeactivated') == 1 ? 'checked' : '' }}
                                             class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="SubjectDeactivated"
+                                        <label for="MidtermDeactivated"
                                             class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Desactivados
                                         </label>
                                     </li>
@@ -159,7 +159,7 @@
                                     </button>
                                     <div id="{{ $g->midtermCode }}-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="{{ $g->midtermCode }}-dropdown-button">
-                                            {{-- Subject Edit Button --}}
+                                            {{-- Midterm Edit Button --}}
                                             <li>
                                                 <button data-modal-target="midterms-{{ $g->midtermCode }}-edit-modal"
                                                         data-modal-toggle="midterms-{{ $g->midtermCode }}-edit-modal"
@@ -410,7 +410,7 @@
          */
         document.getElementById('mainForm').addEventListener('submit', function() {
             document.getElementById('hiddenMidtermDeactivated').value = document.getElementById(
-                    'SubjectDeactivated')
+                    'MidtermDeactivated')
                 .checked ? '1' : '0';
         });
     </script>

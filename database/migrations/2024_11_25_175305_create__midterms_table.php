@@ -14,7 +14,7 @@ class CreateMidtermsTable extends Migration
         Schema::create('midterms', function (Blueprint $table) {
             $table->id();
             $table->string('midtermCode', 30)->unique();
-            $table->string('abbreviation', 5)->unique();
+            $table->string('abbreviation', 3)->unique();
             $table->string('fullName', 75)->index();
             $table->date('startDate')->index();
             $table->date('endDate')->index();

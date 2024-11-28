@@ -32,7 +32,7 @@ class UpdateMidtermRequest extends FormRequest
             'abbreviation' => [
                 'required',
                 'string',
-                'size:3', // Cambiar a "size:3" si la abreviación siempre debe tener 3 caracteres
+                'size:3',
                 'alpha',
                 Rule::unique('midterms', 'abbreviation')->ignore($this->midterm),
             ],

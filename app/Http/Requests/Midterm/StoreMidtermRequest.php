@@ -30,7 +30,7 @@ class StoreMidtermRequest extends FormRequest
             'abbreviation' => [
                 'required',
                 'string',
-                'size:3', // Ajuste según los datos generados en el Factory
+                'size:3',
                 'alpha'
             ],
             'fullName' => 'required|string|max:75',

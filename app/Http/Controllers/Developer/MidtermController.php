@@ -30,7 +30,7 @@ class MidtermController extends Controller
         });
     }
 
-    if ($request->has('hiddenMidtermsDeactivated') && $request->input('hiddenMidtermsDeactivated') == 1) {
+    if ($request->has('hiddenMidtermDeactivated') && $request->input('hiddenMidtermDeactivated') == 1) {
         $midterms->onlyTrashed();
     }
 
