@@ -27,8 +27,8 @@ class MidtermControllerTest extends TestCase
     public function test_index_with_search_filter()
     {
         // Crea midterms con diferentes datos
-        $midterm1 = Midterm::factory()->create(['midtermCode' => 'MID001']);
-        $midterm2 = Midterm::factory()->create(['abbreviation' => 'ABR2']);
+        Midterm::factory()->create(['midtermCode' => 'MID001']);
+        Midterm::factory()->create(['abbreviation' => 'ABR2']);
         
         // Realiza la solicitud GET con un filtro de búsqueda
         $response = $this->get(route('developer.midterms.index', ['simple-search' => 'MID']));
