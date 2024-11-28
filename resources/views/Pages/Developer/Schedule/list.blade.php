@@ -333,10 +333,10 @@
                                                 <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
                                             </svg>
                                         </div>
-                                        <input id="timepicker-{{ $sch->code }}-range-start" timepicker 
-                                        timepicker-format="HH:mm" name="start_hour" type="text"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Select start time" value="{{ $sch->start_hour }}">
+                                        <input id="timepicker-{{ $sch->code }}-range-start" timepicker
+                                            timepicker-format="HH:mm" name="start_hour" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="Select start time" value="{{ $sch->start_hour }}">
                                     </div>
                                     <span class="mx-4 text-gray-500">to</span>
                                     <div class="relative">

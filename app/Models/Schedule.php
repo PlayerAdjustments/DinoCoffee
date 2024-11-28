@@ -12,38 +12,15 @@ class Schedule extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * Table name
-     * @var string
-     */
     public $table = 'schedules';
 
-    /**
-     * Load relationship functions
-     * @var array
-     */
-    protected $with = [];
-
-    /**
-     * For using routeModelBinding
-     * @var string
-     */
     public function getRouteKeyName(): string
     {
         return 'code';
     }
 
-    /**
-     * For soft delete
-     * @var array
-     */
     protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'code',
         'start_hour',
@@ -53,20 +30,6 @@ class Schedule extends Model
         'created_at',
         'updated_at'
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [];
-    }
-
-    /**
-     * Mutators and accessors
-     */
 
     protected function code(): Attribute
     {
