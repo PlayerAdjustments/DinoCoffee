@@ -24,7 +24,7 @@ class MidtermFactory extends Factory
         $abbreviation = strtoupper($this->faker->lexify('???'));
 
         return [
-            'midtermCode' => $abbreviation.'-'.$startDate->year.'-'.$endDate->year,
+            'midtermCode' => $abbreviation.'-'.$startDate->toDateString().'-'.$endDate->toDateString(),
             'abbreviation' => $abbreviation,
             'fullName' => $this->faker->words(3, true),
             'startDate' => $startDate,

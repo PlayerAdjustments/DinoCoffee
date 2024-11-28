@@ -25,13 +25,19 @@ class StoreMidtermRequest extends FormRequest
             'midtermCode' => [
                 'required',
                 'string',
-                'max:30',
+                'max:255',
             ],
             'abbreviation' => [
                 'required',
                 'string',
-                'size:3',
-                'alpha'
+                'max:3',
+                function ($attribute, $value, $fail)
+                {
+                    if(!preg_match('/^[a-zA-Z0-9]+$/', $value))
+                    {
+                        $fail("The $attribute must  be alphanumeric (A-Z, a-z, 0-9).");
+                    }
+                }
             ],
             'fullName' => 'required|string|max:75',
             'startDate' => 'required|date|before:endDate',
@@ -55,7 +61,7 @@ class StoreMidtermRequest extends FormRequest
      */
     private function prepareMidtermCodeAndUser(): void
     {
-        $midtermData = StoreMidtermRequest::generateMidtermData($this->startDate, $this->endDate);
+        $midtermData = StoreMidtermRequest::generateMidtermData($this->startDate, $this->endDate, $this->abbreviation);
 
         $this->merge($midtermData);
     }
@@ -63,16 +69,13 @@ class StoreMidtermRequest extends FormRequest
     /**
      * Método estático para generar midtermCode y asignar usuarios.
      */
-    public static function generateMidtermData(string $startDate, string $endDate): array
+    public static function generateMidtermData(string $startDate, string $endDate, string $abbreviation): array
     {
-        $startDate = Carbon::parse($startDate);
-        $endDate = Carbon::parse($endDate);
-
-        // Generación del código único para el parcial (Midterm)
-        $abbreviation = strtoupper(substr(bin2hex(random_bytes(3)), 0, 3));
+        $startDate = Carbon::parse($startDate)->startOfDay()->toDateString();
+        $endDate = Carbon::parse($endDate)->startOfDay()->toDateString();
 
         return [
-            'midtermCode' => $abbreviation . '-' . $startDate->year . '-' . $endDate->year,
+            'midtermCode' => $abbreviation . '-' . $startDate . '-' . $endDate,
             'created_by' => Auth::user()->matricula,
             'updated_by' => Auth::user()->matricula,
         ];

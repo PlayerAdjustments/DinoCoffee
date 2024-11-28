@@ -13,12 +13,13 @@ class CreateMidtermsTable extends Migration
     {
         Schema::create('midterms', function (Blueprint $table) {
             $table->id();
-            $table->string('midtermCode', 30)->unique();
-            $table->string('abbreviation', 3)->unique();
+            $table->string('midtermCode', 255)->unique();
+            $table->string('abbreviation', 3);
             $table->string('fullName', 75)->index();
             $table->date('startDate')->index();
             $table->date('endDate')->index();
             $this->addAuditColumns($table);  // Llamar al método privado
+            $table->unique(['startDate','endDate']);
         });
     }
 
