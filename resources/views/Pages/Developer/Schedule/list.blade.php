@@ -334,7 +334,7 @@
                                             </svg>
                                         </div>
                                         <input id="timepicker-{{ $sch->code }}-range-start" timepicker 
-                                        timepicker-format="HH:mm" name="start_time" type="text"
+                                        timepicker-format="HH:mm" name="start_hour" type="text"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Select start time" value="{{ $sch->start_hour }}">
                                     </div>
@@ -347,7 +347,7 @@
                                             </svg>
                                         </div>
                                         <input id="timepicker-{{ $sch->code }}-range-end" timepicker
-                                            timepicker-format="HH:mm" name="end_time" type="text"
+                                            timepicker-format="HH:mm" name="end_hour" type="text"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Select end time" value="{{ $sch->end_hour }}">
                                     </div>
