@@ -1,14 +1,14 @@
 @extends('Layouts.Developer.Dashboard')
 
 @section('content')
-    <div class="flex items-center justify-center w-full">
+    <div class="flex flex-wrap items-center justify-center w-full gap-2">
 
-        <section class="bg-white dark:bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+        <section class="bg-white dark:bg-gray-900  w-full">
+            <div class="py-8 px-2 mx-auto max-w-screen-xl text-center lg:py-16">
                 <h1
-                    class="mb-4 tracking-tight leading-none text-2xl font-black text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                    class="mb-4 tracking-tight leading-none text-xl font-black text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
                     Subir usuarios con CSV</h1>
-                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Llena la
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl  sm:px-16  dark:text-gray-400">Llena la
                     plantilla a continuación con los datos de los usuarios y súbelo como CSV</p>
                 <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 mt-4">
                     <button id="download-csv"
@@ -24,20 +24,31 @@
             </div>
         </section>
 
-        <label for="dropzone-file"
-            class="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-8 h-full mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
-                    or drag and drop</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">CSV</p>
-            </div>
-            <input id="dropzone-file" type="file" class="hidden" />
-        </label>
+        <form id="csvUploadForm" action="{{ route('developer.users.storeCSV') }}" method="POST"
+            enctype="multipart/form-data"
+            class="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-400 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-300 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            @csrf
+            <label for="dropzone-file">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-full mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
+                            upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">CSV</p>
+                </div>
+                <input id="dropzone-file" name="file" type="file" class="hidden" />
+            </label>
+
+            <!-- Submit button -->
+            <button type="submit" id="submitButton"
+                class="mt-4 py-2 px-4 bg-blue-600 text-white rounded-lg">Upload</button>
+        </form>
+
+
+
     </div>
 
     <script>
@@ -49,6 +60,10 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        });
+
+        document.getElementById('dropzone-file').addEventListener('change', function() {
+            document.getElementById('csvUploadForm').submit();
         });
     </script>
 @endsection

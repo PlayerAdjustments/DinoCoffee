@@ -6,8 +6,10 @@ use App\Enums\ControllerNames;
 use App\Enums\ActionMethods;
 use App\Enums\NotificationMethods;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CSVUploadRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Imports\UsersImport;
 use App\Mail\User\UserCreatedMail;
 use App\Mail\User\UserDeletedMail;
 use App\Mail\User\UserRestoredMail;
@@ -20,6 +22,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class UserController extends Controller
 {
@@ -124,18 +128,58 @@ class UserController extends Controller
         return view('Pages.Developer.Users.CSV.uploadCSV');
     }
 
+    public function storeCSV(CSVUploadRequest $request)
+    {
+        $file = $request->file('file');
+        $timestamp = now()->format('d_m_Y_H_i_s');
+        $filename = 'users_' . $timestamp . '.csv';
+
+        if ($file && $file->isValid()) {
+            $filePath = $file->getRealPath();
+
+            $filePath = $file->storeAs('csv_uploads', $filename);
+
+            Log::info('File Uploaded to: ' . $filePath);
+
+            try {
+                // Import users from the uploaded file
+                Excel::import(new UsersImport, $filePath);
+
+                return redirect()->route('developer.users.uploadCSV')->with('Success', 'File was recieved!');
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+                $errors = [];
+
+                foreach ($failures as $failure) {
+                    $errors[] = [
+                        'row' => $failure->row(),
+                        'attribute' => $failure->attribute(),
+                        'errors' => $failure->errors(),
+                        'values' => $failure->values()
+                    ];
+                }
+                Log::error('Error importing CSV file: ', $errors);
+                return redirect()->route('developer.users.uploadCSV')
+                ->with('error', 'We could not import the file')
+                ->with('csv_import_errors', $errors);  // Store the CSV-specific errors separately in the session
+            }
+
+            return redirect()->route('developer.users.uploadCSV')->with('error', 'No valid file recieved.');
+        }
+    }
+
+
     public function downloadCSV()
     {
         $file = storage_path('app/CSV/plantilla_usuarios.xlsx');
 
         Log::info($file);
 
-        if(!file_exists($file))
-        {
+        if (!file_exists($file)) {
             abort(404, 'File not found.');
         }
 
-        return response()->download($file,'plantilla_usuarios.xlsx', ['Accept' => 'application/xlsx']);
+        return response()->download($file, 'plantilla_usuarios.xlsx', ['Accept' => 'application/xlsx']);
     }
 
     public function showUser(User $user)

@@ -7,8 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts" integrity="sha384-mqozHMOtx/762srWJnvm5wDYIVNSZw691t+rgXQoo/83uZG6A1aMi23a3fwExvZi" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js" integrity="sha384-SwLKRRNiVJqs2wqB+G5yEJfYuFngJWupGEYFq2Z0dK6+9adS+jWPUVTQ/iCYRNu1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"
+        integrity="sha384-bMU8d3OiHuet7TbymchWyNzwe6sbyJDmauR27LJKK5Ez5XOc3R1nfZH8oii1Ic29" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+        integrity="sha384-SwLKRRNiVJqs2wqB+G5yEJfYuFngJWupGEYFq2Z0dK6+9adS+jWPUVTQ/iCYRNu1" crossorigin="anonymous">
+    </script>
     {{-- Dark mode check user preferences --}}
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -29,7 +33,7 @@
 
         <main class="p-4 md:ml-64 h-full pt-20 bg-gray-200 dark:bg-gray-900">
             {{-- Show messages to user. --}}
-            @if ($errors->any() || session()->has('Success') || session()->has('Info'))
+            @if ($errors->any() || session()->has('Success') || session()->has('Info') || session()->has('csv_import_errors'))
                 <div class="absolute top-20 right-0 transition-transform overflow-hidden z-40">
                     <ul>
                         {{-- Show errors to user --}}
@@ -40,6 +44,24 @@
                                 </x-toast>
                             </li>
                         @endforeach
+
+                        {{-- Show CSV import errors --}}
+                        @if (session()->has('csv_import_errors'))
+                            @foreach (session('csv_import_errors') as $error)
+                                <li>
+                                    <x-toast type='Error'>
+                                        Row {{ $error['row'] }} -
+                                        @if (is_array($error['errors']))
+                                            {{ implode(', ', $error['errors']) }}
+                                        @else
+                                            {{ $error['errors'] }}
+                                        @endif
+                                        (Attribute: {{ $error['attribute'] }})
+                                    </x-toast>
+                                </li>
+                            @endforeach
+                        @endif
+
                         {{-- Show success message to user --}}
                         @if (session()->has('Success'))
                             <li>
