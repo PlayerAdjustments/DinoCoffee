@@ -25,7 +25,7 @@ class ScheduleController extends Controller
             $input = $request->input('simple-search');
             $schedules->whereAny([
                 'code',
-            ], 'like', $input . '%');
+            ], 'like', '%'.$input . '%');
         }
 
         if ($request->has('hiddenScheduleDeactivated') && $request->input('hiddenScheduleDeactivated') == 1) {

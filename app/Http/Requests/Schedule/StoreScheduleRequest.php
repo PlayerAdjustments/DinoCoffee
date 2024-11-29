@@ -29,8 +29,8 @@ class StoreScheduleRequest extends FormRequest
     {
         return [
             'code' => 'required|unique:schedules,code|string|max:14',
-            'start_hour' => 'required|date_format:H:i|before:end_hour',
-            'end_hour' => 'required|date_format:H:i|after:start_hour',
+            'start_hour' => 'required|date_format:H:i|before:end_hour|after_or_equal:7:00',
+            'end_hour' => 'required|date_format:H:i|after:start_hour|before_or_equal:21:00',
             'created_by' => 'required|exists:users,matricula',
             'updated_by' => 'required|exists:users,matricula'
         ];

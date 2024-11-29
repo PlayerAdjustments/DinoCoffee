@@ -334,9 +334,9 @@
                                             </svg>
                                         </div>
                                         <input id="timepicker-{{ $sch->code }}-range-start" timepicker
-                                            timepicker-format="HH:mm" name="start_hour" type="text"
+                                            timepicker-format="HH:mm" name="start_hour" type="time" min="07:00" max="20:00" value="{{ $sch->start_hour }}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select start time" value="{{ $sch->start_hour }}">
+                                            placeholder="Select start time">
                                     </div>
                                     <span class="mx-4 text-gray-500">to</span>
                                     <div class="relative">
@@ -347,9 +347,9 @@
                                             </svg>
                                         </div>
                                         <input id="timepicker-{{ $sch->code }}-range-end" timepicker
-                                            timepicker-format="HH:mm" name="end_hour" type="text"
+                                            timepicker-format="HH:mm" name="end_hour" type="time" min="08:00" max="21:00" value="{{ $sch->end_hour }}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select end time" value="{{ $sch->end_hour }}">
+                                            placeholder="Select end time">
                                     </div>
                                 </div>
                             </div>
@@ -363,18 +363,12 @@
                             </div>
                         </div>
                         <div class="sm:hidden">
-                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                horario, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
-                                esté haciendo esté bien.
+                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Recuerde utilizar el formato HH:mm
                             </span>
                         </div>
                         <div id="edit_modal_mustread_{{ $sch->code }}" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-900">
-                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Al actualizar el
-                                horario, se actualizarán todos los registros que poseian esta ultima. Aseguresé que lo
-                                que
-                                esté haciendo esté bien.
+                            <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">* Recuerde utilizar el formato HH:mm
                             </span>
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
@@ -430,10 +424,10 @@
                                             <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
                                         </svg>
                                     </div>
-                                    <input id="timepicker-create-range-start" timepicker timepicker-format="HH:mm"
-                                        name="start_hour" type="text"
+                                    <input id="timepicker-create-range-start" timepicker timepicker-format="HH"
+                                        name="start_hour" type="time" value="07:00" min="07:00" max="20:00"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Select time start">
+                                        placeholder="Select start time">
                                 </div>
                                 <span class="mx-4 text-gray-500">to</span>
                                 <div class="relative">
@@ -444,7 +438,7 @@
                                         </svg>
                                     </div>
                                     <input id="timepicker-create-range-start" timepicker timepicker-format="HH:mm"
-                                        name="end_hour" type="text"
+                                        name="end_hour" type="time" value="21:00" min="08:00" max="21:00"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary-500 focus:border-secondary-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Select end time">
                                 </div>
@@ -453,15 +447,13 @@
                     </div>
                     <div class="sm:hidden">
                         <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">
-                            * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                            aseguresé que no existan duplicados.
+                            Utilice el formato HH:mm
                         </span>
                     </div>
                     <div id="create_modal_mustread" role="tooltip"
                         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-900">
                         <span class="text-[0.6rem]  text-gray-500 dark:text-gray-400 text-center">
-                            * Da igual la fecha que ponga, el codigo será formado por los años de inicio y fin,
-                            aseguresé que no existan duplicados.
+                            Utilice el formato HH:mm
                         </span>
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>

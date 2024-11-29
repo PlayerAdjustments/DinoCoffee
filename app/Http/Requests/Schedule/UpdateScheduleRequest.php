@@ -30,8 +30,8 @@ class UpdateScheduleRequest extends FormRequest
     {
         return [
             'code' => ['required', Rule::unique('schedules', 'code')->ignore($this->schedule), 'string', 'max:14'],
-            'start_hour' => 'required|date_format:H:i:s|before:end_hour',
-            'end_hour' => 'required|date_format:H:i:s|after:start_hour',
+            'start_hour' => 'required|before:end_hour|after_or_equal:7:00',
+            'end_hour' => 'required|after:start_hour|before_or_equal:21:00',
             'updated_by' => 'required|exists:users,matricula'
         ];
     }
