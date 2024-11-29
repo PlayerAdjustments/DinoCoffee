@@ -11,7 +11,7 @@ enum ControllerNames: string
   case Generation = 'Generation ';
   case School = 'School ';
   case StudyPlan = 'StudyPlan ';
-  case Schedule = 'Schedule ';
+  case Midterm = 'Midterm';
   
   /**
    * Get translation for Notifications
@@ -27,7 +27,7 @@ enum ControllerNames: string
       self::Generation => 'Generación ',
       self::School => 'Escuela ',
       self::StudyPlan => 'Plan de estudio ',
-      self::Schedule => 'Horario ',
+      self::Midterm => 'Parcial',
     };
   }
 }

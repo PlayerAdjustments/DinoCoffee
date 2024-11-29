@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             GenerationSeeder::class,
             StudyPlanSeeder::class,
             ScheduleSeeder::class,
+            MidtermSeeder::class,
         ]);
     }
 }

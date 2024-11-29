@@ -122,6 +122,23 @@
                 </a>
             </li>
 
+            {{-- Midterm tab --}}
+            <li>
+                <a href="{{ route('developer.midterms.index') }}"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <svg aria-hidden="true"
+                        class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        fill="currentColor"
+                        viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM192 384H96V128h96v256zm96-128H192V128h96v128z"/>
+                    </svg>
+
+
+
+                    <span class="ml-3">Parciales</span>
+                </a>
+            </li>
+
             {{-- Schedule tab --}}
             <li>
                 <a href="{{ route('developer.schedule.index') }}"
