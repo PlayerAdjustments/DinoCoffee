@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Schedule;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             GenerationSeeder::class,
             StudyPlanSeeder::class,
+            ScheduleSeeder::class,
+            MidtermSeeder::class,
         ]);
     }
 }
