@@ -54,7 +54,7 @@
                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
                             upload</span> or drag and drop</p>
                     <p class="text-xs text-gray-500 dark:text-gray-400">CSV</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">(Max size: 10Mb)</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">(Max size: 8mb)</p>
                 </div>
                 <input id="dropzone-file" name="file" type="file" class="hidden" />
             </label>
