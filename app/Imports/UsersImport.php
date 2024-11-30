@@ -43,18 +43,20 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
         $user = new User([
             'matricula' => $row['matricula'],
             'name' => $row['nombres'],
-            'first_lastname' => $row['apellido-paterno'],
-            'second_lastname' => $row['apellido-materno'],
+            'first_lastname' => $row['apellido_paterno'],
+            'second_lastname' => $row['apellido_materno'],
             'role' => $row['rol'],
             'sex' => $row['sexo'],
-            'phone_number' => $row['numero-telefonico'],
+            'phone_number' => $row['numero_telefonico'],
             'password' => $row['password'],
             'birthday' => $row['cumpleanos'],
-            'cedula_profesional' => $row['cedula-profesional'],
+            'cedula_profesional' => $row['cedula_profesional'],
             'email' => $row['email']
         ]);
 
         $this->createdUsers[] = ['user' => $user, 'password' => $row['password']];
+
+        Log::info('User: '.$user);
 
         return $user;
     }
@@ -74,14 +76,19 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
         return 3;
     }
 
-    public function prepareDataForValidation($data, $index)
+    public function prepareForValidation($data, $index)
     {
         Log::info('Prepared data: ', $data);
         if (!empty($data['cumpleanos'])) {
+            Log::info('Birthday: ' . $data['cumpleanos']);
             try {
-                // Attempt to parse and format the date
-                $data['cumpleanos'] = Carbon::createFromFormat('m/d/Y', $data['cumpleanos'])->format('Y-m-d');
+                // Check if the date is already in YYYY-MM-DD format
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['cumpleanos'])) {
+                    // Attempt to parse and format the date from YYYY/MM/DD
+                    $data['cumpleanos'] = Carbon::createFromFormat('Y/m/d', $data['cumpleanos'])->format('Y-m-d');
+                }
             } catch (\Exception $e) {
+                Log::info('An Exception has ocurred: ' . $e->getMessage());
                 // Log or handle invalid date format
                 $data['cumpleanos'] = null; // Or handle as necessary
             }
@@ -109,6 +116,7 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
             'numero_telefonico' => ['required', 'unique:users,phone_number', 'max:20', 'regex:^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$^'],
             'cumpleanos' => 'required|date_format:Y-m-d',
             'email' => 'required|unique:users,email|email',
+            'cedula_profesional' => 'required_if:rol,DIR,COO,DOC',
             'password' => 'required',
             'avatar' => 'nullable',
             'created_by' => 'required|exists:users,matricula',
@@ -116,20 +124,51 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
         ];
     }
 
-    public function customValidationRules(array $row)
+    public function withValidator($validator)
     {
-        $role = strtoupper($row['rol']);
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
+            Log::info('DATA: '.print_r($data, true));
 
-        // If the role is DOC, COO, or DIR, validate cedula_profesional
-        if (in_array($role, ['DOC', 'COO', 'DIR'])) {
-            return [
-                'cedula_profesional' => 'required|integer|digits_between:7,8|unique:users,cedula_profesional'
-            ];
-        }
+            foreach ($data as $index => $row)
+            {
+                // The index starts at 0, so for human-readable row numbers, we add 1
+                $rowNumber = $index + 1;
+                $errorMessages = [];
 
-        return [];
+                // Check if the "Rol" field is one of the specified roles
+                if (in_array($row['rol'], ['DIR', 'COO', 'DOC'])) {
+                    Log::info('Passed Validation');
+                    // Apply the validation rules to the "Cedula profesional"
+                    $cedula = $row['cedula_profesional'];
+
+                    // Apply the 'integer', 'digits_between' and 'unique' rules manually
+                    // 1. Check if the Cedula is an integer
+                    if (!is_int($cedula) && !ctype_digit($cedula)) {
+                        $errorMessages[] = "must be an integer";
+                    }
+                    
+                    // 2. Check if the Cedula has between 7 and 8 digits
+                    if (strlen($cedula) < 7 || strlen($cedula) > 8) {
+                        $errorMessages[] = "must have 7 or 8 digits";
+                    }
+
+                    // 3. Check if the Cedula is unique in the 'users' table
+                    $existingCedula = User::where('cedula_profesional', $cedula)->exists();
+                    if ($existingCedula) {
+                        $errorMessages[] = "must be unique";
+                    }
+
+                    // If there are any validation errors, combine them into one message
+                    if (!empty($errorMessages)) {
+                        // Join the error messages into a single message
+                        $errorMessage = "The cedula_profesional " . implode(', ', $errorMessages) . ".";
+                        $validator->errors()->add($rowNumber, $errorMessage, );
+                    }
+                }
+            }
+        });
     }
-
 
     public function afterImport(AfterImport $event)
     {

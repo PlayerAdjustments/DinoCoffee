@@ -135,17 +135,17 @@ class UserController extends Controller
         $filename = 'users_' . $timestamp . '.csv';
 
         if ($file && $file->isValid()) {
-            $filePath = $file->getRealPath();
-
-            $filePath = $file->storeAs('csv_uploads', $filename);
+            $filePath = $file->storeAs('CSV/uploads', $filename);
 
             Log::info('File Uploaded to: ' . $filePath);
 
             try {
+                Log::info('Importing CSV: '.$filePath);
+
                 // Import users from the uploaded file
                 Excel::import(new UsersImport, $filePath);
 
-                return redirect()->route('developer.users.uploadCSV')->with('Success', 'File was recieved!');
+                return redirect()->route('developer.users.uploadCSV')->with('Success', 'Users uploaded successfuly!');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $failures = $e->failures();
                 $errors = [];
