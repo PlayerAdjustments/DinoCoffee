@@ -56,7 +56,7 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
 
         $this->createdUsers[] = ['user' => $user, 'password' => $row['password']];
 
-        Log::info('User: '.$user);
+        Log::info('User: ' . $user);
 
         return $user;
     }
@@ -128,47 +128,27 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
     {
         $validator->after(function ($validator) {
             $data = $validator->getData();
-            Log::info('DATA: '.print_r($data, true));
+            Log::info('DATA: ' . print_r($data, true));
 
-            foreach ($data as $index => $row)
-            {
-                // The index starts at 0, so for human-readable row numbers, we add 1
+            foreach ($data as $index => $row) {
                 $rowNumber = $index + 1;
                 $errorMessages = [];
 
-                // Check if the "Rol" field is one of the specified roles
-                if (in_array($row['rol'], ['DIR', 'COO', 'DOC'])) {
-                    Log::info('Passed Validation');
-                    // Apply the validation rules to the "Cedula profesional"
+                if ($this->isValidRole($row['rol'])) {
                     $cedula = $row['cedula_profesional'];
 
-                    // Apply the 'integer', 'digits_between' and 'unique' rules manually
-                    // 1. Check if the Cedula is an integer
-                    if (!is_int($cedula) && !ctype_digit($cedula)) {
-                        $errorMessages[] = "must be an integer";
-                    }
-                    
-                    // 2. Check if the Cedula has between 7 and 8 digits
-                    if (strlen($cedula) < 7 || strlen($cedula) > 8) {
-                        $errorMessages[] = "must have 7 or 8 digits";
-                    }
+                    $this->validateCedula($cedula, $errorMessages);
 
-                    // 3. Check if the Cedula is unique in the 'users' table
-                    $existingCedula = User::where('cedula_profesional', $cedula)->exists();
-                    if ($existingCedula) {
+                    if ($this->isCedulaNotUnique($cedula)) {
                         $errorMessages[] = "must be unique";
                     }
 
-                    // If there are any validation errors, combine them into one message
-                    if (!empty($errorMessages)) {
-                        // Join the error messages into a single message
-                        $errorMessage = "The cedula_profesional " . implode(', ', $errorMessages) . ".";
-                        $validator->errors()->add($rowNumber, $errorMessage, );
-                    }
+                    $this->addErrorMessages($rowNumber, $errorMessages, $validator);
                 }
             }
         });
     }
+
 
     public function afterImport(AfterImport $event)
     {
@@ -187,6 +167,45 @@ class UsersImport implements ToModel, WithSkipDuplicates, WithHeadingRow, WithBa
                 'icon' => 'Rexxi_cheer.gif',
                 'created_by' => Auth::user()->matricula
             ]);
+        }
+    }
+
+    private function isValidRole($role)
+    {
+        return in_array($role, ['DIR', 'COO', 'DOC']);
+    }
+
+    private function validateCedula($cedula, &$errorMessages)
+    {
+        if (!$this->isInteger($cedula)) {
+            $errorMessages[] = "must be an integer";
+        }
+
+        if (!$this->hasValidCedulaLength($cedula)) {
+            $errorMessages[] = "must have 7 or 8 digits";
+        }
+    }
+
+    private function isInteger($cedula)
+    {
+        return is_int($cedula) || ctype_digit($cedula);
+    }
+
+    private function hasValidCedulaLength($cedula)
+    {
+        return strlen($cedula) >= 7 && strlen($cedula) <= 8;
+    }
+
+    private function isCedulaNotUnique($cedula)
+    {
+        return User::where('cedula_profesional', $cedula)->exists();
+    }
+
+    private function addErrorMessages($rowNumber, $errorMessages, $validator)
+    {
+        if (!empty($errorMessages)) {
+            $errorMessage = "The cedula_profesional " . implode(', ', $errorMessages) . ".";
+            $validator->errors()->add($rowNumber, $errorMessage);
         }
     }
 }

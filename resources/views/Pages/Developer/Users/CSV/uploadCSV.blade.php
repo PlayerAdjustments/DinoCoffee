@@ -1,10 +1,9 @@
 @extends('Layouts.Developer.Dashboard')
 
-@section('content') 
-
+@section('content')
     <!-- Full Screen Overlay for Spinner -->
     <div id="overlay" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-        <div role="status">
+        <output>
             <svg aria-hidden="true" class="inline w-24 h-25 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -15,7 +14,7 @@
                     fill="currentFill" />
             </svg>
             <span class="sr-only">Loading...</span>
-        </div>
+        </output>
     </div>
 
     <div class="flex flex-wrap items-center justify-center w-full h-full gap-2">
