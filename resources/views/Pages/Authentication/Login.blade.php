@@ -1,5 +1,4 @@
 <x-layouts.miscelaneous>
-
     <section class="flex h-screen">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div
@@ -20,7 +19,7 @@
                     </svg>
                 </a>
                 <div class="px-6 pb-8 pt-2  space-y-4 md:space-y-6 sm:px-8 sm:pb-8 sm:pt-2">
-                    <form class="space-y-4 md:space-y-6" action="{{ '' }}" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="{{ route('auth.login') }}" method="POST">
                         {{-- CSRF Token that allows form only to be answered in this website. Must be on all POST forms --}}
                         @csrf
                         <div>
@@ -41,8 +40,8 @@
                         <div class="flex gap-4 items-center justify-between">
                             <div class="flex items-start">
                                 <div class="flex items-center h-5">
-                                    <input type="hidden" name="remember" value="0">
-                                    <input id="remember" name="remember" aria-describedby="remember" type="checkbox"
+                                    <input type="hidden" name="remember_me" value="0">
+                                    <input id="remember" name="remember_me" aria-describedby="remember" type="checkbox"
                                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                                         value="1" />
                                 </div>

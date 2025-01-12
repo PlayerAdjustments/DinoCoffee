@@ -21,7 +21,7 @@ class UserFactory extends Factory
     /**
      * List of available avatars
      */
-    protected static ?array $avatars = [
+    protected ?array $avatars = [
         'Parasauri.jpg',
         'Bronti.jpg',
         'Seri.jpg',

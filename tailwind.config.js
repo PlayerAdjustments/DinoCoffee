@@ -1,5 +1,40 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 
+const safelistColors = [
+    "purple",
+    "teal",
+    "blue",
+    "red",
+    "amber",
+    "yellow",
+    "lime",
+    "violet",
+    "rose",
+    "green",
+    "fuchsia",
+    "sky",
+    "pink",
+    "emerald",
+    "cyan",
+    "orange",
+    "indigo",
+    "slate",
+    "gray",
+];
+const safelistShades = [
+    "50",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "950",
+];
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -51,6 +86,17 @@ export default {
     },
     plugins: [
         require('flowbite/plugin')
+    ],
+    safelist: [
+        "animate-slide_in",
+        {
+            pattern: new RegExp(
+                `^(bg|text)-(${safelistColors.join(
+                    "|"
+                )})-(${safelistShades.join("|")})$`
+            ),
+            variants: ["dark"],
+        },
     ],
     darkMode: 'media',
 };
