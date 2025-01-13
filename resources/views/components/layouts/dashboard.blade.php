@@ -1,3 +1,13 @@
-<div>
-    <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
-</div>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+
+<head>
+    <x-head />
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900">
+    <x-alerts.alerts-manager />
+    {{ $slot }}
+</body>
+
+</html>

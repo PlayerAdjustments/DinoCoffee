@@ -98,5 +98,5 @@ export default {
             variants: ["dark"],
         },
     ],
-    darkMode: 'media',
+    darkMode: 'class',
 };

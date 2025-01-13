@@ -6,7 +6,7 @@
         {!! $icon !!}
         <span class="sr-only">{{ $type }} icon</span>
     </div>
-    <div class="ms-3 text-sm font-normal">
+    <div class="ms-3 text-sm font-normal mr-2">
         {{ $slot }}
         {{ $message }}
     </div>

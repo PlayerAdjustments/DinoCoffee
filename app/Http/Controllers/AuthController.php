@@ -26,14 +26,25 @@ class AuthController extends Controller
         switch(Auth::user()->role)
         {
             case 'DEV':
-                break;
+                Log::debug('User accesed! Developer');
+                return to_route('dashboard.main')->with('Debug', 'Welcome!');
 
             case 'ADM':
+                Log::debug('User accesed! Administrative');
                 break;
 
             default:
-                Log::debug('User accesed!');
                 return back()->withInput()->withErrors(['auth' => "Your account doesn't have a role."]);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return to_route('auth.login')->with('Success', 'Logged out.');
     }
 }
