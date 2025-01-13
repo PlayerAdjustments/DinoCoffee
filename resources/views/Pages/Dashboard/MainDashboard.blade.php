@@ -3,13 +3,13 @@
         <x-slot:left>
             <x-navbar.toggle-sidebar />
             <x-navbar.logo />
-            <x-navbar.search-bar functional={{true}} />
+            <x-navbar.search-bar functional="true" />
         </x-slot>
         <x-slot:right>
             <x-navbar.theme-toggle />
-            <x-navbar.notifications.notification-button functional={{true}} />
-            {{-- Notifications --}}
-            {{-- Apps --}}
+            <x-navbar.notifications.notification-button functional="true" />
+            <x-navbar.apps.app-button functional="true" />
+            <x-navbar.profile-user.profile-button />
             {{-- User Profile --}}
         </x-slot>
     </x-navbar>

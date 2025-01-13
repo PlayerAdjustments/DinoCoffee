@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -59,5 +60,105 @@ class User extends Authenticatable
     /**
      * Database relations
      */
-    
+
+    /**
+     * Mutators and accessors
+     */
+    protected function matricula(): Attribute
+    {
+        return new Attribute(
+            set: function ($value) {
+                return trim($value);
+            }
+        );
+    }
+
+    protected function fullName(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->name . ' ' . $this->first_lastname . ' ' . $this->second_lastname
+        );
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return trim(ucwords(strtolower($value)));
+            }
+        );
+    }
+
+    protected function firstLastname(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return trim(ucwords(strtolower($value)));
+            }
+        );
+    }
+
+    protected function secondLastname(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return trim(ucwords(strtolower($value)));
+            }
+        );
+    }
+
+    protected function role(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return trim(strtoupper($value));
+            }
+        );
+    }
+
+    protected function sex(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return trim(strtoupper($value));
+            }
+        );
+    }
+
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                return Hash::make($value);
+            }
+        );
+    }
+
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            set: function () {
+                /**
+                 * Assigns a random avatar to a user.
+                 */
+                return fake()->randomElement([
+                    'Parasauri.jpg',
+                    'Bronti.jpg',
+                    'Seri.jpg',
+                    'Rexxi.jpg',
+                    'Steggi.jpg',
+                    'Spyni.jpg',
+                    'GraduationRexxi.jpg',
+                    'GraduationTeddy.jpg',
+                    'GraduationCorgi.jpg',
+                    'Arcti.jpg',
+                    'Pengi.jpg',
+                    'Mooi.jpg',
+                    'ValentineMooi.jpg',
+                    'Piggi.jpg',
+                    'Monki.jpg'
+                ]);
+            }
+        );
+    }
 }
