@@ -14,5 +14,8 @@
         </x-slot>
     </x-navbar>
 
+    <x-sidebar>
+        <x-sidebar.footer :functional="true" />
+    </x-sidebar>
 
 </x-layouts.dashboard>

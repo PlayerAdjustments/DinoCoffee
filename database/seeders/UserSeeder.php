@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             'sex' => 'M',
             'phone_number' => '+52 9993681035',
             'birthday' => '2004-06-05',
+            'avatar' => 'Seri.jpg',
             'cedula_profesional' => null,
             'created_by' => null,
             'updated_by' => null,

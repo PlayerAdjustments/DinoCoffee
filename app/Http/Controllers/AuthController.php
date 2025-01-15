@@ -27,6 +27,7 @@ class AuthController extends Controller
         {
             case 'DEV':
                 Log::debug('User accesed! Developer');
+                Log::debug(print_r(Auth::user(), true));
                 return to_route('dashboard.main')->with('Debug', 'Welcome!');
 
             case 'ADM':
