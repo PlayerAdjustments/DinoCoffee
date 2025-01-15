@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\Role;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,4 +15,4 @@ Route::prefix('auth')->group(fn() => [
 
 Route::get('/dashboard', function(){
     return view('Pages.Dashboard.MainDashboard');
-})->name('dashboard.main');
+})->middleware(Role::class.':DEV,ADM,DIR,COO,DOC,ALU')->name('dashboard.main');
