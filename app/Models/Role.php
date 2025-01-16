@@ -14,7 +14,7 @@ class Role extends Model
 
     /**
      * Allows routeModelBinding
-     * 
+     *
      * @var string
      */
     public function getRouteKeyName(): string
@@ -24,8 +24,8 @@ class Role extends Model
 
     /**
      * The attributes that are mass assignable
-     * 
-     * @var array<int,string>
+     *
+     * @var list<string>
      */
     protected $fillable = [
         'abbreviation',
@@ -40,7 +40,7 @@ class Role extends Model
         return $this->hasMany(User::class, 'role', 'abbreviation');
     }
 
-    /** 
+    /**
      //? Mutators and accessors
      */
     protected function abbreviation(): Attribute

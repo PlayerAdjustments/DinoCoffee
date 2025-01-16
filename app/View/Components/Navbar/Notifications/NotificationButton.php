@@ -2,11 +2,10 @@
 
 namespace App\View\Components\Navbar\Notifications;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
-//TODO Notifications model
 
 class NotificationButton extends Component
 {
@@ -18,9 +17,9 @@ class NotificationButton extends Component
      */
     public function __construct(public bool $functional = false)
     {
-        //! Should contain a logic that counts the current Auth::user() unread notifications and display them.
-        $this->notifications = User::limit(5)->get();
-        $this->totalNotifications = User::all()->count();
+        $user = Auth::user();
+        $this->notifications = $user->notifications()->limit(5)->get();
+        $this->totalNotifications = $user->notifications->count();
     }
 
     /**

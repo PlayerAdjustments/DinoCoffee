@@ -5,8 +5,7 @@ namespace App\View\Components\Navbar\Notifications;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-//* Change this when Notification model is created.
-use App\Models\User as Notification;
+use App\Models\Notification;
 
 class Item extends Component
 {

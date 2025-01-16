@@ -7,11 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, SoftDeletes;
+
+    /**
+     * For soft delete
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -60,6 +67,11 @@ class User extends Authenticatable
     /**
      * Database relations
      */
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_matricula', 'matricula');
+    }
 
     /**
      * Mutators and accessors

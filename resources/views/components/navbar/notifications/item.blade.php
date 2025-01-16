@@ -2,7 +2,7 @@
     class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
     <div class="flex-shrink-0">
         {{-- Notification Icon --}}
-        <img class="w-11 h-11 rounded-full" src="{{ asset('storage/Notification_Icons/' . $notification->icon) }}"
+        <img class="w-11 h-11 rounded-full" src="{{ \App\Enums\NotificationIcons::from($notification->icon)->getAsset() }}"
             alt="{{ $notification->icon }}" />
         {{-- Green Bubble --}}
         <div
