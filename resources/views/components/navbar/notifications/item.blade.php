@@ -1,8 +1,15 @@
-<a href="{{ route('auth.login', $notification) }}"
-    class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+<form id="notification-form-{{ $notification->id }}" action="{{ route('notification.destroy', $notification) }}"
+    method="POST" class="hidden">
+    @csrf
+    @method('DELETE')
+</form>
+
+<button href="#" onclick="document.getElementById('notification-form-{{ $notification->id }}').submit()"
+    class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600 w-full text-start">
     <div class="flex-shrink-0">
         {{-- Notification Icon --}}
-        <img class="w-11 h-11 rounded-full" src="{{ \App\Enums\NotificationIcons::from($notification->icon)->getAsset() }}"
+        <img class="w-11 h-11 rounded-full"
+            src="{{ \App\Enums\NotificationIcons::from($notification->icon)->getAsset() }}"
             alt="{{ $notification->icon }}" />
         {{-- Green Bubble --}}
         <div
@@ -30,4 +37,4 @@
             {{ $notification->created_at->diffForHumans() }}
         </div>
     </div>
-</a>
+</button>
