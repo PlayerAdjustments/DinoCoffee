@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\navbar;
+namespace App\View\Components\Navbar;
 
 use Closure;
 use Illuminate\Contracts\View\View;

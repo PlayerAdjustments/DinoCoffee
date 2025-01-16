@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\alerts;
+namespace App\View\Components\Alerts;
 
 use Closure;
 use Illuminate\Contracts\View\View;
