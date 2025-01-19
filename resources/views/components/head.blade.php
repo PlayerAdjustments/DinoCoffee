@@ -30,4 +30,8 @@
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href={{ asset('favicon.ico') }}/>
 
+<!-- Flowbite imports -->
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+
+<!-- Other resources -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])

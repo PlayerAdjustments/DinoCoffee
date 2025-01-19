@@ -1,4 +1,4 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const safelistColors = [
     "purple",
@@ -38,22 +38,20 @@ const safelistShades = [
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './resources/**/*.vue',
-        './node_modules/flowbite/**/*.js'
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+        "./node_modules/flowbite/**/*.js",
     ],
     theme: {
         extend: {
-            fontFamily: {
-                
-            },
+            fontFamily: {},
             colors: {
                 transparent: "transparent",
                 current: "currentColor",
                 white: "#FFF",
                 black: "#000",
-                
+
                 primary: {
                     50: "#F0FDFB",
                     100: "#CCFBF3",
@@ -80,12 +78,13 @@ export default {
                     900: "#07565A",
                     950: "#003338",
                 },
-
-            }
+            },
         },
     },
     plugins: [
-        require('flowbite/plugin')
+        require('flowbite/plugin')({
+            datatables: true,
+        }),
     ],
     safelist: [
         "animate-slide_in",
@@ -98,5 +97,5 @@ export default {
             variants: ["dark"],
         },
     ],
-    darkMode: 'class',
+    darkMode: "class",
 };
