@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\StudentController;
 use App\Http\Middleware\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,8 @@ Route::delete('/notification/{notification}', [NotificationController::class, 'd
 Route::get('/dashboard', function(){
     return view('Pages.Dashboard.MainDashboard');
 })->middleware(Role::class.':DEV,ADM,DIR,COO,DOC,ALU')->name('dashboard.main');
+
+//? Students routes
+Route::middleware(['auth', Role::class.':DEV,ADM'])->prefix('dashboard/students')->group(fn() => [
+    Route::get('/', [StudentController::class, 'index'])->name('dashboard.main.students'),
+]);

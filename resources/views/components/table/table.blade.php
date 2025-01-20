@@ -24,13 +24,13 @@
 </table>
 
 <script>
-    
     var lengths = @json($columnDetails).map(col => col.inputLength);
     var searchableColumns = @json($columnDetails).filter(col => col.searchable).map((_, index) => index);
+    var datatable =  document.getElementById("{{ $id }}");
 
-    if (document.getElementById("{{ $id }}") && typeof simpleDatatables.DataTable !== 'undefined') {
+    if (datatable && typeof simpleDatatables.DataTable !== 'undefined') {
         const dataTable = new simpleDatatables.DataTable("#{{ $id }}", {
-            searchable: false,
+            searchable: true,
             perPage: 5,
             tableRender: (_data, table, type) => {
                 if (type === "print") {
@@ -66,5 +66,15 @@
                 return table;
             }
         });
+    }
+
+    var datatablewrapper = document.querySelector(".datatable-wrapper");
+    var datatableTop = datatablewrapper.querySelector('.datatable-top');
+
+    if(datatableTop)
+    {
+        datatableTop.innerHTML += `<x-table.add-record-button :id="$id" :route="$addRecordButton['route']" :text="$addRecordButton['text']"/>`
+    } else{
+        console.log(datatable)
     }
 </script>

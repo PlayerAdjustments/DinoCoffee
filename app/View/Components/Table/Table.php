@@ -9,20 +9,26 @@ use Illuminate\View\Component;
 
 class Table extends Component
 {
+    public array $addRecordButton;
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $id,
-    public Collection $data,
-    public array $columnDetails = [],
-    public bool $actions = false,
-    public bool $pagination = true)
-    {
-        $this->id = 'datatable-'.$id;
+    public function __construct(
+        public string $id,
+        public Collection $data,
+        public string $addRecordRoute,
+        public string $addRecordText,
+        public array $columnDetails = [],
+        public bool $actions = false,
+    ) {
+        $this->id = 'datatable-' . $id;
         $this->data = $data;
         $this->columnDetails = $columnDetails;
         $this->actions = $actions;
-        $this->pagination = $pagination;
+        $this->addRecordButton = [
+            'route' => $addRecordRoute,
+            'text' => $addRecordText
+        ];
     }
 
     /**
