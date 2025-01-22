@@ -32,6 +32,7 @@
         const dataTable = new simpleDatatables.DataTable("#{{ $id }}", {
             searchable: true,
             perPage: 5,
+            perPageSelect: [5],
             tableRender: (_data, table, type) => {
                 if (type === "print") {
                     return table;
@@ -74,7 +75,5 @@
     if(datatableTop)
     {
         datatableTop.innerHTML += `<x-table.add-record-button :id="$id" :route="$addRecordButton['route']" :text="$addRecordButton['text']"/>`
-    } else{
-        console.log(datatable)
     }
 </script>

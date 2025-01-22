@@ -17,7 +17,7 @@ enum NotificationIcons: string
      */
     case CelebrateBrontiA = 'birthday/Celebrate_Bronti.gif';
     case CelebrateBrontiB = 'birthday/Celebrate_Bronti.png';
-    case CelebrateRexxi = 'birthday/Celebrate_Rexxi.png';
+    case CelebrateRexxii = 'birthday/Celebrate_Rexxii.png';
     case CelebrateSeri = 'birthday/Celebrate_Seri.png';
     case CelebrateSteggi = 'birthday/Celebrate_Steggi.png';
     case CelebrateTeri = 'birthday/Celebrate_Teri.png';

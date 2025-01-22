@@ -28,4 +28,5 @@ Route::get('/dashboard', function(){
 //? Students routes
 Route::middleware(['auth', Role::class.':DEV,ADM'])->prefix('dashboard/students')->group(fn() => [
     Route::get('/', [StudentController::class, 'index'])->name('dashboard.main.students'),
+    Route::get('/create', [StudentController::class, 'create'])->name('dashboard.main.students.create')
 ]);

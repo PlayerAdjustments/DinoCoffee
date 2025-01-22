@@ -1,6 +1,6 @@
 <x-layouts.dashboard>
     <div class="w-full h-full mb-4">
-        <x-table id="users" :columnDetails="$columnDetails" :data="$data" actions="true" addRecordRoute="dashboard.main" addRecordText="Add Student">
+        <x-table id="users" :columnDetails="$columnDetails" :data="$data" actions="true" addRecordRoute="dashboard.main.students.create" addRecordText="Add Student">
             @foreach ($data as $d)
                 <x-table.row>
                     <td class="flex items-center p-4 mr-12 space-x-6 whitespace-nowrap">

@@ -45,7 +45,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('Pages.Dashboard.Users.Create');
     }
 
     /**
