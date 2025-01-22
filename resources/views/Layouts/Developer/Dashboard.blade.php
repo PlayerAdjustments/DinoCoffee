@@ -22,7 +22,7 @@
 </head>
 
 <body class="bg-gray-200 dark:bg-gray-900">
-    <div class="antialiased bg-gray-200 dark:bg-gray-900">te
+    <div class="antialiased bg-gray-200 dark:bg-gray-900">
         <x-developer.navbar />
 
         <x-developer.sidebar />
