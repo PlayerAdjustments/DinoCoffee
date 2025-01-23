@@ -14,10 +14,11 @@ class Input extends Component
     public $type;
     public $placeholder;
     public $helper;
+    public $icon;
     /**
      * Create a new component instance.
      */
-    public function __construct($name, $label, $value, $type = 'text', $placeholder = null, $helper = null)
+    public function __construct($name, $label, $value, $type = 'text', $placeholder = null, $helper = null, $icon = null)
     {
         $this->name = $name;
         $this->label = $label;
@@ -25,6 +26,7 @@ class Input extends Component
         $this->type = $type;
         $this->placeholder = $placeholder ?? 'Enter your ' . strtolower($label);
         $this->helper = $helper;
+        $this->icon = $icon;
     }
 
     /**
