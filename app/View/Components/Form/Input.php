@@ -12,21 +12,35 @@ class Input extends Component
     public $label;
     public $value;
     public $type;
-    public $placeholder;
-    public $helper;
     public $icon;
+    public $options;
     /**
      * Create a new component instance.
      */
-    public function __construct($name, $label, $value, $type = 'text', $placeholder = null, $helper = null, $icon = null)
+    public function __construct($name,
+    $label,
+    $value = null,
+    $type = 'text',
+    $icon = null,
+    array $options = []
+    )
     {
         $this->name = $name;
         $this->label = $label;
         $this->value = $value;
         $this->type = $type;
-        $this->placeholder = $placeholder ?? 'Enter your ' . strtolower($label);
-        $this->helper = $helper;
         $this->icon = $icon;
+        $this->options = array_merge([
+            'placeholder' => 'Enter your '.strtolower($label),
+            'helper' => null,
+            'viewbox' => null,
+            'datepicker' => false,
+            'regex' => null,
+            // This section could be a condition like Auth::user()->isAdmin()
+            'required' => true,
+            'readonly' => false,
+            'disabled' => false,
+        ], $options);
     }
 
     /**
